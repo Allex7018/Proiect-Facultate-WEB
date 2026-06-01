@@ -1,0 +1,115 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Lora', serif;
+  background: #FFC107;
+  color: #1a1a1a;
+  min-height: 100vh;
+  padding: 60px 24px;
+}
+
+.step { display: none; max-width: 480px; }
+.step.active { display: block; }
+
+h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.arrow {
+  display: block;
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 40px 0;
+  color: #1a1a1a;
+}
+
+label {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  color: #2e2e2e;
+}
+
+select, input[type="number"] {
+  font-family: 'Lora', serif;
+  font-size: 0.95rem;
+  background: #fff;
+  border: 1px solid #1a1a1a;
+  padding: 6px 10px;
+  margin-bottom: 16px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  min-width: 80px;
+}
+
+.row-inputs {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  background: #1a1a1a;
+  color: #FFC107;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 12px 32px;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+.btn:hover { background: #2f5240; }
+
+/* ── STEP 3: recomandari ── */
+.cards {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.card {
+  background: #fff;
+  border: 1px solid #1a1a1a;
+  padding: 24px 20px;
+  width: 160px;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+}
+.card .tag {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #2f5240;
+  margin-bottom: 8px;
+}
+.card .name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.card .see {
+  display: inline-block;
+  background: #FFC107;
+  color: #1a1a1a;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  text-decoration: none;
+  border: 1px solid #1a1a1a;
+  cursor: pointer;
+}
