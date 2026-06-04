@@ -37,7 +37,7 @@ header, .auth-wrapper {
 
 /* ── HEADER ── */
 header {
-  padding: 36px 50px;
+  padding: 6px 2px;
   display: flex;
   align-items: center;
 }
@@ -205,3 +205,5 @@ header h1 {
   .form-body { padding: 28px 20px 36px; }
   .auth-card { max-width: 100%; }
 }
+
+.logo { height: 75px; width: auto; display: block; }

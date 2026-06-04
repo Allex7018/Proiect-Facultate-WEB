@@ -4,94 +4,109 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GymTips - Quiz</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="saincepem.css">
-
 </head>
 <body>
 
-<!-- STEP 1: date personale -->
-<div class="step active" id="step1">
-  <h2>Introdu-ți datele și scopul tău</h2>
+<div class="page-bg"></div>
 
-  <div class="row-inputs">
-    <div>
-      <label>Vârstă</label>
-      <select>
-        <option>18-25</option>
-        <option>26-35</option>
-        <option>36-45</option>
-        <option>45+</option>
-      </select>
+<header>
+  <a href="home.html"><img src="poze/logo.png" alt="GymTips" class="logo"></a>
+</header>
+
+<div class="quiz-wrapper">
+
+  <!-- STEP 1 -->
+  <div class="step active" id="step1">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <h2>Introdu-ți datele și scopul tău</h2>
+
+      <div class="row-inputs">
+        <div class="field">
+          <label>Vârstă</label>
+          <select>
+            <option>18-25</option>
+            <option>26-35</option>
+            <option>36-45</option>
+            <option>45+</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Înălțime</label>
+          <select>
+            <option>160cm</option>
+            <option>165cm</option>
+            <option>170cm</option>
+            <option>175cm</option>
+            <option>180cm</option>
+            <option>185cm</option>
+            <option>190cm+</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Greutate</label>
+        <select>
+          <option>50-60kg</option>
+          <option>60-70kg</option>
+          <option>70-80kg</option>
+          <option>80-90kg</option>
+          <option>90-100kg</option>
+          <option>100kg+</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Scop</label>
+        <select>
+          <option>Masă musculară</option>
+          <option>Slăbit</option>
+          <option>Recompoziție</option>
+          <option>Forță</option>
+        </select>
+      </div>
+
+      <button class="btn" onclick="goTo('step2')">Next →</button>
     </div>
-    <div>
-      <label>Înălțime</label>
-      <select>
-        <option>160cm</option>
-        <option>165cm</option>
-        <option>170cm</option>
-        <option>175cm</option>
-        <option>180cm</option>
-        <option>185cm</option>
-        <option>190cm+</option>
-      </select>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step" id="step2">
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <h2>Câte zile pe săptămână ești dispus să mergi la sală?</h2>
+
+      <div class="field">
+        <label>Zile pe săptămână</label>
+        <select id="zile">
+          <option value="2">2 zile</option>
+          <option value="3">3 zile</option>
+          <option value="4">4 zile</option>
+          <option value="5">5 zile</option>
+          <option value="6">6 zile</option>
+        </select>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-back" onclick="goTo('step1')">← Înapoi</button>
+        <button class="btn" onclick="goTo('step3')">Next →</button>
+      </div>
     </div>
   </div>
 
-  <div>
-    <label>Greutate</label>
-    <select>
-      <option>50-60kg</option>
-      <option>60-70kg</option>
-      <option>70-80kg</option>
-      <option>80-90kg</option>
-      <option>90-100kg</option>
-      <option>100kg+</option>
-    </select>
+  <!-- STEP 3 -->
+  <div class="step" id="step3">
+    <div class="step-card step-card--wide">
+      <div class="step-num">03</div>
+      <h2>Perfect! Recomandările noastre sunt:</h2>
+      <div class="cards" id="cards-container"></div>
+      <button class="btn btn-back" style="margin-top:32px" onclick="goTo('step2')">← Înapoi</button>
+    </div>
   </div>
 
-  <div>
-    <label>Scop</label>
-    <select>
-      <option>Masă musculară</option>
-      <option>Slăbit</option>
-      <option>Recompoziție</option>
-      <option>Forță</option>
-    </select>
-  </div>
-
-  <button class="btn" onclick="goTo('step2')">Next</button>
-</div>
-
-<!-- ARROW -->
-
-
-<!-- STEP 2: zile -->
-<div class="step" id="step2">
-  <h2>Câte zile pe săptămână ești dispus să mergi la sală?</h2>
-
-  <div>
-    <label>Zile</label>
-    <select id="zile">
-      <option value="2">2 zile</option>
-      <option value="3">3 zile</option>
-      <option value="4">4 zile</option>
-      <option value="5">5 zile</option>
-      <option value="6">6 zile</option>
-    </select>
-  </div>
-
-  <button class="btn" onclick="goTo('step3')">Next</button>
-</div>
-
-<!-- ARROW -->
-
-
-<!-- STEP 3: recomandari -->
-<div class="step" id="step3">
-  <h2>Perfect! Recomandările noastre sunt:</h2>
-  <div class="cards" id="cards-container"></div>
 </div>
 
 <script>
@@ -107,9 +122,7 @@
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     document.getElementById(stepId).classList.add('active');
 
-    
     if (stepId === 'step3') {
-      
       const zile = parseInt(document.getElementById('zile').value);
       const rec = recomandari[zile] || [];
       const container = document.getElementById('cards-container');
@@ -117,7 +130,7 @@
         <div class="card">
           <div class="tag">${r.tag}</div>
           <div class="name">${r.name}</div>
-         <a class="see" href="split.html?split=${encodeURIComponent(r.name)}">Vezi mai mult</a>
+          <a class="see" href="split.html?split=${encodeURIComponent(r.name)}">Vezi mai mult</a>
         </div>
       `).join('');
     }

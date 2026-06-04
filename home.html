@@ -10,8 +10,9 @@
 <body>
 
 <!-- HEADER -->
-<header>
-  <h1>GymTips</h1>
+<header><img src="poze/logo.png" alt="GymTips" class="logo"><nav>
+    <a href="login.html">Login</a>
+  </nav>
 </header>
 
 <!-- HERO -->
@@ -20,8 +21,10 @@
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <span class="hero-tag">Ghidul tău de fitness</span>
-    <h2 class="hero-headline">Antrenează-te<br>mai inteligent.</h2>
+    <h2 class="hero-headline">Antrenează-te <em>mai inteligent.</em></h2>
+    <p class="hero-sub">Planuri clare. Rezultate reale. Fără complicații.</p>
   </div>
+  <div class="hero-scroll">↓</div>
 </div>
 
 <!-- CONTENT -->
@@ -31,47 +34,63 @@
   <div class="row-statement-wrapper">
     <div class="row-statement">
       <p>Scopul nostru este să oferim un ghid cât mai simplu pentru începătorii de sală și să le oferim cele mai bune sfaturi pentru exerciții cât și pentru dietă.</p>
-      <a href="login.html" class="btn">Să începem!</a>
     </div>
   </div>
 
-  <!-- ROW 2: imagine stânga, text dreapta -->
+  <!-- ROW 2 -->
   <div class="row reverse">
     <div class="row-text">
-      <p>Fie că mergi la sală de 2 ori pe săptămână sau de 6, fie că vrei să pui masă musculară sau să slăbești — cel mai important lucru este să ai un plan clar și să îl urmezi consecvent.</p>
-    </div>
-    <div class="row-img">
-      <img src="poze/img1.jpeg" alt="antrenament">
-    </div>
-  </div>
-
-  <!-- ROW 3: text stânga, imagine dreapta -->
-  <div class="row">
-    <div class="row-text">
-      <p>Pe acest site găsești sfaturi practice și bazate pe dovezi despre lucruri esențiale: cum să îți alegi split-ul de antrenament în funcție de câte zile poți merge la sală, cum să îți calculezi necesarul de proteine și calorii în funcție de obiectivul tău, și cum să execuți corect exercițiile de bază — squat, deadlift, bench press și altele — ca să progresezi fără accidentări.</p>
-    </div>
-    <div class="row-img">
-      <img src="poze/img2.jpeg" alt="exercitii" style="object-position: top;">
-    </div>
-  </div>
-
-  <!-- ROW 4: imagine stânga, text dreapta -->
-  <div class="row reverse">
-    <div class="row-text footer-block">
-      <div>
-        <p>Sala de sport poate fi complicată dacă nu știi de unde să începi. Noi simplificăm lucrurile.</p>
-        <p><strong>Split-uri de antrenament</strong> — recomandări clare pentru 2, 3, 4 sau 5+ zile pe săptămână, cu exemple complete de programe.</p>
-        <p><strong>Nutriție practică</strong> — cât să mănânci, câte proteine ai nevoie și cum să îți ajustezi dieta în funcție de obiectiv: masă musculară, slăbit sau recompoziție.</p>
-        <p><strong>Ghiduri de exerciții</strong> — cum să execuți corect mișcările esențiale, ce greșeli să eviți și cum să progresezi de la o săptămână la alta.</p>
-        <p><strong>Progres pe termen lung</strong> — cum să îți setezi obiective realiste, cum să măsori rezultatele și când să schimbi ceva dacă nu funcționează.</p>
+      <div class="row-text-inner">
+        <span class="row-number">01</span>
+        <h3>Planuri de antrenament</h3>
+        <p>Fie că ești la început de drum și mergi 2 zile pe săptămână, fie că ești deja experimentat și ajungi de 6 ori la sală, noi te ajutăm să găsești structura ideală pentru tine. Fie că ți se potrivește un Push-Pull-Legs (PPL), un Bro Split clasic, un program Upper/Lower sau Full Body, îți personalizăm planul ca să obții rezultate maxime fără timp pierdut.</p>
       </div>
     </div>
     <div class="row-img">
-      <img src="poze/img3.jpeg" alt="exercitii" style="object-position:top">
+      <img src="poze/img1.jpeg" alt="antrenament">
+      <div class="img-label">Antrenament</div>
+    </div>
+  </div>
+
+  <!-- ROW 3 -->
+  <div class="row">
+    <div class="row-text">
+      <div class="row-text-inner">
+        <span class="row-number">02</span>
+        <h3>Workout Log</h3>
+        <p>Cu ajutorul funcției de Workout Log, îți poți monitoriza progresul în timp real, direct de pe telefon. Este extrem de simplu: îți alegi exercițiul din listă, introduci numărul de repetări și greutatea folosită (kg) pentru fiecare serie, iar aplicația îți salvează istoricul ca să știi exact când și cum să aplici supraîncărcarea progresivă.</p>
+      </div>
+    </div>
+    <div class="row-img">
+      <img src="poze/img2.jpeg" alt="exercitii" style="object-position: top;">
+      <div class="img-label">Progres</div>
+    </div>
+  </div>
+
+  <!-- ROW 4 -->
+  <div class="row reverse">
+    <div class="row-text">
+      <div class="row-text-inner">
+        <span class="row-number">03</span>
+        <h3>Ghid de nutriție</h3>
+        <p>Ghid de alimente pentru începători — Ai o secțiune specială cu cele mai comune 3-5 alimente pentru Proteine, Carbohidrați și Grăsimi. Fără diete stricte sau alimente exotice! Intri, vezi ce opțiuni ai din fiecare categorie și îți construiești singur mesele în funcție de obiectivele și preferințele tale.</p>
+      </div>
+    </div>
+    <div class="row-img">
+      <img src="poze/nutritie.png" alt="nutritie" style="object-position:center">
+      <div class="img-label">Nutriție</div>
     </div>
   </div>
 
 </div><!-- /content -->
+
+<!-- CTA FINAL -->
+<div class="cta-section">
+  <div class="cta-inner">
+    <p class="cta-text">Gata să începi?</p>
+    <a href="login.html" class="btn">Să începem!</a>
+  </div>
+</div>
 
 </body>
 </html>

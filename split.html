@@ -9,42 +9,47 @@
 </head>
 <body>
 
+<!-- HEADER -->
+<header>
+  <a href="saincepem.html"><img src="poze/logo.png" alt="GymTips" class="logo"></a>
+</header>
+
 <!-- SPLIT VIEW -->
 <div id="split-view">
   <h1 id="split-title">O zi de push:</h1>
   <div class="muscle-grid" id="muscle-grid"></div>
+  <div style="text-align:center; margin-top: 8px;">
+    <a href="saincepem.html" class="back-btn" style="text-decoration:none;">← Înapoi</a>
+  </div>
 </div>
 
 <!-- EXERCISE DETAIL VIEW -->
 <div id="detail-view" class="exercise-detail">
   <button class="back-btn" onclick="showSplit()">← Înapoi</button>
-  <h2 id="detail-title"></h2>
-  <div class="detail-line">Cum se face: <span id="detail-cum"></span></div>
-  <div class="detail-line">Greutate: <span id="detail-greutate"></span></div>
-  <div class="detail-line">Serii: <span id="detail-serii"></span></div>
-  <div class="detail-line">Link: <span id="detail-link"></span></div>
-  <div class="gif-box" id="gif-box">
-    <img id="exercise-gif" src="" alt="" style="display:none; width:100%; height:100%; object-fit:contain;">
-    <span id="gif-placeholder">gif cu exercițiul</span>
+  <div class="detail-card">
+    <h2 id="detail-title"></h2>
+    <div class="detail-line">Cum se face: <span id="detail-cum"></span></div>
+    <div class="detail-line">Greutate: <span id="detail-greutate"></span></div>
+    <div class="detail-line">Serii: <span id="detail-serii"></span></div>
+    <div class="detail-line">Link: <span id="detail-link"></span></div>
+    <div class="gif-box" id="gif-box">
+      <img id="exercise-gif" src="" alt="" style="display:none; width:100%; height:100%; object-fit:contain;">
+      <span id="gif-placeholder">gif cu exercițiul</span>
+    </div>
   </div>
 </div>
 
 <script>
-  // Map exercise names to their local gif files
   const exerciseGifs = {
     'Triceps pushdown': 'gifs/triceps-pushdown.gif',
-    // Adaugă aici celelalte gif-uri pe măsură ce le ai:
-     'Bench press': 'gifs/Barbell-Bench-Press.gif',
-     'Squat': 'gifs/squat.gif',
-     'Shoulder press': 'gifs/Dumbbell-Shoulder-Press.gif',
-     'Overhead triceps extension':'gifs/Cable-Rope-Overhead-Triceps-Extension.gif',
-     'Lateral raise':'gifs/Dumbbell-Lateral-Raise.gif',
-     'Incline dumbbell press':'gifs/Incline-Dumbbell-Press.gif',
-     'Cable fly':'gifs/Lying-Cable-Fly.gif',
-     'Deadlift':'gifs/Barbell-Deadlift.gif',
-     //
-     //
-     //
+    'Bench press': 'gifs/Barbell-Bench-Press.gif',
+    'Squat': 'gifs/squat.gif',
+    'Shoulder press': 'gifs/Dumbbell-Shoulder-Press.gif',
+    'Overhead triceps extension': 'gifs/Cable-Rope-Overhead-Triceps-Extension.gif',
+    'Lateral raise': 'gifs/Dumbbell-Lateral-Raise.gif',
+    'Incline dumbbell press': 'gifs/Incline-Dumbbell-Press.gif',
+    'Cable fly': 'gifs/Lying-Cable-Fly.gif',
+    'Deadlift': 'gifs/Barbell-Deadlift.gif',
   };
 
   const splitData = {
@@ -103,10 +108,10 @@
   const grid = document.getElementById('muscle-grid');
   grid.innerHTML = data.grupe.map(grupa => `
     <div class="muscle-card">
-      <h3>${grupa.nume}:</h3>
+      <h3>${grupa.nume}</h3>
       ${grupa.exercitii.map(ex => `
         <div class="exercise-item">
-          <div class="ex-name">- ${ex.name}:</div>
+          <div class="ex-name">— ${ex.name}</div>
           <button class="see-btn" onclick='showDetail(${JSON.stringify(ex)})'>Vezi mai mult</button>
         </div>
       `).join('')}
@@ -116,7 +121,7 @@
   function showDetail(ex) {
     document.getElementById('split-view').style.display = 'none';
     document.getElementById('detail-view').classList.add('active');
-    document.getElementById('detail-title').textContent = ex.name + ':';
+    document.getElementById('detail-title').textContent = ex.name;
     document.getElementById('detail-cum').textContent = ex.cum;
     document.getElementById('detail-greutate').textContent = ex.greutate;
     document.getElementById('detail-serii').textContent = ex.serii;
