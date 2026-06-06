@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GymTips - Cont</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="home.html"><img src="poze/logo.png" alt="GymTips" class="logo"></a>
+</header>
+
+<!-- AUTH -->
+<div class="auth-wrapper">
+  <div class="auth-card">
+
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Login</button>
+      <button class="tab-btn" id="tab-register" onclick="switchTab('register')">Înregistrare</button>
+    </div>
+
+    <div class="form-body">
+
+      <!-- LOGIN -->
+      <div class="form-panel active" id="panel-login">
+        <div class="msg" id="login-msg"></div>
+        <div class="field">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="exemplu@email.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="login-pass">Parolă</label>
+          <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button class="submit-btn" onclick="handleLogin()">Intră în cont</button>
+        <p class="switch-text">Nu ai cont? <a onclick="switchTab('register')">Înregistrează-te</a></p>
+      </div>
+
+      <!-- REGISTER -->
+      <div class="form-panel" id="panel-register">
+        <div class="msg" id="register-msg"></div>
+        <div class="field">
+          <label for="reg-name">Nume complet</label>
+          <input type="text" id="reg-name" placeholder="Ion Popescu" autocomplete="name" maxlength="20">
+          <span class="char-counter" id="name-counter">0 / 20</span>
+        </div>
+        <div class="field">
+          <label for="reg-email">Email</label>
+          <input type="email" id="reg-email" placeholder="exemplu@email.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="reg-pass">Parolă</label>
+          <input type="password" id="reg-pass" placeholder="Minim 6 caractere" autocomplete="new-password">
+        </div>
+        <div class="field">
+          <label for="reg-pass2">Confirmă parola</label>
+          <input type="password" id="reg-pass2" placeholder="Repetă parola" autocomplete="new-password">
+        </div>
+        <button class="submit-btn" onclick="handleRegister()">Creează cont</button>
+        <p class="switch-text">Ai deja cont? <a onclick="switchTab('login')">Loghează-te</a></p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('panel-' + tab).classList.add('active');
+  }
+
+  function showMsg(id, type, text) {
+    const el = document.getElementById(id);
+    el.className = 'msg ' + type;
+    el.textContent = text;
+  }
+
+  document.getElementById('reg-name').addEventListener('input', function () {
+    const len = this.value.length;
+    const counter = document.getElementById('name-counter');
+    counter.textContent = len + ' / 20';
+    counter.style.color = len >= 20 ? '#a32d2d' : '#888';
+  });
+
+  async function handleLogin() {
+    const email = document.getElementById('login-email').value.trim();
+    const pass  = document.getElementById('login-pass').value;
+
+    if (!email || !pass) { showMsg('login-msg', 'error', 'Completează toate câmpurile!'); return; }
+    if (!isValidEmail(email)) { showMsg('login-msg', 'error', 'Email invalid!'); return; }
+
+    try {
+      const res  = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password: pass })
+      });
+      const data = await res.json();
+      if (!res.ok) { showMsg('login-msg', 'error', data.error); return; }
+      showMsg('login-msg', 'success', 'Autentificare reușită! Bun venit, ' + data.name + '!');
+      setTimeout(() => { window.location.href = 'saincepem.html'; }, 1200);
+    } catch (err) {
+      showMsg('login-msg', 'error', 'Eroare de conexiune. Încearcă din nou.');
+    }
+  }
+
+  async function handleRegister() {
+    const name  = document.getElementById('reg-name').value.trim();
+    const email = document.getElementById('reg-email').value.trim();
+    const pass  = document.getElementById('reg-pass').value;
+    const pass2 = document.getElementById('reg-pass2').value;
+
+    if (!name || !email || !pass || !pass2) { showMsg('register-msg', 'error', 'Completează toate câmpurile!'); return; }
+    if (name.length > 20) { showMsg('register-msg', 'error', 'Numele nu poate depăși 20 de caractere!'); return; }
+    if (!isValidEmail(email)) { showMsg('register-msg', 'error', 'Email invalid!'); return; }
+    if (pass.length < 6) { showMsg('register-msg', 'error', 'Parola trebuie să aibă minim 6 caractere!'); return; }
+    if (pass !== pass2) { showMsg('register-msg', 'error', 'Parolele nu coincid!'); return; }
+
+    try {
+      const res  = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password: pass })
+      });
+      const data = await res.json();
+      if (!res.ok) { showMsg('register-msg', 'error', data.error); return; }
+      showMsg('register-msg', 'success', 'Cont creat cu succes! Bun venit!');
+      setTimeout(() => {
+        document.getElementById('reg-name').value = '';
+        document.getElementById('reg-email').value = '';
+        document.getElementById('reg-pass').value = '';
+        document.getElementById('reg-pass2').value = '';
+        document.getElementById('name-counter').textContent = '0 / 20';
+        switchTab('login');
+      }, 1500);
+    } catch (err) {
+      showMsg('register-msg', 'error', 'Eroare de conexiune. Încearcă din nou.');
+    }
+  }
+</script>
+
+</body>
+</html>
