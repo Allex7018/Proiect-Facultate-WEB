@@ -207,3 +207,38 @@ header h1 {
 }
 
 .logo { height: 75px; width: auto; display: block; }
+/* ── PASSWORD TOGGLE ── */
+.pass-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.pass-wrap input {
+  padding-right: 46px;
+}
+
+.eye-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  transition: color 0.2s;
+  padding: 0;
+}
+
+.eye-btn:hover { color: var(--green-dark); }
+
+.eye-icon {
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}

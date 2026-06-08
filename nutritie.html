@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GymTips - Ghid de Nutriție</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dashboard.css">
+<link rel="stylesheet" href="nutritie.css">
+
+</head>
+<body>
+
+<!-- SIDEBAR (same as dashboard) -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header" onclick="toggleSidebar()">
+    <img src="poze/logo.png" alt="GymTips" class="sidebar-logo">
+    <span class="sidebar-title">GymTips</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="dashboard.html" class="nav-item">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Pagina principală</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">Profile</span>
+    </a>
+    <a href="#" class="nav-item">
+      <span class="nav-icon">📋</span>
+      <span class="nav-label">Workout Log</span>
+    </a>
+    <a href="nutritie.html" class="nav-item active">
+      <span class="nav-icon">🥗</span>
+      <span class="nav-label">Ghid de nutriție</span>
+    </a>
+    <a href="saincepem.html" class="nav-item">
+      <span class="nav-icon">⭐</span>
+      <span class="nav-label">Recomandări personalizate</span>
+    </a>
+  </nav>
+  <div class="sidebar-resize" id="resizeHandle"></div>
+</aside>
+
+<main class="main-content" id="mainContent">
+
+  <!-- HERO -->
+  <div class="nutrition-hero">
+    <span class="nutrition-hero-tag">Mănâncă inteligent</span>
+    <h1>Ghid de <em>nutriție</em></h1>
+    <p>Alimente simple, rezultate reale. Fără complicații.</p>
+  </div>
+
+  <!-- BODY -->
+  <div class="nutrition-body">
+
+    <!-- CATEGORIES -->
+    <div class="categories-grid" id="categories-grid">
+
+      <!-- PROTEINE -->
+      <div class="category-card" data-cat="proteine">
+        <div class="category-header">
+          <span class="category-icon">🥩</span>
+          <div class="category-header-text">
+            <div class="category-label">Macro</div>
+            <div class="category-name">Proteine</div>
+          </div>
+        </div>
+        <ul class="food-list" data-cat="proteine">
+          <li class="food-item" data-food="Piept de pui">
+            <span class="food-emoji">🍗</span>
+            <div class="food-text">
+              <div class="food-name">Piept de pui</div>
+              <div class="food-desc">~31g proteină / 100g, slab și versatil</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Ouă">
+            <span class="food-emoji">🥚</span>
+            <div class="food-text">
+              <div class="food-name">Ouă</div>
+              <div class="food-desc">~13g proteină / 100g, aminoacizi complecși</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Ton la conservă">
+            <span class="food-emoji">🐟</span>
+            <div class="food-text">
+              <div class="food-name">Ton la conservă</div>
+              <div class="food-desc">~25g proteină / 100g, rapid și ieftin</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Iaurt grecesc">
+            <span class="food-emoji">🥛</span>
+            <div class="food-text">
+              <div class="food-name">Iaurt grecesc</div>
+              <div class="food-desc">~10g proteină / 100g, bogat în probiotice</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Brânză cottage">
+            <span class="food-emoji">🧀</span>
+            <div class="food-text">
+              <div class="food-name">Brânză cottage</div>
+              <div class="food-desc">~11g proteină / 100g, slab și sățios</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- CARBOHIDRATI -->
+      <div class="category-card" data-cat="carbohidrati">
+        <div class="category-header">
+          <span class="category-icon">🌾</span>
+          <div class="category-header-text">
+            <div class="category-label">Macro</div>
+            <div class="category-name">Carbohidrați</div>
+          </div>
+        </div>
+        <ul class="food-list" data-cat="carbohidrati">
+          <li class="food-item" data-food="Orez alb/brun">
+            <span class="food-emoji">🍚</span>
+            <div class="food-text">
+              <div class="food-name">Orez alb / brun</div>
+              <div class="food-desc">~28g carbo / 100g fiert, energie stabilă</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Ovăz">
+            <span class="food-emoji">🥣</span>
+            <div class="food-text">
+              <div class="food-name">Ovăz</div>
+              <div class="food-desc">~66g carbo / 100g uscat, eliberare lentă</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Cartofi dulci">
+            <span class="food-emoji">🍠</span>
+            <div class="food-text">
+              <div class="food-name">Cartofi dulci</div>
+              <div class="food-desc">~20g carbo / 100g, bogat în vitamine</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Banane">
+            <span class="food-emoji">🍌</span>
+            <div class="food-text">
+              <div class="food-name">Banane</div>
+              <div class="food-desc">~23g carbo / 100g, ideal pre-antrenament</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Pâine integrală">
+            <span class="food-emoji">🍞</span>
+            <div class="food-text">
+              <div class="food-name">Pâine integrală</div>
+              <div class="food-desc">~41g carbo / 100g, fibre și minerale</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- GRASIMI -->
+      <div class="category-card" data-cat="grasimi">
+        <div class="category-header">
+          <span class="category-icon">🥑</span>
+          <div class="category-header-text">
+            <div class="category-label">Macro</div>
+            <div class="category-name">Grăsimi sănătoase</div>
+          </div>
+        </div>
+        <ul class="food-list" data-cat="grasimi">
+          <li class="food-item" data-food="Avocado">
+            <span class="food-emoji">🥑</span>
+            <div class="food-text">
+              <div class="food-name">Avocado</div>
+              <div class="food-desc">~15g grăsimi bune / 100g, omega-9</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Ulei de măsline">
+            <span class="food-emoji">🫒</span>
+            <div class="food-text">
+              <div class="food-name">Ulei de măsline</div>
+              <div class="food-desc">Anti-inflamator, ideal crud pe salate</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Nuci">
+            <span class="food-emoji">🥜</span>
+            <div class="food-text">
+              <div class="food-name">Nuci (mixt)</div>
+              <div class="food-desc">~65g grăsimi / 100g, omega-3 și omega-6</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Somon">
+            <span class="food-emoji">🐟</span>
+            <div class="food-text">
+              <div class="food-name">Somon</div>
+              <div class="food-desc">~13g grăsimi / 100g, omega-3 premium</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Semințe de chia">
+            <span class="food-emoji">🌱</span>
+            <div class="food-text">
+              <div class="food-name">Semințe de chia</div>
+              <div class="food-desc">~31g grăsimi / 100g, omega-3 vegetal</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- FIBRE -->
+      <div class="category-card" data-cat="fibre">
+        <div class="category-header">
+          <span class="category-icon">🥦</span>
+          <div class="category-header-text">
+            <div class="category-label">Digestie &amp; Sănătate</div>
+            <div class="category-name">Fibre</div>
+          </div>
+        </div>
+        <ul class="food-list" data-cat="fibre">
+          <li class="food-item" data-food="Broccoli">
+            <span class="food-emoji">🥦</span>
+            <div class="food-text">
+              <div class="food-name">Broccoli</div>
+              <div class="food-desc">~2.6g fibre / 100g, vitamina C și K</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Linte">
+            <span class="food-emoji">🫘</span>
+            <div class="food-text">
+              <div class="food-name">Linte</div>
+              <div class="food-desc">~8g fibre / 100g fiartă, și proteină</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Mere">
+            <span class="food-emoji">🍎</span>
+            <div class="food-text">
+              <div class="food-name">Mere</div>
+              <div class="food-desc">~2.4g fibre / 100g, pectină naturală</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Spanac">
+            <span class="food-emoji">🌿</span>
+            <div class="food-text">
+              <div class="food-name">Spanac</div>
+              <div class="food-desc">~2.2g fibre / 100g, fier și magneziu</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+          <li class="food-item" data-food="Năut">
+            <span class="food-emoji">🫘</span>
+            <div class="food-text">
+              <div class="food-name">Năut</div>
+              <div class="food-desc">~7g fibre / 100g fiert, sațietate mare</div>
+            </div>
+            <span class="food-badge">✓ Ales</span>
+          </li>
+        </ul>
+      </div>
+
+    </div><!-- /categories-grid -->
+
+    <!-- RANDOM BUTTON -->
+    <div class="random-section">
+      <button class="random-btn" id="randomBtn" onclick="pickRandom()">
+        <span class="dice">🎲</span>
+        <span>Inspirație — Recomandă ceva</span>
+      </button>
+    </div>
+
+    <!-- RESULT STRIP -->
+    <div class="result-strip" id="resultStrip"></div>
+
+  </div><!-- /nutrition-body -->
+</main>
+
+<script>
+  /* ── SIDEBAR (same logic as dashboard) ── */
+  let collapsed = false;
+  const MIN_W = 52, DEFAULT_W = 260;
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const main    = document.getElementById("mainContent");
+    collapsed = !collapsed;
+    sidebar.style.width     = (collapsed ? MIN_W : DEFAULT_W) + "px";
+    main.style.marginLeft   = (collapsed ? MIN_W : DEFAULT_W) + "px";
+    sidebar.classList.toggle("collapsed", collapsed);
+  }
+
+  const handle = document.getElementById("resizeHandle");
+  let isResizing = false;
+  handle.addEventListener("mousedown", () => {
+    isResizing = true;
+    handle.classList.add("dragging");
+    document.body.style.cursor = "ew-resize";
+    document.body.style.userSelect = "none";
+  });
+  document.addEventListener("mousemove", (e) => {
+    if (!isResizing) return;
+    const sidebar = document.getElementById("sidebar");
+    const main    = document.getElementById("mainContent");
+    let w = Math.min(Math.max(e.clientX, MIN_W), 480);
+    sidebar.style.width   = w + "px";
+    main.style.marginLeft = w + "px";
+    const col = w <= MIN_W + 20;
+    sidebar.classList.toggle("collapsed", col);
+    collapsed = col;
+  });
+  document.addEventListener("mouseup", () => {
+    if (!isResizing) return;
+    isResizing = false;
+    handle.classList.remove("dragging");
+    document.body.style.cursor = "";
+    document.body.style.userSelect = "";
+  });
+
+  /* ── RANDOM PICK ── */
+  function pickRandom() {
+    // Remove previous highlights
+    document.querySelectorAll('.food-item').forEach(el => el.classList.remove('suggested'));
+
+    const btn  = document.getElementById('randomBtn');
+    const dice = btn.querySelector('.dice');
+    dice.classList.add('rolling');
+    setTimeout(() => dice.classList.remove('rolling'), 500);
+
+    // Pick one random food per category
+    const results = [];
+    document.querySelectorAll('.categories-grid .category-card').forEach(card => {
+      const items = card.querySelectorAll('.food-item');
+      const pick  = items[Math.floor(Math.random() * items.length)];
+      pick.classList.add('suggested');
+      // Scroll into view softly
+      pick.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      results.push({
+        cat:   card.dataset.cat,
+        name:  pick.dataset.food,
+        emoji: pick.querySelector('.food-emoji').textContent,
+      });
+    });
+
+    // Build result strip
+    const catLabels = { proteine: 'Proteină', carbohidrati: 'Carbohidrat', grasimi: 'Grăsime sănătoasă', fibre: 'Fibră' };
+    const strip = document.getElementById('resultStrip');
+    strip.innerHTML = results.map((r, i) => `
+      ${i > 0 ? '<div class="result-divider"></div>' : ''}
+      <div class="result-item">
+        <div class="result-label">${catLabels[r.cat]}</div>
+        <div class="result-food">
+          <span class="result-food-emoji">${r.emoji}</span>
+          <span class="result-food-name">${r.name}</span>
+        </div>
+      </div>
+    `).join('');
+    strip.classList.add('visible');
+    strip.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+</script>
+</body>
+</html>
