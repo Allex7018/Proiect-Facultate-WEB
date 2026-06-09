@@ -10,29 +10,26 @@
 <body>
 
 <aside class="sidebar" id="sidebar">
-  <div class="sidebar-header" onclick="toggleSidebar()">
+  <div class="sidebar-header">
     <img src="poze/logo.png" alt="GymTips" class="sidebar-logo">
     <span class="sidebar-title">GymTips</span>
+    <button class="hamburger-btn" onclick="toggleSidebar()" title="Deschide/Închide meniu" aria-label="Toggle meniu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
   <nav class="sidebar-nav">
-    <a href="dashboard.html" class="nav-item active">
-      <span class="nav-icon">🏠</span>
-      <span class="nav-label">Pagina principală</span>
-    </a>
     <a href="profile.html" class="nav-item">
-      <span class="nav-icon">👤</span>
-      <span class="nav-label">Profile</span>
+      <span class="nav-label">Profil</span>
     </a>
     <a href="Workoutlog.html" class="nav-item">
-      <span class="nav-icon">📋</span>
       <span class="nav-label">Workout Log</span>
     </a>
     <a href="nutritie.html" class="nav-item">
-      <span class="nav-icon">🥗</span>
       <span class="nav-label">Ghid de nutriție</span>
     </a>
     <a href="saincepem.html" class="nav-item">
-      <span class="nav-icon">⭐</span>
       <span class="nav-label">Recomandări personalizate</span>
     </a>
   </nav>

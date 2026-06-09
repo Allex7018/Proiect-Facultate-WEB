@@ -84,8 +84,8 @@
     const input = document.getElementById(inputId);
     const isHidden = input.type === 'password';
     input.type = isHidden ? 'text' : 'password';
-    btn.querySelector('.eye-open').style.display  = isHidden ? 'none'  : '';
-    btn.querySelector('.eye-closed').style.display = isHidden ? ''     : 'none';
+    btn.querySelector('.eye-open').style.display  = isHidden ? 'none' : '';
+    btn.querySelector('.eye-closed').style.display = isHidden ? ''    : 'none';
   }
 
   function switchTab(tab) {
@@ -106,12 +106,11 @@
     const pass  = document.getElementById('login-pass').value;
     if (!email || !pass) { showMsg('login-msg', 'error', 'Completează toate câmpurile!'); return; }
     if (!email.includes('@')) { showMsg('login-msg', 'error', 'Email invalid!'); return; }
-    // Save user data
     const savedName = localStorage.getItem('gymtips_username') || email.split('@')[0];
     localStorage.setItem('gymtips_email', email);
     if (!localStorage.getItem('gymtips_username')) localStorage.setItem('gymtips_username', savedName);
     showMsg('login-msg', 'success', 'Autentificare reușită! Bun venit!');
-    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+    setTimeout(() => { window.location.href = 'profile.html'; }, 1200);
   }
 
   function handleRegister() {
@@ -123,11 +122,10 @@
     if (!email.includes('@')) { showMsg('register-msg', 'error', 'Email invalid!'); return; }
     if (pass.length < 6) { showMsg('register-msg', 'error', 'Parola trebuie să aibă minim 6 caractere!'); return; }
     if (pass !== pass2) { showMsg('register-msg', 'error', 'Parolele nu coincid!'); return; }
-    // Save user data
     localStorage.setItem('gymtips_username', name);
     localStorage.setItem('gymtips_email', email);
     showMsg('register-msg', 'success', 'Cont creat cu succes! Bun venit!');
-    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+    setTimeout(() => { window.location.href = 'profile.html'; }, 1200);
   }
 </script>
 

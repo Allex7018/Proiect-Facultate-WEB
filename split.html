@@ -5,14 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GymTips - Split</title>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dashboard.css">
 <link rel="stylesheet" href="split.css">
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-  <a href="dashboard.html"><img src="poze/logo.png" alt="GymTips" class="logo"></a>
-</header>
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <img src="poze/logo.png" alt="GymTips" class="sidebar-logo">
+    <span class="sidebar-title">GymTips</span>
+    <button class="hamburger-btn" onclick="toggleSidebar()" title="Deschide/Închide meniu" aria-label="Toggle meniu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="profile.html" class="nav-item">
+      <span class="nav-label">Profil</span>
+    </a>
+    <a href="Workoutlog.html" class="nav-item">
+      <span class="nav-label">Workout Log</span>
+    </a>
+    <a href="nutritie.html" class="nav-item">
+      <span class="nav-label">Ghid de nutriție</span>
+    </a>
+    <a href="saincepem.html" class="nav-item active">
+      <span class="nav-label">Recomandări personalizate</span>
+    </a>
+  </nav>
+  <div class="sidebar-resize" id="resizeHandle"></div>
+</aside>
+
+<main class="main-content" id="mainContent">
 
 <!-- SPLIT VIEW -->
 <div id="split-view">
@@ -147,7 +173,31 @@
     document.getElementById('split-view').style.display = 'block';
     document.getElementById('detail-view').classList.remove('active');
   }
+
+  /* ── SIDEBAR ── */
+  let collapsed = false;
+  const MIN_W = 52, DEFAULT_W = 260;
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const main = document.getElementById("mainContent");
+    collapsed = !collapsed;
+    sidebar.style.width = (collapsed ? MIN_W : DEFAULT_W) + "px";
+    main.style.marginLeft = (collapsed ? MIN_W : DEFAULT_W) + "px";
+    sidebar.classList.toggle("collapsed", collapsed);
+  }
+  const handle = document.getElementById("resizeHandle");
+  let isResizing = false;
+  handle.addEventListener("mousedown", () => { isResizing = true; handle.classList.add("dragging"); document.body.style.cursor = "ew-resize"; document.body.style.userSelect = "none"; });
+  document.addEventListener("mousemove", (e) => {
+    if (!isResizing) return;
+    const sidebar = document.getElementById("sidebar"); const main = document.getElementById("mainContent");
+    let w = Math.min(Math.max(e.clientX, MIN_W), 480);
+    sidebar.style.width = w + "px"; main.style.marginLeft = w + "px";
+    const col = w <= MIN_W + 20; sidebar.classList.toggle("collapsed", col); collapsed = col;
+  });
+  document.addEventListener("mouseup", () => { if (!isResizing) return; isResizing = false; handle.classList.remove("dragging"); document.body.style.cursor = ""; document.body.style.userSelect = ""; });
 </script>
 
+</main>
 </body>
 </html>

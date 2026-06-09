@@ -24,19 +24,21 @@
   overflow: hidden;
 }
 
-/* ── TOP BAR ── */
 .profile-top-bar {
   background: #cc0000;
   padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.profile-page-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: #fff;
+.profile-welcome {
+  font-family: 'Lora', serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: rgba(255,255,255,0.85);
 }
 
 /* ── AVATAR ── */
@@ -158,3 +160,11 @@
   margin-top: 8px;
 }
 .logout-btn:hover { background: #cc0000; }
+.profile-page-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #fff;
+}

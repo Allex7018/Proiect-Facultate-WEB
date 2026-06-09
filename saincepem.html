@@ -5,15 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GymTips - Quiz</title>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dashboard.css">
 <link rel="stylesheet" href="saincepem.css">
 </head>
 <body>
 
 <div class="page-bg"></div>
 
-<header>
-  <a href="dashboard.html"><img src="poze/logo.png" alt="GymTips" class="logo"></a>
-</header>
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <img src="poze/logo.png" alt="GymTips" class="sidebar-logo">
+    <span class="sidebar-title">GymTips</span>
+    <button class="hamburger-btn" onclick="toggleSidebar()" title="Deschide/Închide meniu" aria-label="Toggle meniu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="profile.html" class="nav-item">
+      <span class="nav-label">Profil</span>
+    </a>
+    <a href="Workoutlog.html" class="nav-item">
+      <span class="nav-label">Workout Log</span>
+    </a>
+    <a href="nutritie.html" class="nav-item">
+      <span class="nav-label">Ghid de nutriție</span>
+    </a>
+    <a href="saincepem.html" class="nav-item active">
+      <span class="nav-label">Recomandări personalizate</span>
+    </a>
+  </nav>
+  <div class="sidebar-resize" id="resizeHandle"></div>
+</aside>
+
+<main class="main-content" id="mainContent">
 
 <div class="quiz-wrapper">
 
@@ -25,43 +52,23 @@
 
       <div class="row-inputs">
         <div class="field">
-          <label>Vârstă</label>
-          <select>
-            <option>18-25</option>
-            <option>26-35</option>
-            <option>36-45</option>
-            <option>45+</option>
-          </select>
+          <label>Vârstă (ani)</label>
+          <input type="number" id="input-varsta" placeholder="ex: 22" min="10" max="99">
         </div>
         <div class="field">
-          <label>Înălțime</label>
-          <select>
-            <option>160cm</option>
-            <option>165cm</option>
-            <option>170cm</option>
-            <option>175cm</option>
-            <option>180cm</option>
-            <option>185cm</option>
-            <option>190cm+</option>
-          </select>
+          <label>Înălțime (cm)</label>
+          <input type="number" id="input-inaltime" placeholder="ex: 175" min="100" max="250">
         </div>
       </div>
 
       <div class="field">
-        <label>Greutate</label>
-        <select>
-          <option>50-60kg</option>
-          <option>60-70kg</option>
-          <option>70-80kg</option>
-          <option>80-90kg</option>
-          <option>90-100kg</option>
-          <option>100kg+</option>
-        </select>
+        <label>Greutate (kg)</label>
+        <input type="number" id="input-greutate" placeholder="ex: 75" min="30" max="300">
       </div>
 
       <div class="field">
         <label>Scop</label>
-        <select>
+        <select id="input-scop">
           <option>Masă musculară</option>
           <option>Slăbit</option>
           <option>Recompoziție</option>
@@ -69,7 +76,7 @@
         </select>
       </div>
 
-      <button class="btn" onclick="goTo('step2')">Next →</button>
+      <button class="btn" onclick="nextStep1()">Next →</button>
     </div>
   </div>
 
@@ -107,9 +114,34 @@
     </div>
   </div>
 
-</div>
+</div><!-- /quiz-wrapper -->
+</main>
 
 <script>
+  /* ── SIDEBAR ── */
+  let collapsed = false;
+  const MIN_W = 52, DEFAULT_W = 260;
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const main = document.getElementById("mainContent");
+    collapsed = !collapsed;
+    sidebar.style.width = (collapsed ? MIN_W : DEFAULT_W) + "px";
+    main.style.marginLeft = (collapsed ? MIN_W : DEFAULT_W) + "px";
+    sidebar.classList.toggle("collapsed", collapsed);
+  }
+  const handle = document.getElementById("resizeHandle");
+  let isResizing = false;
+  handle.addEventListener("mousedown", () => { isResizing = true; handle.classList.add("dragging"); document.body.style.cursor = "ew-resize"; document.body.style.userSelect = "none"; });
+  document.addEventListener("mousemove", (e) => {
+    if (!isResizing) return;
+    const sidebar = document.getElementById("sidebar"); const main = document.getElementById("mainContent");
+    let w = Math.min(Math.max(e.clientX, MIN_W), 480);
+    sidebar.style.width = w + "px"; main.style.marginLeft = w + "px";
+    const col = w <= MIN_W + 20; sidebar.classList.toggle("collapsed", col); collapsed = col;
+  });
+  document.addEventListener("mouseup", () => { if (!isResizing) return; isResizing = false; handle.classList.remove("dragging"); document.body.style.cursor = ""; document.body.style.userSelect = ""; });
+
+  /* ── QUIZ ── */
   const recomandari = {
     2: [{ tag: 'Split', name: 'Full Body' }],
     3: [{ tag: 'Split', name: 'PPL/UL' }, { tag: 'Split', name: 'Full Body 3x' }],
@@ -118,10 +150,23 @@
     6: [{ tag: 'Split', name: 'PPL x2' }, { tag: 'Split', name: 'Arnold Split' }],
   };
 
+  function nextStep1() {
+    const varsta = document.getElementById('input-varsta').value;
+    const inaltime = document.getElementById('input-inaltime').value;
+    const greutate = document.getElementById('input-greutate').value;
+    if (!varsta || !inaltime || !greutate) {
+      ['input-varsta','input-inaltime','input-greutate'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el.value) { el.style.borderBottom = '2px solid #fff'; setTimeout(() => el.style.borderBottom = '', 1500); }
+      });
+      return;
+    }
+    goTo('step2');
+  }
+
   function goTo(stepId) {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     document.getElementById(stepId).classList.add('active');
-
     if (stepId === 'step3') {
       const zile = parseInt(document.getElementById('zile').value);
       const rec = recomandari[zile] || [];

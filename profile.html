@@ -12,29 +12,26 @@
 <body>
 
 <aside class="sidebar" id="sidebar">
-  <div class="sidebar-header" onclick="toggleSidebar()">
+  <div class="sidebar-header">
     <img src="poze/logo.png" alt="GymTips" class="sidebar-logo">
     <span class="sidebar-title">GymTips</span>
+    <button class="hamburger-btn" onclick="toggleSidebar()" title="Deschide/Închide meniu" aria-label="Toggle meniu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
   <nav class="sidebar-nav">
-    <a href="dashboard.html" class="nav-item">
-      <span class="nav-icon">🏠</span>
-      <span class="nav-label">Pagina principală</span>
-    </a>
     <a href="profile.html" class="nav-item active">
-      <span class="nav-icon">👤</span>
-      <span class="nav-label">Profile</span>
+      <span class="nav-label">Profil</span>
     </a>
-    <a href="#" class="nav-item">
-      <span class="nav-icon">📋</span>
+    <a href="Workoutlog.html" class="nav-item">
       <span class="nav-label">Workout Log</span>
     </a>
-    <a href="#" class="nav-item">
-      <span class="nav-icon">🥗</span>
+    <a href="nutritie.html" class="nav-item">
       <span class="nav-label">Ghid de nutriție</span>
     </a>
     <a href="saincepem.html" class="nav-item">
-      <span class="nav-icon">⭐</span>
       <span class="nav-label">Recomandări personalizate</span>
     </a>
   </nav>
@@ -48,6 +45,7 @@
 
       <div class="profile-top-bar">
         <span class="profile-page-title">Profilul meu</span>
+        <span class="profile-welcome" id="profileWelcome"></span>
       </div>
 
       <div class="avatar-section">
@@ -151,6 +149,7 @@
   const email = localStorage.getItem('gymtips_email') || 'email@gmail.com';
   document.getElementById('displayUsername').textContent = username;
   document.getElementById('displayEmail').textContent = email;
+  document.getElementById('profileWelcome').textContent = 'Bun venit, ' + username + '!';
 
   const savedPfp = localStorage.getItem('gymtips_pfp');
   if (savedPfp) {
