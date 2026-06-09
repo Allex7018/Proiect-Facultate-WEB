@@ -9,12 +9,10 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <a href="home.html"><img src="poze/logo.png" alt="GymTips" class="logo"></a>
 </header>
 
-<!-- AUTH -->
 <div class="auth-wrapper">
   <div class="auth-card">
 
@@ -108,6 +106,10 @@
       });
       const data = await res.json();
       if (!res.ok) { showMsg('login-msg', 'error', data.error); return; }
+
+      /* Salvăm userul în sessionStorage pentru a fi folosit pe alte pagini */
+      sessionStorage.setItem('gymuser', JSON.stringify({ id: data.id, name: data.name }));
+
       showMsg('login-msg', 'success', 'Autentificare reușită! Bun venit, ' + data.name + '!');
       setTimeout(() => { window.location.href = 'saincepem.html'; }, 1200);
     } catch (err) {

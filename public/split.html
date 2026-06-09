@@ -9,7 +9,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <a href="saincepem.html"><img src="poze/logo.png" alt="GymTips" class="logo"></a>
 </header>
@@ -36,6 +35,39 @@
       <img id="exercise-gif" src="" alt="" style="display:none; width:100%; height:100%; object-fit:contain;">
       <span id="gif-placeholder">gif cu exercițiul</span>
     </div>
+
+    <!-- ── RECOMANDARE PERSONALIZATĂ ── -->
+    <div class="rec-banner" id="rec-banner"></div>
+
+    <!-- ── WORKOUT LOG FORM ── -->
+    <div class="log-section">
+      <h3 class="log-title">📋 Loghează antrenamentul</h3>
+      <div class="log-form">
+        <div class="log-field">
+          <label>Serii</label>
+          <input type="number" id="log-sets" min="1" max="20" placeholder="ex: 3">
+        </div>
+        <div class="log-field">
+          <label>Repetări</label>
+          <input type="number" id="log-reps" min="1" max="100" placeholder="ex: 10">
+        </div>
+        <div class="log-field">
+          <label>Greutate (kg)</label>
+          <input type="number" id="log-kg" min="0" step="0.5" placeholder="ex: 60">
+        </div>
+      </div>
+      <button class="log-btn" onclick="saveLog()">✔ Confirmă și salvează</button>
+      <div class="log-msg" id="log-msg"></div>
+    </div>
+
+    <!-- ── PROGRES ISTORIC ── -->
+    <div class="progress-section">
+      <h3 class="log-title">📈 Progresul tău</h3>
+      <div id="progress-list" class="progress-list">
+        <p class="no-data">Nicio sesiune înregistrată încă.</p>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -99,9 +131,33 @@
     }
   };
 
-  const params = new URLSearchParams(window.location.search);
+  const params    = new URLSearchParams(window.location.search);
   const splitName = params.get('split') || 'PPL/UL';
-  const data = splitData[splitName] || splitData['PPL/UL'];
+  const data      = splitData[splitName] || splitData['PPL/UL'];
+  let currentExercise = '';
+
+  /* ── Utilizatorul logat din sessionStorage ── */
+  const gymuser = JSON.parse(sessionStorage.getItem('gymuser') || 'null');
+
+  /* ── Recomandări după scop ── */
+  const recomandariiScop = {
+    'Masă musculară': { serii: '2-3 serii', rep: '6-8 repetări',   desc: 'Greutate mare cu care poți face 6-8 repetări controlat.' },
+    'Forță':          { serii: '1-2 serii', rep: 'max 4 repetări', desc: 'Greutate maximală — aproape de limita ta.' },
+    'Recompoziție':   { serii: '3-4 serii', rep: '10-12 repetări', desc: 'Greutate moderată, execuție controlată pe tot parcursul.' },
+    'Slăbit':         { serii: '3-4 serii', rep: '15-20 repetări', desc: 'Greutate ușoară, pauze scurte între serii pentru ardere calorică.' },
+  };
+
+  let userScop = null;
+
+  /* Încarcă profilul o singură dată la deschiderea paginii */
+  (async () => {
+    if (!gymuser) return;
+    try {
+      const res  = await fetch(`/api/profile?user_id=${gymuser.id}`);
+      const data = await res.json();
+      if (data.profile) userScop = data.profile.scop;
+    } catch (e) {}
+  })();
 
   document.getElementById('split-title').textContent = data.title + ':';
 
@@ -118,34 +174,132 @@
     </div>
   `).join('');
 
-  function showDetail(ex) {
+  async function showDetail(ex) {
+    currentExercise = ex.name;
+
     document.getElementById('split-view').style.display = 'none';
     document.getElementById('detail-view').classList.add('active');
     document.getElementById('detail-title').textContent = ex.name;
-    document.getElementById('detail-cum').textContent = ex.cum;
+    document.getElementById('detail-cum').textContent   = ex.cum;
     document.getElementById('detail-greutate').textContent = ex.greutate;
     document.getElementById('detail-serii').textContent = ex.serii;
-    document.getElementById('detail-link').textContent = ex.link;
+    document.getElementById('detail-link').textContent  = ex.link;
+
+    // Reset form
+    document.getElementById('log-sets').value = '';
+    document.getElementById('log-reps').value = '';
+    document.getElementById('log-kg').value   = '';
+    document.getElementById('log-msg').textContent = '';
+    document.getElementById('log-msg').className   = 'log-msg';
 
     const gifSrc = exerciseGifs[ex.name];
     const gifImg = document.getElementById('exercise-gif');
-    const gifPlaceholder = document.getElementById('gif-placeholder');
-
+    const gifPH  = document.getElementById('gif-placeholder');
     if (gifSrc) {
-      gifImg.src = gifSrc;
-      gifImg.alt = ex.name;
-      gifImg.style.display = 'block';
-      gifPlaceholder.style.display = 'none';
+      gifImg.src = gifSrc; gifImg.alt = ex.name;
+      gifImg.style.display = 'block'; gifPH.style.display = 'none';
     } else {
-      gifImg.src = '';
-      gifImg.style.display = 'none';
-      gifPlaceholder.style.display = 'flex';
+      gifImg.src = ''; gifImg.style.display = 'none'; gifPH.style.display = 'flex';
     }
+
+    // Afișează recomandarea personalizată
+    const banner = document.getElementById('rec-banner');
+    if (userScop && recomandariiScop[userScop]) {
+      const rec = recomandariiScop[userScop];
+      banner.innerHTML = `
+        <span class="rec-label">🎯 Scopul tău: ${userScop}</span>
+        <span class="rec-detail"><strong>${rec.serii}</strong> × <strong>${rec.rep}</strong> — ${rec.desc}</span>
+      `;
+      banner.style.display = 'block';
+    } else {
+      banner.style.display = 'none';
+    }
+
+    // Încarcă istoricul
+    await loadProgress(ex.name);
   }
 
   function showSplit() {
     document.getElementById('split-view').style.display = 'block';
     document.getElementById('detail-view').classList.remove('active');
+  }
+
+  /* ── Salvare log ── */
+  async function saveLog() {
+    if (!gymuser) {
+      showLogMsg('error', 'Trebuie să fii logat pentru a salva!');
+      return;
+    }
+
+    const sets = parseInt(document.getElementById('log-sets').value);
+    const reps = parseInt(document.getElementById('log-reps').value);
+    const kg   = parseFloat(document.getElementById('log-kg').value);
+
+    if (!sets || !reps || isNaN(kg)) { showLogMsg('error', 'Completează toate câmpurile!'); return; }
+    if (sets <= 0 || reps <= 0 || kg < 0) { showLogMsg('error', 'Valorile trebuie să fie pozitive!'); return; }
+
+    try {
+      const res  = await fetch('/api/log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: gymuser.id, exercise: currentExercise, sets, reps, kg })
+      });
+      const data = await res.json();
+      if (!res.ok) { showLogMsg('error', data.error); return; }
+
+      showLogMsg('success', 'Antrenament salvat!');
+      document.getElementById('log-sets').value = '';
+      document.getElementById('log-reps').value = '';
+      document.getElementById('log-kg').value   = '';
+
+      // Reîncarcă istoricul
+      await loadProgress(currentExercise);
+    } catch (err) {
+      showLogMsg('error', 'Eroare de conexiune.');
+    }
+  }
+
+  function showLogMsg(type, text) {
+    const el = document.getElementById('log-msg');
+    el.className  = 'log-msg ' + type;
+    el.textContent = text;
+    setTimeout(() => { el.textContent = ''; el.className = 'log-msg'; }, 3000);
+  }
+
+  /* ── Încărcare progres ── */
+  async function loadProgress(exercise) {
+    const container = document.getElementById('progress-list');
+    if (!gymuser) {
+      container.innerHTML = '<p class="no-data">Loghează-te pentru a vedea progresul.</p>';
+      return;
+    }
+
+    try {
+      const res  = await fetch(`/api/log?user_id=${gymuser.id}&exercise=${encodeURIComponent(exercise)}`);
+      const data = await res.json();
+
+      if (!data.logs || data.logs.length === 0) {
+        container.innerHTML = '<p class="no-data">Nicio sesiune înregistrată încă.</p>';
+        return;
+      }
+
+      container.innerHTML = data.logs.map(log => {
+        const date = new Date(log.logged_at).toLocaleDateString('ro-RO', {
+          day: '2-digit', month: 'short', year: 'numeric',
+          hour: '2-digit', minute: '2-digit'
+        });
+        return `
+          <div class="progress-row">
+            <span class="progress-date">${date}</span>
+            <span class="progress-stat">${log.sets} serii</span>
+            <span class="progress-stat">${log.reps} rep</span>
+            <span class="progress-stat progress-kg">${log.kg} kg</span>
+          </div>
+        `;
+      }).join('');
+    } catch (err) {
+      container.innerHTML = '<p class="no-data">Eroare la încărcarea progresului.</p>';
+    }
   }
 </script>
 

@@ -18,7 +18,7 @@
 <div class="quiz-wrapper">
 
   <!-- STEP 1 -->
-  <div class="step active" id="step1">
+  <div class="step" id="step1">
     <div class="step-card">
       <div class="step-num">01</div>
       <h2>Introdu-ți datele și scopul tău</h2>
@@ -26,7 +26,7 @@
       <div class="row-inputs">
         <div class="field">
           <label>Vârstă</label>
-          <select>
+          <select id="varsta">
             <option>18-25</option>
             <option>26-35</option>
             <option>36-45</option>
@@ -35,7 +35,7 @@
         </div>
         <div class="field">
           <label>Înălțime</label>
-          <select>
+          <select id="inaltime">
             <option>160cm</option>
             <option>165cm</option>
             <option>170cm</option>
@@ -49,7 +49,7 @@
 
       <div class="field">
         <label>Greutate</label>
-        <select>
+        <select id="greutate">
           <option>50-60kg</option>
           <option>60-70kg</option>
           <option>70-80kg</option>
@@ -61,7 +61,7 @@
 
       <div class="field">
         <label>Scop</label>
-        <select>
+        <select id="scop">
           <option>Masă musculară</option>
           <option>Slăbit</option>
           <option>Recompoziție</option>
@@ -92,7 +92,7 @@
 
       <div class="btn-row">
         <button class="btn btn-back" onclick="goTo('step1')">← Înapoi</button>
-        <button class="btn" onclick="goTo('step3')">Next →</button>
+        <button class="btn" onclick="saveAndContinue()">Next →</button>
       </div>
     </div>
   </div>
@@ -118,22 +118,90 @@
     6: [{ tag: 'Split', name: 'PPL x2' }, { tag: 'Split', name: 'Arnold Split' }],
   };
 
+  const gymuser = JSON.parse(sessionStorage.getItem('gymuser') || 'null');
+
+  /* ── La încărcare: verifică dacă există profil salvat ── */
+  window.addEventListener('DOMContentLoaded', async () => {
+    if (!gymuser) {
+      // Nelogat — arată step 1 normal
+      goTo('step1');
+      return;
+    }
+
+    try {
+      const res  = await fetch(`/api/profile?user_id=${gymuser.id}`);
+      const data = await res.json();
+
+      if (data.profile) {
+        // Profil există — setează valorile în selects și sari la step 3
+        setSelectValue('varsta',   data.profile.varsta);
+        setSelectValue('inaltime', data.profile.inaltime);
+        setSelectValue('greutate', data.profile.greutate);
+        setSelectValue('scop',     data.profile.scop);
+        setSelectValue('zile',     String(data.profile.zile));
+        showRecomandari(data.profile.zile);
+        goTo('step3');
+      } else {
+        goTo('step1');
+      }
+    } catch (err) {
+      goTo('step1');
+    }
+  });
+
+  function setSelectValue(id, value) {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    for (let opt of sel.options) {
+      if (opt.value === value || opt.text === value) {
+        opt.selected = true;
+        break;
+      }
+    }
+  }
+
   function goTo(stepId) {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     document.getElementById(stepId).classList.add('active');
-
     if (stepId === 'step3') {
       const zile = parseInt(document.getElementById('zile').value);
-      const rec = recomandari[zile] || [];
-      const container = document.getElementById('cards-container');
-      container.innerHTML = rec.map(r => `
-        <div class="card">
-          <div class="tag">${r.tag}</div>
-          <div class="name">${r.name}</div>
-          <a class="see" href="split.html?split=${encodeURIComponent(r.name)}">Vezi mai mult</a>
-        </div>
-      `).join('');
+      showRecomandari(zile);
     }
+  }
+
+  function showRecomandari(zile) {
+    const rec       = recomandari[zile] || [];
+    const container = document.getElementById('cards-container');
+    container.innerHTML = rec.map(r => `
+      <div class="card">
+        <div class="tag">${r.tag}</div>
+        <div class="name">${r.name}</div>
+        <a class="see" href="split.html?split=${encodeURIComponent(r.name)}">Vezi mai mult</a>
+      </div>
+    `).join('');
+  }
+
+  /* ── Salvează profilul și mergi la step 3 ── */
+  async function saveAndContinue() {
+    if (gymuser) {
+      try {
+        await fetch('/api/profile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id:  gymuser.id,
+            varsta:   document.getElementById('varsta').value,
+            inaltime: document.getElementById('inaltime').value,
+            greutate: document.getElementById('greutate').value,
+            scop:     document.getElementById('scop').value,
+            zile:     parseInt(document.getElementById('zile').value)
+          })
+        });
+      } catch (err) {
+        console.error('Eroare la salvarea profilului:', err);
+      }
+    }
+    goTo('step3');
   }
 </script>
 
