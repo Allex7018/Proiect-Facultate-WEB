@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 24px;
+  padding: 80px 24px 40px;
 }
 
 .profile-card {
@@ -24,14 +24,31 @@
   overflow: hidden;
 }
 
+.profile-welcome-banner {
+  position: fixed;
+  top: 0;
+  left: var(--sidebar-w);
+  right: 0;
+  z-index: 50;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #fff;
+  text-align: center;
+  padding: 14px 20px;
+  background: rgba(0, 0, 0, 0.55);
+  border-bottom: 3px solid #cc0000;
+  transition: left 0.3s ease;
+}
+
 .profile-top-bar {
   background: #cc0000;
   padding: 20px 28px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
+  justify-content: center;
 }
 
 .profile-welcome {

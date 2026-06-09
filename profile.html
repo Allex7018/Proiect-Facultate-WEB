@@ -40,12 +40,12 @@
 
 <main class="main-content" id="mainContent">
   <div class="profile-bg"></div>
+  <div class="profile-welcome-banner" id="profileWelcome"></div>
   <div class="profile-wrapper">
     <div class="profile-card">
 
       <div class="profile-top-bar">
         <span class="profile-page-title">Profilul meu</span>
-        <span class="profile-welcome" id="profileWelcome"></span>
       </div>
 
       <div class="avatar-section">
@@ -96,16 +96,13 @@
   function toggleSidebar() {
     const sidebar = document.getElementById("sidebar");
     const main = document.getElementById("mainContent");
+    const banner = document.getElementById("profileWelcome");
     collapsed = !collapsed;
-    if (collapsed) {
-      sidebar.style.width = MIN_W + "px";
-      sidebar.classList.add("collapsed");
-      main.style.marginLeft = MIN_W + "px";
-    } else {
-      sidebar.style.width = DEFAULT_W + "px";
-      sidebar.classList.remove("collapsed");
-      main.style.marginLeft = DEFAULT_W + "px";
-    }
+    const w = collapsed ? MIN_W : DEFAULT_W;
+    sidebar.style.width = w + "px";
+    sidebar.classList.toggle("collapsed", collapsed);
+    main.style.marginLeft = w + "px";
+    if (banner) banner.style.left = w + "px";
   }
 
   const handle = document.getElementById("resizeHandle");
@@ -122,11 +119,13 @@
     if (!isResizing) return;
     const sidebar = document.getElementById("sidebar");
     const main = document.getElementById("mainContent");
+    const banner = document.getElementById("profileWelcome");
     let newW = e.clientX;
     if (newW < MIN_W) newW = MIN_W;
     if (newW > 480) newW = 480;
     sidebar.style.width = newW + "px";
     main.style.marginLeft = newW + "px";
+    if (banner) banner.style.left = newW + "px";
     if (newW <= MIN_W + 20) {
       sidebar.classList.add("collapsed");
       collapsed = true;
@@ -146,7 +145,13 @@
   });
 
   const username = localStorage.getItem('gymtips_username') || 'Utilizator';
-  const email = localStorage.getItem('gymtips_email') || 'email@gmail.com';
+  let email = localStorage.getItem('gymtips_email') || 'email@gmail.com';
+  // Fix duplicated email bug (e.g. "a@b.coma@b.com")
+  const half = Math.floor(email.length / 2);
+  if (email.length % 2 === 0 && email.slice(0, half) === email.slice(half)) {
+    email = email.slice(0, half);
+    localStorage.setItem('gymtips_email', email);
+  }
   document.getElementById('displayUsername').textContent = username;
   document.getElementById('displayEmail').textContent = email;
   document.getElementById('profileWelcome').textContent = 'Bun venit, ' + username + '!';

@@ -53,17 +53,17 @@
       <div class="row-inputs">
         <div class="field">
           <label>Vârstă (ani)</label>
-          <input type="number" id="input-varsta" placeholder="ex: 22" min="10" max="99">
+          <input type="number" id="input-varsta" placeholder="ex: 22" min="10" max="100">
         </div>
         <div class="field">
           <label>Înălțime (cm)</label>
-          <input type="number" id="input-inaltime" placeholder="ex: 175" min="100" max="250">
+          <input type="number" id="input-inaltime" placeholder="ex: 175" min="140" max="220">
         </div>
       </div>
 
       <div class="field">
         <label>Greutate (kg)</label>
-        <input type="number" id="input-greutate" placeholder="ex: 75" min="30" max="300">
+        <input type="number" id="input-greutate" placeholder="ex: 75" min="30" max="250">
       </div>
 
       <div class="field">
@@ -151,16 +151,44 @@
   };
 
   function nextStep1() {
-    const varsta = document.getElementById('input-varsta').value;
-    const inaltime = document.getElementById('input-inaltime').value;
-    const greutate = document.getElementById('input-greutate').value;
-    if (!varsta || !inaltime || !greutate) {
-      ['input-varsta','input-inaltime','input-greutate'].forEach(id => {
-        const el = document.getElementById(id);
-        if (!el.value) { el.style.borderBottom = '2px solid #fff'; setTimeout(() => el.style.borderBottom = '', 1500); }
-      });
+    const varstaEl   = document.getElementById('input-varsta');
+    const inaltimeEl = document.getElementById('input-inaltime');
+    const greutateEl = document.getElementById('input-greutate');
+    const varsta   = parseInt(varstaEl.value);
+    const inaltime = parseInt(inaltimeEl.value);
+    const greutate = parseInt(greutateEl.value);
+
+    const errors = [];
+    if (!varstaEl.value || varsta < 10 || varsta > 100) {
+      errors.push('Vârsta trebuie să fie între 10 și 100 de ani.');
+      varstaEl.style.outline = '2px solid #fff';
+      setTimeout(() => varstaEl.style.outline = '', 1800);
+    }
+    if (!greutateEl.value || greutate < 30 || greutate > 250) {
+      errors.push('Greutatea trebuie să fie între 30 și 250 kg.');
+      greutateEl.style.outline = '2px solid #fff';
+      setTimeout(() => greutateEl.style.outline = '', 1800);
+    }
+    if (!inaltimeEl.value || inaltime < 140 || inaltime > 220) {
+      errors.push('Înălțimea trebuie să fie între 140 și 220 cm.');
+      inaltimeEl.style.outline = '2px solid #fff';
+      setTimeout(() => inaltimeEl.style.outline = '', 1800);
+    }
+
+    if (errors.length > 0) {
+      let msgEl = document.getElementById('step1-error');
+      if (!msgEl) {
+        msgEl = document.createElement('div');
+        msgEl.id = 'step1-error';
+        msgEl.style.cssText = 'background:rgba(0,0,0,0.35);color:#fff;font-family:Lora,serif;font-size:0.88rem;font-style:italic;padding:12px 16px;margin-bottom:12px;border-left:3px solid #fff;';
+        varstaEl.closest('.step-card').insertBefore(msgEl, varstaEl.closest('.row-inputs'));
+      }
+      msgEl.innerHTML = errors.join('<br>');
       return;
     }
+
+    const msgEl = document.getElementById('step1-error');
+    if (msgEl) msgEl.remove();
     goTo('step2');
   }
 
