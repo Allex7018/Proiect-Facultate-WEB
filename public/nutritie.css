@@ -1,0 +1,336 @@
+/* ==========================================
+   ── NUTRITION PAGE STYLES ──
+   ========================================== */
+
+.nutrition-hero {
+  background: #111;
+  padding: 56px 64px 40px;
+  border-bottom: 3px solid #cc0000;
+  position: relative;
+  overflow: hidden;
+}
+
+.nutrition-hero::before {
+  content: 'NUTRIȚIE';
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Oswald', sans-serif;
+  font-size: 9rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.03);
+  letter-spacing: 8px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.nutrition-hero-tag {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #FFC107;
+  border-left: 3px solid #FFC107;
+  padding-left: 14px;
+  margin-bottom: 16px;
+  display: inline-block;
+}
+
+.nutrition-hero h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.nutrition-hero h1 em {
+  font-style: italic;
+  font-family: 'Lora', serif;
+  font-weight: 400;
+  color: #FFC107;
+  text-transform: none;
+  font-size: 85%;
+}
+
+.nutrition-hero p {
+  font-family: 'Lora', serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+/* ── MAIN AREA ── */
+.nutrition-body {
+  padding: 40px 48px 80px;
+  background: #f5f5f3;
+  min-height: calc(100vh - 220px);
+}
+
+/* ── CATEGORIES GRID ── */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.category-card {
+  background: #fff;
+  border-top: 4px solid var(--accent);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.category-card[data-cat="proteine"]     { --accent: #cc0000; }
+.category-card[data-cat="carbohidrati"] { --accent: #FFC107; }
+.category-card[data-cat="grasimi"]      { --accent: #2f5240; }
+.category-card[data-cat="fibre"]        { --accent: #4a7c59; }
+
+.category-header {
+  padding: 20px 24px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.category-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.category-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #aaa;
+  margin-bottom: 2px;
+}
+
+.category-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #111;
+}
+
+/* ── FOOD ITEMS ── */
+.food-list {
+  padding: 8px 0;
+  list-style: none; /* Previne punctele implicite ale listei */
+  margin: 0;
+}
+
+.food-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: background 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+
+.food-item:last-child { border-bottom: none; }
+.food-item:hover { background: rgba(0, 0, 0, 0.02); }
+
+/* Highlight strips when suggested */
+.category-card[data-cat="proteine"]     .food-item.suggested { background: rgba(204, 0, 0, 0.07) !important; }
+.category-card[data-cat="carbohidrati"] .food-item.suggested { background: rgba(255, 193, 7, 0.1) !important; }
+.category-card[data-cat="grasimi"]      .food-item.suggested { background: rgba(47, 82, 64, 0.08) !important; }
+.category-card[data-cat="fibre"]        .food-item.suggested { background: rgba(74, 124, 89, 0.08) !important; }
+
+.food-emoji {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  width: 32px;
+  text-align: center;
+}
+
+.food-text {
+  flex: 1;
+}
+
+.food-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.food-desc {
+  font-family: 'Lora', serif;
+  font-size: 0.78rem;
+  color: #888;
+  font-style: italic;
+  margin-top: 2px;
+}
+
+.food-badge {
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.3s, transform 0.3s;
+  background: var(--accent);
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  flex-shrink: 0;
+}
+
+.category-card[data-cat="proteine"]     .food-badge { background: #cc0000; }
+.category-card[data-cat="carbohidrati"] .food-badge { background: #e6a800; color: #111; }
+.category-card[data-cat="grasimi"]      .food-badge { background: #2f5240; }
+.category-card[data-cat="fibre"]        .food-badge { background: #4a7c59; }
+
+.food-item.suggested .food-badge {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── RANDOM BUTTON ── */
+.random-section {
+  text-align: center;
+  padding: 8px 0 16px;
+}
+
+.random-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  background: #111;
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  padding: 20px 52px;
+  cursor: pointer;
+  border: 3px solid #111;
+  transition: background 0.2s, color 0.2s, transform 0.15s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.random-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #cc0000;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  z-index: 0;
+}
+
+.random-btn:hover::before { transform: scaleX(1); }
+.random-btn:hover { border-color: #cc0000; transform: translateY(-3px); }
+
+.random-btn span, .random-btn .dice {
+  position: relative;
+  z-index: 1;
+}
+
+.random-btn.rolling .dice {
+  animation: spin 0.5s ease;
+}
+
+@keyframes spin {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.4); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.dice { font-size: 1.3rem; }
+
+.result-strip {
+  display: none;
+  background: #111;
+  padding: 20px 48px;
+  margin-top: 32px;
+  border-left: 5px solid #cc0000;
+  animation: slideIn 0.4s ease;
+}
+
+.result-strip.visible { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; }
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.result-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #cc0000;
+  margin-bottom: 6px;
+}
+
+.result-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.result-food {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.result-food-emoji { font-size: 1.6rem; }
+
+.result-food-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.result-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  align-self: center;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .nutrition-hero { padding: 40px 28px 28px; }
+  .nutrition-body { padding: 28px 20px 60px; }
+  .categories-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 560px) {
+  .categories-grid { grid-template-columns: 1fr; }
+  .random-btn { padding: 18px 32px; letter-spacing: 2px; }
+  .result-strip.visible { flex-direction: column; align-items: flex-start; }
+  .result-divider { display: none; }
+}

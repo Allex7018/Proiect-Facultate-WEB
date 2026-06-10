@@ -325,3 +325,239 @@ header nav a:hover {
 }
 
 .logo { height: 150px; width: auto; display: block; }
+/* ── RESPONSIVITATE PENTRU TELEFON (MOBILE) ── */
+@media (max-width: 768px) {
+  /* 1. Ajustare Header (Logo și buton de Login) */
+  header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    height: 40px !important; /* Micșorăm logo-ul ca să nu ocupe jumătate de ecran */
+    width: auto;
+  }
+
+  /* 2. Ajustare conținut secțiune principală (Hero) */
+  .hero-content {
+    padding: 0 20px; /* Adăugăm un pic de spațiu lateral ca textul să nu atingă marginile */
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hero-headline {
+    font-size: 2.2rem !important; /* Reducem considerabil titlul "ANTRENEAZĂ-TE" */
+    line-height: 1.2;
+    white-space: normal; /* Permite textului să treacă pe rândul următor */
+    word-wrap: break-word;
+  }
+
+  .hero-tag {
+    font-size: 0.7rem;
+    margin-bottom: 10px;
+  }
+
+  .hero-sub {
+    font-size: 0.95rem;
+    margin-top: 10px;
+  }
+}
+
+
+/* MOBILE LANDING FIX START */
+@media (max-width: 768px) {
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  header {
+    padding: 12px 16px;
+    align-items: center;
+  }
+
+  .logo {
+    height: 52px !important;
+    max-width: 42vw;
+  }
+
+  header nav a {
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    padding: 8px 16px;
+    border-width: 2px;
+  }
+
+  .hero {
+    min-height: 100svh;
+    height: auto;
+    padding: 120px 0 72px;
+    align-items: center;
+  }
+
+  .hero-bg {
+    background-position: center center;
+    transform: none;
+  }
+
+  .hero:hover .hero-bg {
+    transform: none;
+  }
+
+  .hero-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(0,0,0,0.72) 0%,
+      rgba(17,17,17,0.64) 48%,
+      rgba(47,82,64,0.58) 100%
+    );
+  }
+
+  .hero-content {
+    width: 100%;
+    max-width: none;
+    padding: 0 20px;
+  }
+
+  .hero-tag {
+    max-width: 100%;
+    font-size: 0.64rem;
+    letter-spacing: 3px;
+    line-height: 1.45;
+    margin-bottom: 14px;
+  }
+
+  .hero-headline {
+    white-space: normal;
+    font-size: clamp(2rem, 12vw, 3.2rem) !important;
+    line-height: 1.08;
+    letter-spacing: 1px;
+    max-width: 11ch;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-headline em {
+    display: block;
+    font-size: 0.88em;
+  }
+
+  .hero-sub {
+    max-width: 280px;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .hero-scroll {
+    bottom: 22px;
+  }
+
+  .row-statement-wrapper {
+    padding: 44px 20px 40px;
+  }
+
+  .row-statement p {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .content {
+    gap: 0;
+    padding: 0;
+  }
+
+  .row,
+  .row.reverse {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .row.reverse .row-img {
+    order: 0;
+  }
+
+  .row-text {
+    order: 1;
+    padding: 36px 20px 40px;
+    border-left: 0;
+    border-right: 0;
+    box-shadow: none;
+  }
+
+  .row-img {
+    order: 0;
+    min-height: 230px;
+    height: 230px;
+  }
+
+  .row-number {
+    font-size: 3.5rem;
+  }
+
+  .row-text-inner h3 {
+    font-size: 1.18rem;
+    letter-spacing: 1.5px;
+    line-height: 1.25;
+  }
+
+  .row-text-inner p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+
+  .img-label {
+    right: 14px;
+    bottom: 14px;
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+  }
+
+  .cta-section {
+    padding: 64px 20px;
+  }
+
+  .cta-text {
+    font-size: clamp(2rem, 12vw, 3rem);
+    line-height: 1.1;
+    margin-bottom: 28px;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 320px;
+    padding: 16px 18px;
+    font-size: 0.95rem;
+    letter-spacing: 3px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 380px) {
+  header {
+    padding: 10px 12px;
+  }
+
+  .logo {
+    height: 44px !important;
+  }
+
+  header nav a {
+    font-size: 0.68rem;
+    padding: 7px 12px;
+  }
+
+  .hero {
+    padding-top: 104px;
+  }
+
+  .hero-content {
+    padding: 0 16px;
+  }
+
+  .hero-headline {
+    font-size: 2rem !important;
+  }
+}
+/* MOBILE LANDING FIX END */

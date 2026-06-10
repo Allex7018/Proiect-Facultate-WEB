@@ -1,0 +1,187 @@
+.profile-bg {
+  position: fixed;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1400&q=80') center/cover no-repeat;
+  filter: grayscale(100%) brightness(0.28);
+  z-index: 0;
+}
+
+.profile-wrapper {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px 40px;
+}
+
+.profile-card {
+  background: #fff;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+  overflow: hidden;
+}
+
+.profile-welcome-banner {
+  position: fixed;
+  top: 0;
+  left: var(--sidebar-w);
+  right: 0;
+  z-index: 50;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #fff;
+  text-align: center;
+  padding: 14px 20px;
+  background: rgba(0, 0, 0, 0.55);
+  border-bottom: 3px solid #cc0000;
+  transition: left 0.3s ease;
+}
+
+.profile-top-bar {
+  background: #cc0000;
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-welcome {
+  font-family: 'Lora', serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: rgba(255,255,255,0.85);
+}
+
+/* ── AVATAR ── */
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 28px 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+}
+
+.avatar-ring {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 4px solid #cc0000;
+  overflow: hidden;
+  background: #e8e8e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.avatar-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.avatar-placeholder {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-placeholder svg {
+  width: 72px; height: 72px;
+}
+
+.change-pfp-btn {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #cc0000;
+  cursor: pointer;
+  border-bottom: 1.5px solid #cc0000;
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.change-pfp-btn:hover { color: #2f5240; border-color: #2f5240; }
+
+/* ── INFO ── */
+.profile-info {
+  padding: 8px 28px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+}
+
+.info-icon {
+  font-size: 1.2rem;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.info-label {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+.info-value {
+  font-family: 'Lora', serif;
+  font-size: 1rem;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.info-divider {
+  height: 1px;
+  background: rgba(0,0,0,0.07);
+  margin: 0 0;
+}
+
+/* ── LOGOUT ── */
+.logout-btn {
+  display: block;
+  width: 100%;
+  padding: 18px;
+  background: #1a1a1a;
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 8px;
+}
+.logout-btn:hover { background: #cc0000; }
+.profile-page-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #fff;
+}

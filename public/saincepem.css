@@ -11,9 +11,10 @@
 body {
   font-family: 'Lora', serif;
   color: #fff;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
   position: relative;
+  display: flex;
 }
 
 /* ── FUNDAL BW ── */
@@ -25,23 +26,18 @@ body {
   z-index: 0;
 }
 
-/* ── HEADER ── */
-header {
-  position: relative;
-  z-index: 10;
-  padding: 6px 2px;
-}
-header a { text-decoration: none; }
+/* header removed - using sidebar now */
 
 /* ── QUIZ WRAPPER — centrat vertical pe ecran ── */
 .quiz-wrapper {
-  position: fixed;
-  inset: 0;
+  position: relative;
   z-index: 2;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
   padding: 24px;
+  width: 100%;
 }
 
 /* ── STEPS ── */
@@ -173,6 +169,25 @@ select {
   color: var(--dark);
   margin-bottom: 16px;
 }
+.arnold-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--dark);
+  font-family: 'Lora', serif;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: left;
+  margin: 0 0 16px;
+  cursor: pointer;
+}
+.arnold-option input {
+  width: auto;
+  margin-top: 2px;
+  cursor: pointer;
+}
 .card .see {
   display: inline-block;
   background: var(--dark);
@@ -194,3 +209,32 @@ select {
 }
 
 .logo { height: 75px; width: auto; display: block; }
+/* ── MANUAL INPUTS ── */
+input[type="number"],
+input[type="text"] {
+  width: 100%;
+  font-family: 'Lora', serif;
+  font-size: 0.95rem;
+  background: #fff;
+  color: #1a1a1a;
+  border: none;
+  padding: 12px 14px;
+  outline: none;
+  border-radius: 0;
+  -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"]::placeholder,
+input[type="text"]::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+input[type="number"]:focus,
+input[type="text"]:focus {
+  outline: 2px solid rgba(255,255,255,0.6);
+  outline-offset: 1px;
+}
