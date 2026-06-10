@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GymTips - Split</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dashboard.css">
+<link rel="stylesheet" href="split.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <img src="poze/logo.png" alt="GymTips" class="sidebar-logo">
+    <span class="sidebar-title">GymTips</span>
+    <button class="hamburger-btn" onclick="toggleSidebar()" title="Deschide/Închide meniu" aria-label="Toggle meniu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="profile.html" class="nav-item">
+      <span class="nav-label">Profil</span>
+    </a>
+    <a href="Workoutlog.html" class="nav-item">
+      <span class="nav-label">Workout Log</span>
+    </a>
+    <a href="nutritie.html" class="nav-item">
+      <span class="nav-label">Ghid de nutriție</span>
+    </a>
+    <a href="saincepem.html" class="nav-item active">
+      <span class="nav-label">Recomandări personalizate</span>
+    </a>
+  </nav>
+  <div class="sidebar-resize" id="resizeHandle"></div>
+</aside>
+
+<main class="main-content" id="mainContent">
+
+<!-- SPLIT VIEW -->
+<div id="split-view">
+  <h1 id="split-title">O zi de push:</h1>
+  <div class="muscle-grid" id="muscle-grid"></div>
+  <div style="text-align:center; margin-top: 8px;">
+    <a href="saincepem.html" class="back-btn" style="text-decoration:none;">← Înapoi</a>
+  </div>
+</div>
+
+<!-- EXERCISE DETAIL VIEW -->
+<div id="detail-view" class="exercise-detail">
+  <button class="back-btn" onclick="showSplit()">← Înapoi</button>
+  <div class="detail-card">
+    <h2 id="detail-title"></h2>
+    <div class="detail-line">Cum se face: <span id="detail-cum"></span></div>
+    <div class="detail-line">Greutate: <span id="detail-greutate"></span></div>
+    <div class="detail-line">Serii: <span id="detail-serii"></span></div>
+    <div class="detail-line">Link: <span id="detail-link"></span></div>
+    <div class="gif-box" id="gif-box">
+      <img id="exercise-gif" src="" alt="" style="display:none; width:100%; height:100%; object-fit:contain;">
+      <span id="gif-placeholder">gif cu exercițiul</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const exerciseGifs = {
+    'Triceps pushdown': 'gifs/triceps-pushdown.gif',
+    'Bench press': 'gifs/Barbell-Bench-Press.gif',
+    'Squat': 'gifs/squat.gif',
+    'Shoulder press': 'gifs/Dumbbell-Shoulder-Press.gif',
+    'Overhead triceps extension': 'gifs/Cable-Rope-Overhead-Triceps-Extension.gif',
+    'Lateral raise': 'gifs/Dumbbell-Lateral-Raise.gif',
+    'Incline dumbbell press': 'gifs/Incline-Dumbbell-Press.gif',
+    'Cable fly': 'gifs/Lying-Cable-Fly.gif',
+    'Deadlift': 'gifs/Barbell-Deadlift.gif',
+  };
+
+  const splitData = {
+    'PPL/UL': {
+      title: 'O zi de Push',
+      grupe: [
+        {
+          nume: 'Exerciții pentru triceps',
+          exercitii: [
+            { name: 'Triceps pushdown', cum: 'Stai la cablu, coatele lipite de corp, împinge bara în jos', greutate: '6-10 repetări', serii: '2-3 serii', link: 'https://www.youtube.com/results?search_query=triceps+pushdown+tutorial' },
+            { name: 'Overhead triceps extension', cum: 'Ridici gantere deasupra capului și cobori în spatele capului', greutate: '8-12 repetări', serii: '2-3 serii', link: 'https://www.youtube.com/results?search_query=overhead+triceps+extension+tutorial' },
+          ]
+        },
+        {
+          nume: 'Exerciții pentru umerii',
+          exercitii: [
+            { name: 'Shoulder press', cum: 'Împingi gantere/bara deasupra capului din poziție șezut sau în picioare', greutate: '6-10 repetări', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=shoulder+press+tutorial' },
+            { name: 'Lateral raise', cum: 'Ridici ganterele lateral până la nivelul umerilor', greutate: '12-15 repetări', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=lateral+raise+tutorial' },
+          ]
+        },
+        {
+          nume: 'Exerciții pentru piept',
+          exercitii: [
+            { name: 'Bench press', cum: 'Culcat pe bancă, cobori bara la piept și împingi în sus', greutate: '6-10 repetări', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=bench+press+tutorial' },
+            { name: 'Incline dumbbell press', cum: 'Banca înclinată la 30-45°, împingi ganterele în sus', greutate: '8-12 repetări', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=incline+dumbbell+press+tutorial' },
+            { name: 'Cable fly', cum: 'La cablu, aduci mâinile în față cu coatele ușor îndoite', greutate: '12-15 repetări', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=cable+fly+tutorial' },
+          ]
+        }
+      ]
+    },
+    'Full Body': {
+      title: 'Full Body',
+      grupe: [
+        {
+          nume: 'Exerciții pentru picioare',
+          exercitii: [
+            { name: 'Squat', cum: 'Cobori cu spatele drept până la paralel sau mai jos', greutate: '6-10 repetări', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=squat+tutorial' },
+          ]
+        },
+        {
+          nume: 'Exerciții pentru spate',
+          exercitii: [
+            { name: 'Deadlift', cum: 'Ridici bara de pe sol cu spatele drept și soldurile în spate', greutate: '5-8 repetări', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=deadlift+tutorial' },
+          ]
+        }
+      ]
+    }
+  };
+
+  const params = new URLSearchParams(window.location.search);
+  const splitName = params.get('split') || 'PPL/UL';
+  const data = splitData[splitName] || splitData['PPL/UL'];
+
+  document.getElementById('split-title').textContent = data.title + ':';
+
+  const grid = document.getElementById('muscle-grid');
+  grid.innerHTML = data.grupe.map(grupa => `
+    <div class="muscle-card">
+      <h3>${grupa.nume}</h3>
+      ${grupa.exercitii.map(ex => `
+        <div class="exercise-item">
+          <div class="ex-name">— ${ex.name}</div>
+          <button class="see-btn" onclick='showDetail(${JSON.stringify(ex)})'>Vezi mai mult</button>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+
+  function showDetail(ex) {
+    document.getElementById('split-view').style.display = 'none';
+    document.getElementById('detail-view').classList.add('active');
+    document.getElementById('detail-title').textContent = ex.name;
+    document.getElementById('detail-cum').textContent = ex.cum;
+    document.getElementById('detail-greutate').textContent = ex.greutate;
+    document.getElementById('detail-serii').textContent = ex.serii;
+    const url = ex.link.startsWith('http') ? ex.link : 'https://' + ex.link;
+    document.getElementById('detail-link').innerHTML = `<a href="${url}" target="_blank" style="color: #FFC107; text-decoration: underline; cursor: pointer;">${ex.link}</a>`;
+
+    const gifSrc = exerciseGifs[ex.name];
+    const gifImg = document.getElementById('exercise-gif');
+    const gifPlaceholder = document.getElementById('gif-placeholder');
+
+    if (gifSrc) {
+      gifImg.src = gifSrc;
+      gifImg.alt = ex.name;
+      gifImg.style.display = 'block';
+      gifPlaceholder.style.display = 'none';
+    } else {
+      gifImg.src = '';
+      gifImg.style.display = 'none';
+      gifPlaceholder.style.display = 'flex';
+    }
+  }
+
+  function showSplit() {
+    document.getElementById('split-view').style.display = 'block';
+    document.getElementById('detail-view').classList.remove('active');
+  }
+
+  /* ── SIDEBAR ── */
+  let collapsed = false;
+  const MIN_W = 52, DEFAULT_W = 260;
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const main = document.getElementById("mainContent");
+    collapsed = !collapsed;
+    sidebar.style.width = (collapsed ? MIN_W : DEFAULT_W) + "px";
+    main.style.marginLeft = (collapsed ? MIN_W : DEFAULT_W) + "px";
+    sidebar.classList.toggle("collapsed", collapsed);
+  }
+  const handle = document.getElementById("resizeHandle");
+  let isResizing = false;
+  handle.addEventListener("mousedown", () => { isResizing = true; handle.classList.add("dragging"); document.body.style.cursor = "ew-resize"; document.body.style.userSelect = "none"; });
+  document.addEventListener("mousemove", (e) => {
+    if (!isResizing) return;
+    const sidebar = document.getElementById("sidebar"); const main = document.getElementById("mainContent");
+    let w = Math.min(Math.max(e.clientX, MIN_W), 480);
+    sidebar.style.width = w + "px"; main.style.marginLeft = w + "px";
+    const col = w <= MIN_W + 20; sidebar.classList.toggle("collapsed", col); collapsed = col;
+  });
+  document.addEventListener("mouseup", () => { if (!isResizing) return; isResizing = false; handle.classList.remove("dragging"); document.body.style.cursor = ""; document.body.style.userSelect = ""; });
+</script>
+
+</main>
+</body>
+</html>
