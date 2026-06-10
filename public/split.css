@@ -1,0 +1,226 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green: #4a7c59;
+  --green-dark: #2f5240;
+  --cream: #FFC107;
+  --dark: #1a1a1a;
+  --red: #cc0000;
+}
+
+body {
+  font-family: 'Lora', serif;
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+}
+
+/* ── FUNDAL BW ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1400&q=80') center/cover no-repeat;
+  filter: grayscale(100%) brightness(0.3);
+  z-index: 0;
+}
+
+/* ── HEADER ── */
+header {
+  position: relative;
+  z-index: 10;
+  padding: 6px 2px;
+
+}
+header a { text-decoration: none; }
+header h1 {
+  font-family: 'Oswald', sans-serif;
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+}
+
+/* ── SPLIT VIEW ── */
+#split-view {
+  position: relative;
+  z-index: 2;
+  padding: 0 48px 60px;
+}
+
+h1 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 32px;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+/* ── MUSCLE GRID ── */
+.muscle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.muscle-card {
+  background: var(--red);
+  padding: 24px 20px;
+}
+
+h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(255,255,255,0.2);
+}
+
+.exercise-item {
+  margin-bottom: 14px;
+}
+
+.exercise-item .ex-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 6px;
+}
+
+.see-btn {
+  display: inline-block;
+  background: var(--dark);
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.see-btn:hover { background: var(--green-dark); }
+
+/* ── EXERCISE DETAIL ── */
+.exercise-detail {
+  display: none;
+  position: relative;
+  z-index: 2;
+  padding: 0 48px 60px;
+}
+.exercise-detail.active { display: block; }
+
+
+
+.detail-card {
+  background: var(--red);
+  padding: 40px 36px;
+  margin-top: 8px;
+}
+
+.exercise-detail h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 28px;
+  letter-spacing: 1px;
+}
+
+.detail-line {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 10px;
+}
+
+.detail-line span {
+  font-family: 'Lora', serif;
+  font-weight: 400;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #fff;
+  font-size: 1rem;
+}
+
+/* ── GIF BOX ── */
+.gif-box {
+  margin-top: 28px;
+  background: #fff;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#gif-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+#exercise-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #fff;
+}
+
+/* ── BACK BUTTON ── */
+.back-btn {
+  display: inline-block;
+  background: none;
+  border: 2px solid rgba(255,255,255,0.5);
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  cursor: pointer;
+  margin-bottom: 24px;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+.back-btn:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: #fff;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  #split-view, .exercise-detail { padding: 0 20px 48px; }
+  header { padding: 24px 20px; }
+  .muscle-grid { grid-template-columns: 1fr; }
+  .gif-box { width: 100%; }
+}
+
+.logo { height: 75px; width: auto; display: block; }

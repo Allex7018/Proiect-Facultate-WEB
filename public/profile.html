@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GymTips - Profil</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dashboard.css">
+<link rel="stylesheet" href="profile.css">
+
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <img src="poze/logo.png" alt="GymTips" class="sidebar-logo">
+    <span class="sidebar-title">GymTips</span>
+    <button class="hamburger-btn" onclick="toggleSidebar()" title="Deschide/Închide meniu" aria-label="Toggle meniu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="profile.html" class="nav-item active">
+      <span class="nav-label">Profil</span>
+    </a>
+    <a href="Workoutlog.html" class="nav-item">
+      <span class="nav-label">Workout Log</span>
+    </a>
+    <a href="nutritie.html" class="nav-item">
+      <span class="nav-label">Ghid de nutriție</span>
+    </a>
+    <a href="saincepem.html" class="nav-item">
+      <span class="nav-label">Recomandări personalizate</span>
+    </a>
+  </nav>
+  <div class="sidebar-resize" id="resizeHandle"></div>
+</aside>
+
+<main class="main-content" id="mainContent">
+  <div class="profile-bg"></div>
+  <div class="profile-welcome-banner" id="profileWelcome"></div>
+  <div class="profile-wrapper">
+    <div class="profile-card">
+
+      <div class="profile-top-bar">
+        <span class="profile-page-title">Profilul meu</span>
+      </div>
+
+      <div class="avatar-section">
+        <div class="avatar-ring">
+          <img src="" alt="Avatar" class="avatar-img" id="avatarImg">
+          <div class="avatar-placeholder" id="avatarPlaceholder">
+            <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="40" cy="28" r="16" fill="#bbb"/>
+              <ellipse cx="40" cy="68" rx="26" ry="16" fill="#bbb"/>
+            </svg>
+          </div>
+        </div>
+        <label class="change-pfp-btn" for="pfpInput">✎ Schimbă poza</label>
+        <input type="file" id="pfpInput" accept="image/*" style="display:none" onchange="changePfp(event)">
+      </div>
+
+      <div class="profile-info">
+        <div class="info-row">
+          <span class="info-icon">👤</span>
+          <div class="info-text">
+            <span class="info-label">Username</span>
+            <span class="info-value" id="displayUsername">—</span>
+          </div>
+        </div>
+        <div class="info-divider"></div>
+        <div class="info-row">
+          <span class="info-icon">✉</span>
+          <div class="info-text">
+            <span class="info-label">Email</span>
+            <span class="info-value" id="displayEmail">—</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="logout-btn" onclick="handleLogout()">
+        ⏻ &nbsp;Log out
+      </button>
+
+    </div>
+  </div>
+</main>
+
+<script>
+  let collapsed = false;
+  const MIN_W = 52;
+  const DEFAULT_W = 260;
+
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const main = document.getElementById("mainContent");
+    const banner = document.getElementById("profileWelcome");
+    collapsed = !collapsed;
+    const w = collapsed ? MIN_W : DEFAULT_W;
+    sidebar.style.width = w + "px";
+    sidebar.classList.toggle("collapsed", collapsed);
+    main.style.marginLeft = w + "px";
+    if (banner) banner.style.left = w + "px";
+  }
+
+  const handle = document.getElementById("resizeHandle");
+  let isResizing = false;
+
+  handle.addEventListener("mousedown", (e) => {
+    isResizing = true;
+    handle.classList.add("dragging");
+    document.body.style.cursor = "ew-resize";
+    document.body.style.userSelect = "none";
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (!isResizing) return;
+    const sidebar = document.getElementById("sidebar");
+    const main = document.getElementById("mainContent");
+    const banner = document.getElementById("profileWelcome");
+    let newW = e.clientX;
+    if (newW < MIN_W) newW = MIN_W;
+    if (newW > 480) newW = 480;
+    sidebar.style.width = newW + "px";
+    main.style.marginLeft = newW + "px";
+    if (banner) banner.style.left = newW + "px";
+    if (newW <= MIN_W + 20) {
+      sidebar.classList.add("collapsed");
+      collapsed = true;
+    } else {
+      sidebar.classList.remove("collapsed");
+      collapsed = false;
+    }
+  });
+
+  document.addEventListener("mouseup", () => {
+    if (isResizing) {
+      isResizing = false;
+      handle.classList.remove("dragging");
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+    }
+  });
+
+  const username = localStorage.getItem('gymtips_username') || 'Utilizator';
+  let email = localStorage.getItem('gymtips_email') || 'email@gmail.com';
+  // Fix duplicated email bug (e.g. "a@b.coma@b.com")
+  const half = Math.floor(email.length / 2);
+  if (email.length % 2 === 0 && email.slice(0, half) === email.slice(half)) {
+    email = email.slice(0, half);
+    localStorage.setItem('gymtips_email', email);
+  }
+  document.getElementById('displayUsername').textContent = username;
+  document.getElementById('displayEmail').textContent = email;
+  document.getElementById('profileWelcome').textContent = 'Bun venit, ' + username + '!';
+
+  const savedPfp = localStorage.getItem('gymtips_pfp');
+  if (savedPfp) {
+    document.getElementById('avatarImg').src = savedPfp;
+    document.getElementById('avatarImg').style.display = 'block';
+    document.getElementById('avatarPlaceholder').style.display = 'none';
+  }
+
+  function changePfp(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const src = e.target.result;
+      document.getElementById('avatarImg').src = src;
+      document.getElementById('avatarImg').style.display = 'block';
+      document.getElementById('avatarPlaceholder').style.display = 'none';
+      localStorage.setItem('gymtips_pfp', src);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('gymtips_username');
+    localStorage.removeItem('gymtips_email');
+    localStorage.removeItem('gymtips_pfp');
+    window.location.href = 'login.html';
+  }
+</script>
+</body>
+</html>

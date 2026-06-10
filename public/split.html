@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GymTips - Split</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dashboard.css">
+<link rel="stylesheet" href="split.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <img src="poze/logo.png" alt="GymTips" class="sidebar-logo">
+    <span class="sidebar-title">GymTips</span>
+    <button class="hamburger-btn" onclick="toggleSidebar()" title="Deschide/Închide meniu" aria-label="Toggle meniu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="profile.html" class="nav-item">
+      <span class="nav-label">Profil</span>
+    </a>
+    <a href="Workoutlog.html" class="nav-item">
+      <span class="nav-label">Workout Log</span>
+    </a>
+    <a href="nutritie.html" class="nav-item">
+      <span class="nav-label">Ghid de nutriție</span>
+    </a>
+    <a href="saincepem.html" class="nav-item active">
+      <span class="nav-label">Recomandări personalizate</span>
+    </a>
+  </nav>
+  <div class="sidebar-resize" id="resizeHandle"></div>
+</aside>
+
+<main class="main-content" id="mainContent">
+
+<!-- SPLIT VIEW -->
+<div id="split-view">
+  <h1 id="split-title">O zi de push:</h1>
+  <div class="muscle-grid" id="muscle-grid"></div>
+  <div style="text-align:center; margin-top: 8px;">
+    <a href="saincepem.html" class="back-btn" style="text-decoration:none;">← Înapoi</a>
+  </div>
+</div>
+
+<!-- EXERCISE DETAIL VIEW -->
+<div id="detail-view" class="exercise-detail">
+  <button class="back-btn" onclick="showSplit()">← Înapoi</button>
+  <div class="detail-card">
+    <h2 id="detail-title"></h2>
+    <div class="detail-line">Cum se face: <span id="detail-cum"></span></div>
+    <div class="detail-line">Greutate: <span id="detail-greutate"></span></div>
+    <div class="detail-line">Serii: <span id="detail-serii"></span></div>
+    <div class="detail-line">Link: <span id="detail-link"></span></div>
+    <div class="gif-box" id="gif-box">
+      <img id="exercise-gif" src="" alt="" style="display:none; width:100%; height:100%; object-fit:contain;">
+      <span id="gif-placeholder">gif cu exercițiul</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const exerciseGifs = {
+    'Triceps pushdown': 'gifs/triceps-pushdown.gif',
+    'Overhead triceps extension': 'gifs/Cable-Rope-Overhead-Triceps-Extension.gif',
+    'Bench press': 'gifs/Barbell-Bench-Press.gif',
+    'Machine chest fly': 'gifs/Lying-Cable-Fly.gif',
+    'Incline chest press': 'gifs/Incline-Dumbbell-Press.gif',
+    'Shoulder press': 'gifs/Dumbbell-Shoulder-Press.gif',
+    'Lateral raise': 'gifs/Dumbbell-Lateral-Raise.gif',
+    'Lat pulldown': 'gifs/Lat-Pulldown.gif',
+    'Seated cable rows': 'gifs/Seated-Cable-Row.gif',
+    'Hammer curl': 'gifs/Hammer-Curl.gif',
+    'Squat': 'gifs/squat.gif',
+    'Deadlift': 'gifs/Barbell-Deadlift.gif',
+    'Leg press': 'gifs/Leg-Press.gif',
+    'Leg extension': 'gifs/LEG-EXTENSION.gif',
+  };
+
+  const ex = {
+    machineFly: { name: 'Machine chest fly', cum: 'Stai cu spatele lipit de aparat si aduci bratele in fata controlat, fara sa lovesti greutatile.', greutate: '10-15 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=machine+chest+fly+tutorial' },
+    inclinePress: { name: 'Incline chest press', cum: 'Impinge din piept pe banca inclinata sau la aparat, cu coatele usor sub nivelul umerilor.', greutate: '6-10 repetari', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=incline+chest+press+tutorial' },
+    shoulderPress: { name: 'Shoulder press', cum: 'Impinge ganterele sau manerele deasupra capului, fara sa arcuiesti excesiv spatele.', greutate: '6-10 repetari', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=shoulder+press+tutorial' },
+    lateralRaise: { name: 'Lateral raise', cum: 'Ridica ganterele lateral pana aproape de nivelul umerilor, cu miscarea controlata.', greutate: '12-20 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=lateral+raise+tutorial' },
+    tricepsPushdown: { name: 'Triceps pushdown', cum: 'Tine coatele lipite de corp si impinge bara sau sfoara in jos pana intinzi tricepsul.', greutate: '10-15 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=triceps+pushdown+tutorial' },
+    overheadTriceps: { name: 'Overhead triceps extension', cum: 'Din pozitie stabila, intinde bratele deasupra capului si coboara controlat in spate.', greutate: '10-15 repetari', serii: '2-3 serii', link: 'https://www.youtube.com/results?search_query=overhead+triceps+extension+tutorial' },
+    latPulldown: { name: 'Lat pulldown', cum: 'Trage bara spre partea de sus a pieptului, cu pieptul sus si omoplatii stransi.', greutate: '8-12 repetari', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=lat+pulldown+tutorial' },
+    tbarRows: { name: 'T-bar rows', cum: 'Trage manerul spre abdomen, tine trunchiul stabil si strange omoplatii la final.', greutate: '8-12 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=t+bar+row+tutorial' },
+    seatedRows: { name: 'Seated cable rows', cum: 'Trage manerul spre abdomen si controleaza revenirea fara sa te lasi tras in fata.', greutate: '8-12 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=seated+cable+row+tutorial' },
+    preacherCurl: { name: 'Preacher curl', cum: 'Sprijina bratele pe banca si flexeaza bicepsul fara sa ridici coatele.', greutate: '8-12 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=preacher+curl+tutorial' },
+    hammerCurl: { name: 'Hammer curl', cum: 'Tine ganterele cu priza neutra si ridica-le controlat, fara balans.', greutate: '10-12 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=hammer+curl+tutorial' },
+    legPress: { name: 'Leg press', cum: 'Coboara platforma controlat si impinge prin toata talpa, fara sa blochezi agresiv genunchii.', greutate: '8-12 repetari', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=leg+press+tutorial' },
+    legExtension: { name: 'Leg extension', cum: 'Intinde genunchii pana contracti cvadricepsul, apoi coboara lent.', greutate: '10-15 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=leg+extension+tutorial' },
+    legCurl: { name: 'Leg curl', cum: 'Flexeaza genunchii controlat si strange femuralii la finalul miscarii.', greutate: '10-15 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=leg+curl+tutorial' },
+    calfRaise: { name: 'Calf raise', cum: 'Ridica-te pe varfuri, fa pauza sus si coboara complet pentru amplitudine.', greutate: '12-20 repetari', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=calf+raise+tutorial' },
+    benchPress: { name: 'Bench press', cum: 'Coboara bara controlat la piept si impinge in sus pastrand umerii stransi.', greutate: '6-10 repetari', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=bench+press+tutorial' },
+    squat: { name: 'Squat', cum: 'Coboara cu spatele drept pana la paralel sau mai jos, apoi impinge prin talpa.', greutate: '6-10 repetari', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=squat+tutorial' },
+    deadlift: { name: 'Deadlift', cum: 'Ridica bara de pe sol cu spatele neutru si soldurile impinse in fata la final.', greutate: '5-8 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=deadlift+tutorial' },
+  };
+
+  const pplGroups = [
+    { nume: 'Ziua 1 - Push', exercitii: [ex.inclinePress, ex.machineFly, ex.shoulderPress, ex.lateralRaise, ex.tricepsPushdown, ex.overheadTriceps] },
+    { nume: 'Ziua 2 - Pull', exercitii: [ex.latPulldown, ex.tbarRows, ex.seatedRows, ex.preacherCurl, ex.hammerCurl] },
+    { nume: 'Ziua 3 - Picioare', exercitii: [ex.legPress, ex.legExtension, ex.legCurl, ex.calfRaise] },
+  ];
+  const upperLowerGroups = [
+    { nume: 'Ziua 1 - Upper', exercitii: [ex.inclinePress, ex.machineFly, ex.latPulldown, ex.seatedRows, ex.shoulderPress, ex.lateralRaise, ex.tricepsPushdown, ex.hammerCurl] },
+    { nume: 'Ziua 2 - Picioare', exercitii: [ex.legPress, ex.legExtension, ex.legCurl, ex.calfRaise] },
+  ];
+  const fullBodyGroups = [
+    { nume: 'Ziua 1 - Full Body A', exercitii: [ex.squat, ex.benchPress, ex.latPulldown, ex.shoulderPress] },
+    { nume: 'Ziua 2 - Full Body B', exercitii: [ex.legPress, ex.seatedRows, ex.machineFly, ex.hammerCurl, ex.tricepsPushdown] },
+  ];
+  const fullBodyX3Groups = [
+    ...fullBodyGroups,
+    { nume: 'Ziua 3 - Full Body C', exercitii: [ex.deadlift, ex.inclinePress, ex.legExtension, ex.lateralRaise, ex.overheadTriceps] },
+  ];
+  const pplFullBodyGroups = [
+    ...pplGroups,
+    { nume: 'Ziua 4 - Full Body', exercitii: [ex.squat, ex.benchPress, ex.latPulldown, ex.legPress, ex.hammerCurl] },
+  ];
+  const pplPushPullGroups = [
+    ...pplGroups,
+    { nume: 'Ziua 4 - Push', exercitii: [ex.machineFly, ex.inclinePress, ex.shoulderPress, ex.tricepsPushdown] },
+    { nume: 'Ziua 5 - Pull', exercitii: [ex.latPulldown, ex.tbarRows, ex.seatedRows, ex.preacherCurl, ex.hammerCurl] },
+  ];
+  const pplX2Groups = [
+    ...pplGroups,
+    { nume: 'Ziua 4 - Push', exercitii: [ex.inclinePress, ex.machineFly, ex.shoulderPress, ex.lateralRaise, ex.tricepsPushdown, ex.overheadTriceps] },
+    { nume: 'Ziua 5 - Pull', exercitii: [ex.latPulldown, ex.tbarRows, ex.seatedRows, ex.preacherCurl, ex.hammerCurl] },
+    { nume: 'Ziua 6 - Picioare', exercitii: [ex.legPress, ex.legExtension, ex.legCurl, ex.calfRaise] },
+  ];
+  const pplArmUpperLowerGroups = [
+    ...pplGroups,
+    { nume: 'Ziua 4 - Brate', exercitii: [ex.tricepsPushdown, ex.overheadTriceps, ex.preacherCurl, ex.hammerCurl] },
+    { nume: 'Ziua 5 - Upper', exercitii: [ex.inclinePress, ex.machineFly, ex.latPulldown, ex.seatedRows, ex.shoulderPress, ex.lateralRaise] },
+    { nume: 'Ziua 6 - Picioare', exercitii: [ex.legPress, ex.legExtension, ex.legCurl, ex.calfRaise] },
+  ];
+  const arnoldGroups = [
+    { nume: 'Ziua 1 - Piept cu spate', exercitii: [ex.inclinePress, ex.machineFly, ex.latPulldown, ex.tbarRows, ex.seatedRows] },
+    { nume: 'Ziua 2 - Brate cu umeri', exercitii: [ex.shoulderPress, ex.lateralRaise, ex.tricepsPushdown, ex.overheadTriceps, ex.preacherCurl, ex.hammerCurl] },
+    { nume: 'Ziua 3 - Picioare', exercitii: [ex.legPress, ex.legExtension, ex.legCurl, ex.calfRaise] },
+  ];
+
+  const splitData = {
+    'Full Body x2': { title: 'Full Body x2', grupe: fullBodyGroups },
+    'Full Body x3': { title: 'Full Body x3', grupe: fullBodyX3Groups },
+    'Upper/Lower + Full Body': { title: 'Upper/Lower + Full Body', grupe: [...upperLowerGroups, { nume: 'Ziua 3 - Full Body', exercitii: fullBodyGroups[0].exercitii }] },
+    'Upper/Lower x2': { title: 'Upper/Lower x2', grupe: upperLowerGroups },
+    'PPL + Full Body': { title: 'PPL + Full Body', grupe: pplFullBodyGroups },
+    'PPL': { title: 'PPL', grupe: pplGroups },
+    'PPL + Push/Pull': { title: 'PPL + Push/Pull', grupe: pplPushPullGroups },
+    'PPL x2': { title: 'PPL x2', grupe: pplX2Groups },
+    'PPL + Arm Day + Upper/Lower': { title: 'PPL + Arm Day + Upper/Lower', grupe: pplArmUpperLowerGroups },
+    'Arnold Split + Legs': { title: 'Arnold Split + Legs', grupe: arnoldGroups },
+    'PPL/UL': { title: 'Upper/Lower + Full Body', grupe: [...upperLowerGroups, { nume: 'Ziua 3 - Full Body', exercitii: fullBodyGroups[0].exercitii }] },
+    'Full Body': { title: 'Full Body x2', grupe: fullBodyGroups },
+  };
+  const params = new URLSearchParams(window.location.search);
+  const splitName = params.get('split') || 'PPL/UL';
+  const data = splitData[splitName] || splitData['PPL/UL'];
+
+  document.getElementById('split-title').textContent = data.title + ':';
+
+  const grid = document.getElementById('muscle-grid');
+  grid.innerHTML = data.grupe.map(grupa => `
+    <div class="muscle-card">
+      <h3>${grupa.nume}</h3>
+      ${grupa.exercitii.map(ex => `
+        <div class="exercise-item">
+          <div class="ex-name">— ${ex.name}</div>
+          <button class="see-btn" onclick='showDetail(${JSON.stringify(ex)})'>Vezi mai mult</button>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+
+  function showDetail(ex) {
+    document.getElementById('split-view').style.display = 'none';
+    document.getElementById('detail-view').classList.add('active');
+    document.getElementById('detail-title').textContent = ex.name;
+    document.getElementById('detail-cum').textContent = ex.cum;
+    document.getElementById('detail-greutate').textContent = ex.greutate;
+    document.getElementById('detail-serii').textContent = ex.serii;
+    const url = ex.link.startsWith('http') ? ex.link : 'https://' + ex.link;
+    document.getElementById('detail-link').innerHTML = `<a href="${url}" target="_blank" style="color: #FFC107; text-decoration: underline; cursor: pointer;">${ex.link}</a>`;
+
+    const gifSrc = exerciseGifs[ex.name];
+    const gifImg = document.getElementById('exercise-gif');
+    const gifPlaceholder = document.getElementById('gif-placeholder');
+
+    if (gifSrc) {
+      gifImg.src = gifSrc;
+      gifImg.alt = ex.name;
+      gifImg.style.display = 'block';
+      gifPlaceholder.style.display = 'none';
+    } else {
+      gifImg.src = '';
+      gifImg.style.display = 'none';
+      gifPlaceholder.style.display = 'flex';
+    }
+  }
+
+  function showSplit() {
+    document.getElementById('split-view').style.display = 'block';
+    document.getElementById('detail-view').classList.remove('active');
+  }
+
+  /* ── SIDEBAR ── */
+  let collapsed = false;
+  const MIN_W = 52, DEFAULT_W = 260;
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const main = document.getElementById("mainContent");
+    collapsed = !collapsed;
+    sidebar.style.width = (collapsed ? MIN_W : DEFAULT_W) + "px";
+    main.style.marginLeft = (collapsed ? MIN_W : DEFAULT_W) + "px";
+    sidebar.classList.toggle("collapsed", collapsed);
+  }
+  const handle = document.getElementById("resizeHandle");
+  let isResizing = false;
+  handle.addEventListener("mousedown", () => { isResizing = true; handle.classList.add("dragging"); document.body.style.cursor = "ew-resize"; document.body.style.userSelect = "none"; });
+  document.addEventListener("mousemove", (e) => {
+    if (!isResizing) return;
+    const sidebar = document.getElementById("sidebar"); const main = document.getElementById("mainContent");
+    let w = Math.min(Math.max(e.clientX, MIN_W), 480);
+    sidebar.style.width = w + "px"; main.style.marginLeft = w + "px";
+    const col = w <= MIN_W + 20; sidebar.classList.toggle("collapsed", col); collapsed = col;
+  });
+  document.addEventListener("mouseup", () => { if (!isResizing) return; isResizing = false; handle.classList.remove("dragging"); document.body.style.cursor = ""; document.body.style.userSelect = ""; });
+</script>
+
+</main>
+</body>
+</html>
+

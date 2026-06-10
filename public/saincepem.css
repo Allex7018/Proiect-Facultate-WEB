@@ -1,0 +1,240 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green: #4a7c59;
+  --green-dark: #2f5240;
+  --cream: #FFC107;
+  --dark: #1a1a1a;
+  --red: #cc0000;
+}
+
+body {
+  font-family: 'Lora', serif;
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+}
+
+/* ── FUNDAL BW ── */
+.page-bg {
+  position: fixed;
+  inset: 0;
+  background: url('poze/fundal1.jpeg') center center / cover no-repeat;
+  filter: brightness(0.55);
+  z-index: 0;
+}
+
+/* header removed - using sidebar now */
+
+/* ── QUIZ WRAPPER — centrat vertical pe ecran ── */
+.quiz-wrapper {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 24px;
+  width: 100%;
+}
+
+/* ── STEPS ── */
+.step { display: none; width: 100%; max-width: 540px; }
+.step.active { display: block; }
+
+/* ── CARD ── */
+.step-card {
+  background: #cc0000;
+  padding: 36px 44px 40px;
+  position: relative;
+}
+.step-card--wide {
+  max-width: 640px;
+}
+
+.step-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: 4rem;
+  font-weight: 700;
+  color: rgba(0,0,0,0.15);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 28px;
+  line-height: 1.2;
+}
+
+/* ── FIELDS ── */
+.field {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  color: rgba(255,255,255,0.7);
+}
+
+select {
+  width: 100%;
+  font-family: 'Lora', serif;
+  font-size: 0.95rem;
+  background: #fff;
+  color: #1a1a1a;
+  border: none;
+  padding: 12px 14px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.row-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ── BUTTONS ── */
+.btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--dark);
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 14px 36px;
+  border: none;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background 0.2s;
+}
+.btn:hover { background: var(--green-dark); }
+
+.btn-back {
+  background: var(--dark);
+  color: #fff;
+  margin-top: 12px;
+}
+.btn-back:hover { background: var(--green-dark); color: #fff; }
+
+/* ── CARDS (step 3) ── */
+.cards {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.card {
+  background: #fff;
+  padding: 28px 24px;
+  min-width: 160px;
+  text-align: center;
+  flex: 1;
+}
+.card .tag {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--green-dark);
+  margin-bottom: 10px;
+}
+.card .name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 16px;
+}
+.arnold-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--dark);
+  font-family: 'Lora', serif;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: left;
+  margin: 0 0 16px;
+  cursor: pointer;
+}
+.arnold-option input {
+  width: auto;
+  margin-top: 2px;
+  cursor: pointer;
+}
+.card .see {
+  display: inline-block;
+  background: var(--dark);
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.card .see:hover { background: var(--green-dark); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 560px) {
+  .step-card { padding: 28px 20px; }
+  .row-inputs { grid-template-columns: 1fr; }
+}
+
+.logo { height: 75px; width: auto; display: block; }
+/* ── MANUAL INPUTS ── */
+input[type="number"],
+input[type="text"] {
+  width: 100%;
+  font-family: 'Lora', serif;
+  font-size: 0.95rem;
+  background: #fff;
+  color: #1a1a1a;
+  border: none;
+  padding: 12px 14px;
+  outline: none;
+  border-radius: 0;
+  -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"]::placeholder,
+input[type="text"]::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+input[type="number"]:focus,
+input[type="text"]:focus {
+  outline: 2px solid rgba(255,255,255,0.6);
+  outline-offset: 1px;
+}
