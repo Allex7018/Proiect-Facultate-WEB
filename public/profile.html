@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="dashboard.css">
 <link rel="stylesheet" href="profile.css">
-
 </head>
 <body>
 
@@ -66,21 +65,29 @@
         <div class="info-row">
           <span class="info-icon">👤</span>
           <div class="info-text">
-            <span class="info-label">Username</span>
-            <span class="info-value" id="displayUsername">—</span>
+            <span class="info-label" style="color: #000000 !important; font-weight: bold; font-size: 0.75rem; letter-spacing: 2px;">Username</span>
+            <span class="info-value" id="displayUsername" style="color: #000000 !important; font-weight: bold;">—</span>
           </div>
         </div>
         <div class="info-divider"></div>
         <div class="info-row">
           <span class="info-icon">✉</span>
           <div class="info-text">
-            <span class="info-label">Email</span>
-            <span class="info-value" id="displayEmail">—</span>
+            <span class="nav-label" style="color: #000000 !important; font-weight: bold; font-size: 0.75rem; letter-spacing: 2px;">Email</span>
+            <span class="info-value" id="displayEmail" style="color: #000000 !important; font-weight: bold;">—</span>
           </div>
         </div>
       </div>
 
-      <button class="logout-btn" onclick="handleLogout()">
+      <div id="recommendations-box" style="display: none; margin-top: 25px; padding: 20px; background: rgba(255, 255, 255, 0.03); border-left: 4px solid #ffcc00; border-radius: 4px; text-align: left;">
+        <h3 style="margin: 0 0 12px 0; font-family: 'Oswald', sans-serif; font-size: 1.1rem; color: #ffcc00; letter-spacing: 0.5px; text-transform: uppercase;">
+          💡 Sugestii de Progres (Smart Coach)
+        </h3>
+        <ul id="recommendations-list" style="margin: 0; padding-left: 20px; font-family: 'Lora', serif; font-size: 0.95rem; line-height: 1.6; color: #e0e0e0;">
+          </ul>
+      </div>
+
+      <button class="logout-btn" onclick="handleLogout()" style="margin-top: 25px;">
         ⏻ &nbsp;Log out
       </button>
 
@@ -144,18 +151,105 @@
     }
   });
 
-  const username = localStorage.getItem('gymtips_username') || 'Utilizator';
-  let email = localStorage.getItem('gymtips_email') || 'email@gmail.com';
-  // Fix duplicated email bug (e.g. "a@b.coma@b.com")
-  const half = Math.floor(email.length / 2);
-  if (email.length % 2 === 0 && email.slice(0, half) === email.slice(half)) {
-    email = email.slice(0, half);
-    localStorage.setItem('gymtips_email', email);
+  // ── CITIRE DATE DIN SESSION STORAGE ──
+  const gymUserSession = sessionStorage.getItem('gymuser');
+  let username = 'Utilizator';
+  let email = 'exemplu@email.com';
+
+  if (gymUserSession) {
+    const userData = JSON.parse(gymUserSession);
+    username = userData.name || 'Utilizator';
+    email = userData.email || 'cont@gymtips.ro'; 
+  } else {
+    window.location.href = 'login.html';
   }
+
   document.getElementById('displayUsername').textContent = username;
   document.getElementById('displayEmail').textContent = email;
   document.getElementById('profileWelcome').textContent = 'Bun venit, ' + username + '!';
 
+  // ── LOGICĂ SMART COACH COMPLETĂ (CREȘTERE / SCĂDERE GREUTATE) ──
+  if (gymUserSession) {
+    const userData = JSON.parse(gymUserSession);
+    const userId = userData.id;
+
+    fetch(`/api/profile?user_id=${userId}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data || !data.profile) return;
+        
+        const scopLower = data.profile.scop.toLowerCase();
+        
+        // Stabilim pragurile minime și maxime conform cerințelor tale
+        let repsMinime = 10;
+        let repsMaxime = 12; 
+
+        if (scopLower.includes('masă') || scopLower.includes('masa') || scopLower.includes('musculară') || scopLower.includes('musculara')) {
+          repsMinime = 8;
+          repsMaxime = 10;
+        } else if (scopLower.includes('slăbit') || scopLower.includes('slabit') || scopLower.includes('slabire') || scopLower.includes('refacere') || scopLower.includes('recuperare')) {
+          repsMinime = 10;
+          repsMaxime = 12;
+        } else if (scopLower.includes('forță') || scopLower.includes('forta')) {
+          repsMinime = 6;
+          repsMaxime = 6;
+        }
+
+        const logs = JSON.parse(localStorage.getItem('gymtips_workoutlog') || '[]');
+        if (logs.length === 0) return;
+
+        const ultimulAntrenamentPerExercitiu = {};
+        logs.forEach(log => {
+          ultimulAntrenamentPerExercitiu[log.exercise] = log;
+        });
+
+        const listaSugestii = document.getElementById('recommendations-list');
+        const boxSugestii = document.getElementById('recommendations-box');
+        let areSugestii = false;
+
+        if (listaSugestii && boxSugestii) {
+          listaSugestii.innerHTML = ''; 
+
+          for (const exercitiu in ultimulAntrenamentPerExercitiu) {
+            const fisierLog = ultimulAntrenamentPerExercitiu[exercitiu];
+            if (!fisierLog.sets || fisierLog.sets.length === 0) continue;
+
+            let sumaRepetari = 0;
+            fisierLog.sets.forEach(set => {
+              const r = parseInt(set.reps || set.rep || set || 0);
+              sumaRepetari += r;
+            });
+            const mediaRepetariUltimulMeci = sumaRepetari / fisierLog.sets.length;
+
+            // 1. Verificare pentru CREȘTERE (dacă media depășește pragul maxim)
+            if (mediaRepetariUltimulMeci > repsMaxime) {
+              areSugestii = true;
+              const li = document.createElement('li');
+              li.style.marginBottom = '10px';
+              li.style.color = '#85ff7a'; // Verde pentru progres / creștere
+              li.innerHTML = `💪 Poți să <strong>crești</strong> greutatea la exercițiul <strong>${exercitiu}</strong>! (Media recentă: ${mediaRepetariUltimulMeci.toFixed(1)} repetiții vs. maximul indicat de ${repsMaxime}).`;
+              listaSugestii.appendChild(li);
+            } 
+            // 2. Verificare pentru SCĂDERE (dacă media pică sub pragul minim)
+            else if (mediaRepetariUltimulMeci < repsMinime) {
+              areSugestii = true;
+              const li = document.createElement('li');
+              li.style.marginBottom = '10px';
+              li.style.color = '#ff7a7a'; // Roșu/Portocaliu pentru avertizare/scădere
+              li.innerHTML = `⚠️ Se recomandă să <strong>scazi</strong> greutatea la exercițiul <strong>${exercitiu}</strong>! (Media recentă: ${mediaRepetariUltimulMeci.toFixed(1)} repetiții este sub minimul necesar de ${repsMinime}).`;
+              listaSugestii.appendChild(li);
+            }
+          }
+
+          if (areSugestii) {
+            boxSugestii.style.display = 'block';
+          }
+        }
+      })
+      .catch(err => console.error("Eroare Smart Coach:", err));
+  }
+
+  // ── GESTIONARE AVATAR ──
   const savedPfp = localStorage.getItem('gymtips_pfp');
   if (savedPfp) {
     document.getElementById('avatarImg').src = savedPfp;
@@ -178,6 +272,7 @@
   }
 
   function handleLogout() {
+    sessionStorage.removeItem('gymuser'); 
     localStorage.removeItem('gymtips_username');
     localStorage.removeItem('gymtips_email');
     localStorage.removeItem('gymtips_pfp');

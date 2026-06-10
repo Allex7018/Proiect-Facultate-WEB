@@ -134,8 +134,7 @@
       });
       const data = await res.json();
       if (!res.ok) { showMsg('login-msg', 'error', data.error); return; }
-
-      sessionStorage.setItem('gymuser', JSON.stringify({ id: data.id, name: data.name }));
+      sessionStorage.setItem('gymuser', JSON.stringify({ id: data.id, name: data.name, email: data.email }));
       showMsg('login-msg', 'success', 'Autentificare reușită! Bun venit, ' + data.name + '!');
       setTimeout(() => { window.location.href = 'profile.html'; }, 1200);
     } catch (err) {
