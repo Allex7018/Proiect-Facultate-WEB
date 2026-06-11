@@ -216,6 +216,8 @@
 
     // Banner scop
     const p = data.params;
+    sessionStorage.setItem('rec_serii', p.serii);
+    sessionStorage.setItem('rec_reps', p.rep);
     document.getElementById('scop-banner').innerHTML =
       `🎯 ${scop}: ${p.serii} serii × ${p.rep} rep &nbsp;—&nbsp; <span style="color:#fff;text-transform:none;font-family:Lora,serif;font-style:italic;letter-spacing:0;">${p.nota}</span>`;
 

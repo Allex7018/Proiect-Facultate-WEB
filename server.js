@@ -43,6 +43,18 @@ async function initDB() {
       FOREIGN KEY(user_id) REFERENCES users(id)
     )
   `);
+  // 3. Tabel pentru WORKOUT LOGS
+  db.run(`
+    CREATE TABLE IF NOT EXISTS workout_logs (
+      id         INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id    INTEGER NOT NULL,
+      muscle     TEXT NOT NULL,
+      exercise   TEXT NOT NULL,
+      date       TEXT NOT NULL,
+      sets       TEXT NOT NULL,
+      FOREIGN KEY(user_id) REFERENCES users(id)
+    )
+  `);
 
   saveDB();
   console.log('✅ Baza de date și tabelele au fost inițializate.');
@@ -153,7 +165,8 @@ app.post('/api/split', (req, res) => {
     1: [{ name: 'Full Body Expres', descriere: 'O singură sesiune intensă pentru a stimula tot corpul.' }],
     2: [{ name: 'Full Body 2x', descriere: 'Ideal pentru frecvență ridicată și timp limitat de antrenament.' }],
     3: [
-      { name: 'PPL/UL', descriere: 'Împărțire clasică Push/Pull/Legs comprimată eficient.' },
+      // Am modificat aici din 'PPL/UL' în 'Upper/Lower + Full Body'
+      { name: 'Upper/Lower + Full Body', descriere: 'Două zile dedicate segmentelor și o zi pentru tot corpul.' },
       { name: 'Full Body 3x', descriere: 'Stimularea întregului corp de trei ori pe săptămână, perfect pentru progres.' }
     ],
     4: [
@@ -223,7 +236,53 @@ app.get('/api/profile', (req, res) => {
     return res.status(500).json({ error: 'Eroare la încărcarea profilului.' });
   }
 });
+/* ══════════════════════════════════════
+   WORKOUT LOG: Salvare și Preluare
+══════════════════════════════════════ */
+app.post('/api/workoutlog', (req, res) => {
+  const { user_id, muscle, exercise, date, sets } = req.body;
+  if (!user_id || !muscle || !exercise || !date || !sets) {
+    return res.status(400).json({ error: 'Date incomplete.' });
+  }
+  
+  try {
+    // Salvăm 'sets' ca text JSON (ex: "[{reps:10, kg:50}]") pentru a intra corect în SQLite
+    db.run(`
+      INSERT INTO workout_logs (user_id, muscle, exercise, date, sets)
+      VALUES (?, ?, ?, ?, ?)
+    `, [user_id, muscle, exercise, date, JSON.stringify(sets)]);
+    
+    saveDB();
+    return res.status(201).json({ message: 'Antrenament salvat în DB!' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Eroare la salvare.' });
+  }
+});
 
+app.get('/api/workoutlog', (req, res) => {
+  const { user_id } = req.query;
+  if (!user_id) return res.status(400).json({ error: 'Lipsește ID-ul.' });
+
+  try {
+    const result = db.exec('SELECT * FROM workout_logs WHERE user_id = ? ORDER BY id ASC', [user_id]);
+    if (result.length === 0 || result[0].values.length === 0) {
+      return res.json({ logs: [] });
+    }
+    
+    const cols = result[0].columns;
+    const logs = result[0].values.map(row => {
+      const obj = Object.fromEntries(cols.map((c, i) => [c, row[i]]));
+      obj.sets = JSON.parse(obj.sets); // Transformăm înapoi textul în array pentru Frontend
+      return obj;
+    });
+    
+    return res.json({ logs });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Eroare la preluare DB.' });
+  }
+});
 /* ── Pornire server ── */
 const PORT = 3000;
 initDB().then(() => {

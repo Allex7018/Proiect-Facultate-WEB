@@ -195,56 +195,67 @@
           repsMaxime = 6;
         }
 
-        const logs = JSON.parse(localStorage.getItem('gymtips_workoutlog') || '[]');
-        if (logs.length === 0) return;
+        
+        // Preluăm antrenamentele din baza de date pentru utilizatorul curent
+        fetch(`/api/workoutlog?user_id=${userId}`)
+          .then(resLog => resLog.json())
+          .then(dataLog => {
+            const logs = dataLog.logs || [];
+            if (logs.length === 0) return;
 
-        const ultimulAntrenamentPerExercitiu = {};
-        logs.forEach(log => {
-          ultimulAntrenamentPerExercitiu[log.exercise] = log;
-        });
-
-        const listaSugestii = document.getElementById('recommendations-list');
-        const boxSugestii = document.getElementById('recommendations-box');
-        let areSugestii = false;
-
-        if (listaSugestii && boxSugestii) {
-          listaSugestii.innerHTML = ''; 
-
-          for (const exercitiu in ultimulAntrenamentPerExercitiu) {
-            const fisierLog = ultimulAntrenamentPerExercitiu[exercitiu];
-            if (!fisierLog.sets || fisierLog.sets.length === 0) continue;
-
-            let sumaRepetari = 0;
-            fisierLog.sets.forEach(set => {
-              const r = parseInt(set.reps || set.rep || set || 0);
-              sumaRepetari += r;
+            const ultimulAntrenamentPerExercitiu = {};
+            logs.forEach(log => {
+              ultimulAntrenamentPerExercitiu[log.exercise] = log;
             });
-            const mediaRepetariUltimulMeci = sumaRepetari / fisierLog.sets.length;
 
-            // 1. Verificare pentru CREȘTERE (dacă media depășește pragul maxim)
-            if (mediaRepetariUltimulMeci > repsMaxime) {
-              areSugestii = true;
-              const li = document.createElement('li');
-              li.style.marginBottom = '10px';
-              li.style.color = '#85ff7a'; // Verde pentru progres / creștere
-              li.innerHTML = `💪 Poți să <strong>crești</strong> greutatea la exercițiul <strong>${exercitiu}</strong>! (Media recentă: ${mediaRepetariUltimulMeci.toFixed(1)} repetiții vs. maximul indicat de ${repsMaxime}).`;
-              listaSugestii.appendChild(li);
-            } 
-            // 2. Verificare pentru SCĂDERE (dacă media pică sub pragul minim)
-            else if (mediaRepetariUltimulMeci < repsMinime) {
-              areSugestii = true;
-              const li = document.createElement('li');
-              li.style.marginBottom = '10px';
-              li.style.color = '#ff7a7a'; // Roșu/Portocaliu pentru avertizare/scădere
-              li.innerHTML = `⚠️ Se recomandă să <strong>scazi</strong> greutatea la exercițiul <strong>${exercitiu}</strong>! (Media recentă: ${mediaRepetariUltimulMeci.toFixed(1)} repetiții este sub minimul necesar de ${repsMinime}).`;
-              listaSugestii.appendChild(li);
+            const listaSugestii = document.getElementById('recommendations-list');
+            const boxSugestii = document.getElementById('recommendations-box');
+            let areSugestii = false;
+
+            if (listaSugestii && boxSugestii) {
+              listaSugestii.innerHTML = ''; 
+
+              for (const exercitiu in ultimulAntrenamentPerExercitiu) {
+                const fisierLog = ultimulAntrenamentPerExercitiu[exercitiu];
+                
+                // Ne asigurăm că seturile sunt recunoscute ca listă (array)
+                const sets = typeof fisierLog.sets === 'string' ? JSON.parse(fisierLog.sets) : fisierLog.sets;
+
+                if (!sets || sets.length === 0) continue;
+
+                let sumaRepetari = 0;
+                sets.forEach(set => {
+                  const r = parseInt(set.reps || set.rep || set || 0);
+                  sumaRepetari += r;
+                });
+                const mediaRepetariUltimulMeci = sumaRepetari / sets.length;
+
+                // 1. Verificare pentru CREȘTERE (dacă media depășește pragul maxim)
+                if (mediaRepetariUltimulMeci > repsMaxime) {
+                  areSugestii = true;
+                  const li = document.createElement('li');
+                  li.style.marginBottom = '10px';
+                  li.style.color = '#85ff7a'; // Verde pentru progres / creștere
+                  li.innerHTML = `💪 Poți să <strong>crești</strong> greutatea la exercițiul <strong>${exercitiu}</strong>! (Media recentă: ${mediaRepetariUltimulMeci.toFixed(1)} repetiții vs. maximul indicat de ${repsMaxime}).`;
+                  listaSugestii.appendChild(li);
+                } 
+                // 2. Verificare pentru SCĂDERE (dacă media pică sub pragul minim)
+                else if (mediaRepetariUltimulMeci < repsMinime) {
+                  areSugestii = true;
+                  const li = document.createElement('li');
+                  li.style.marginBottom = '10px';
+                  li.style.color = '#ff7a7a'; // Roșu/Portocaliu pentru avertizare/scădere
+                  li.innerHTML = `⚠️ Se recomandă să <strong>scazi</strong> greutatea la exercițiul <strong>${exercitiu}</strong>! (Media recentă: ${mediaRepetariUltimulMeci.toFixed(1)} repetiții este sub minimul necesar de ${repsMinime}).`;
+                  listaSugestii.appendChild(li);
+                }
+              }
+
+              if (areSugestii) {
+                boxSugestii.style.display = 'block';
+              }
             }
-          }
-
-          if (areSugestii) {
-            boxSugestii.style.display = 'block';
-          }
-        }
+          })
+          .catch(err => console.error("Eroare la citirea antrenamentelor:", err));
       })
       .catch(err => console.error("Eroare Smart Coach:", err));
   }

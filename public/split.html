@@ -10,7 +10,6 @@
 </head>
 <body>
 
-<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <img src="poze/logo.png" alt="GymTips" class="sidebar-logo">
@@ -40,7 +39,6 @@
 
 <main class="main-content" id="mainContent">
 
-<!-- SPLIT VIEW -->
 <div id="split-view">
   <h1 id="split-title">O zi de push:</h1>
   <div class="muscle-grid" id="muscle-grid"></div>
@@ -49,7 +47,6 @@
   </div>
 </div>
 
-<!-- EXERCISE DETAIL VIEW -->
 <div id="detail-view" class="exercise-detail">
   <button class="back-btn" onclick="showSplit()">← Înapoi</button>
   <div class="detail-card">
@@ -77,94 +74,108 @@
     'Lat pulldown': 'gifs/Lat-Pulldown.gif',
     'Seated cable rows': 'gifs/Seated-Cable-Row.gif',
     'Hammer curl': 'gifs/Hammer-Curl.gif',
+    'Bicep Curl': 'gifs/Bicep-Curl.gif',
     'Squat': 'gifs/squat.gif',
     'Deadlift': 'gifs/Barbell-Deadlift.gif',
     'Leg press': 'gifs/Leg-Press.gif',
     'Leg extension': 'gifs/LEG-EXTENSION.gif',
+    'Preacher curl': 'gifs/Preacher-Curl.gif',
   };
 
   const ex = {
     machineFly: { name: 'Machine chest fly', cum: 'Stai cu spatele lipit de aparat si aduci bratele in fata controlat, fara sa lovesti greutatile.', greutate: '10-15 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=machine+chest+fly+tutorial' },
-    inclinePress: { name: 'Incline chest press', cum: 'Impinge din piept pe banca inclinata sau la aparat, cu coatele usor sub nivelul umerilor.', greutate: '6-10 repetari', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=incline+chest+press+tutorial' },
-    shoulderPress: { name: 'Shoulder press', cum: 'Impinge ganterele sau manerele deasupra capului, fara sa arcuiesti excesiv spatele.', greutate: '6-10 repetari', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=shoulder+press+tutorial' },
+    inclinePress: { name: 'Incline chest press', cum: 'Impinge din piept pe banca inclinata sau la aparat, cu coatele usor sub nivelul umerilor.', greutate: '6-10 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=incline+chest+press+tutorial' },
+    shoulderPress: { name: 'Shoulder press', cum: 'Impinge ganterele sau manerele deasupra capului, fara sa arcuiesti excesiv spatele.', greutate: '6-10 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=shoulder+press+tutorial' },
     lateralRaise: { name: 'Lateral raise', cum: 'Ridica ganterele lateral pana aproape de nivelul umerilor, cu miscarea controlata.', greutate: '12-20 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=lateral+raise+tutorial' },
     tricepsPushdown: { name: 'Triceps pushdown', cum: 'Tine coatele lipite de corp si impinge bara sau sfoara in jos pana intinzi tricepsul.', greutate: '10-15 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=triceps+pushdown+tutorial' },
     overheadTriceps: { name: 'Overhead triceps extension', cum: 'Din pozitie stabila, intinde bratele deasupra capului si coboara controlat in spate.', greutate: '10-15 repetari', serii: '2-3 serii', link: 'https://www.youtube.com/results?search_query=overhead+triceps+extension+tutorial' },
-    latPulldown: { name: 'Lat pulldown', cum: 'Trage bara spre partea de sus a pieptului, cu pieptul sus si omoplatii stransi.', greutate: '8-12 repetari', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=lat+pulldown+tutorial' },
+    latPulldown: { name: 'Lat pulldown', cum: 'Trage bara spre partea de sus a pieptului, cu pieptul sus si omoplatii stransi.', greutate: '8-12 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=lat+pulldown+tutorial' },
     tbarRows: { name: 'T-bar rows', cum: 'Trage manerul spre abdomen, tine trunchiul stabil si strange omoplatii la final.', greutate: '8-12 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=t+bar+row+tutorial' },
     seatedRows: { name: 'Seated cable rows', cum: 'Trage manerul spre abdomen si controleaza revenirea fara sa te lasi tras in fata.', greutate: '8-12 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=seated+cable+row+tutorial' },
     preacherCurl: { name: 'Preacher curl', cum: 'Sprijina bratele pe banca si flexeaza bicepsul fara sa ridici coatele.', greutate: '8-12 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=preacher+curl+tutorial' },
     hammerCurl: { name: 'Hammer curl', cum: 'Tine ganterele cu priza neutra si ridica-le controlat, fara balans.', greutate: '10-12 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=hammer+curl+tutorial' },
-    legPress: { name: 'Leg press', cum: 'Coboara platforma controlat si impinge prin toata talpa, fara sa blochezi agresiv genunchii.', greutate: '8-12 repetari', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=leg+press+tutorial' },
+    bicepCurl: { name: 'Bicep Curl', cum: 'Ține spatele drept și flexează brațele controlat, menținând coatele blocate pe lângă corp.', greutate: '8-12 repetări', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=bicep+curl+tutorial' },
+    legPress: { name: 'Leg press', cum: 'Coboara platforma controlat si impinge prin toata talpa, fara sa blochezi agresiv genunchii.', greutate: '8-12 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=leg+press+tutorial' },
     legExtension: { name: 'Leg extension', cum: 'Intinde genunchii pana contracti cvadricepsul, apoi coboara lent.', greutate: '10-15 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=leg+extension+tutorial' },
     legCurl: { name: 'Leg curl', cum: 'Flexeaza genunchii controlat si strange femuralii la finalul miscarii.', greutate: '10-15 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=leg+curl+tutorial' },
     calfRaise: { name: 'Calf raise', cum: 'Ridica-te pe varfuri, fa pauza sus si coboara complet pentru amplitudine.', greutate: '12-20 repetari', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=calf+raise+tutorial' },
-    benchPress: { name: 'Bench press', cum: 'Coboara bara controlat la piept si impinge in sus pastrand umerii stransi.', greutate: '6-10 repetari', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=bench+press+tutorial' },
-    squat: { name: 'Squat', cum: 'Coboara cu spatele drept pana la paralel sau mai jos, apoi impinge prin talpa.', greutate: '6-10 repetari', serii: '3-4 serii', link: 'https://www.youtube.com/results?search_query=squat+tutorial' },
+    benchPress: { name: 'Bench press', cum: 'Coboara bara controlat la piept si impinge in sus pastrand umerii stransi.', greutate: '6-10 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=bench+press+tutorial' },
+    squat: { name: 'Squat', cum: 'Coboara cu spatele drept pana la paralel sau mai jos, apoi impinge prin talpa.', greutate: '6-10 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=squat+tutorial' },
     deadlift: { name: 'Deadlift', cum: 'Ridica bara de pe sol cu spatele neutru si soldurile impinse in fata la final.', greutate: '5-8 repetari', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=deadlift+tutorial' },
+    romanianDeadlift: { name: 'Romanian deadlift', cum: 'Coboara bara pe langa picioare impingand bazinul inapoi pana simti intinderea in femurali.', greutate: '8-12 repetări', serii: '3 serii', link: 'https://www.youtube.com/results?search_query=romanian+deadlift+tutorial' },
   };
 
   const pplGroups = [
-    { nume: 'Ziua 1 - Push', exercitii: [ex.inclinePress, ex.machineFly, ex.shoulderPress, ex.lateralRaise, ex.tricepsPushdown, ex.overheadTriceps] },
-    { nume: 'Ziua 2 - Pull', exercitii: [ex.latPulldown, ex.tbarRows, ex.seatedRows, ex.preacherCurl, ex.hammerCurl] },
-    { nume: 'Ziua 3 - Picioare', exercitii: [ex.legPress, ex.legExtension, ex.legCurl, ex.calfRaise] },
+    { nume: 'Ziua 1 - Push', exercitii: [ex.inclinePress, ex.shoulderPress, ex.tricepsPushdown] },
+    { nume: 'Ziua 2 - Pull', exercitii: [ex.latPulldown, ex.tbarRows, ex.hammerCurl] },
+    { nume: 'Ziua 3 - Picioare', exercitii: [ex.squat, ex.legPress, ex.legExtension] },
   ];
   const upperLowerGroups = [
-    { nume: 'Ziua 1 - Upper', exercitii: [ex.inclinePress, ex.machineFly, ex.latPulldown, ex.seatedRows, ex.shoulderPress, ex.lateralRaise, ex.tricepsPushdown, ex.hammerCurl] },
-    { nume: 'Ziua 2 - Picioare', exercitii: [ex.legPress, ex.legExtension, ex.legCurl, ex.calfRaise] },
+    { nume: 'Ziua 1 - Upper', exercitii: [ex.benchPress, ex.seatedRows, ex.shoulderPress] },
+    { nume: 'Ziua 2 - Picioare', exercitii: [ex.squat, ex.romanianDeadlift, ex.legPress] },
   ];
   const fullBodyGroups = [
-    { nume: 'Ziua 1 - Full Body A', exercitii: [ex.squat, ex.benchPress, ex.latPulldown, ex.shoulderPress] },
-    { nume: 'Ziua 2 - Full Body B', exercitii: [ex.legPress, ex.seatedRows, ex.machineFly, ex.hammerCurl, ex.tricepsPushdown] },
+    { nume: 'Ziua 1 - Full Body A', exercitii: [ex.squat, ex.benchPress, ex.latPulldown] },
+    { nume: 'Ziua 2 - Full Body B', exercitii: [ex.legPress, ex.seatedRows, ex.tricepsPushdown] },
   ];
   const fullBodyX3Groups = [
     ...fullBodyGroups,
-    { nume: 'Ziua 3 - Full Body C', exercitii: [ex.deadlift, ex.inclinePress, ex.legExtension, ex.lateralRaise, ex.overheadTriceps] },
+    { nume: 'Ziua 3 - Full Body C', exercitii: [ex.deadlift, ex.inclinePress, ex.hammerCurl] },
   ];
   const pplFullBodyGroups = [
     ...pplGroups,
-    { nume: 'Ziua 4 - Full Body', exercitii: [ex.squat, ex.benchPress, ex.latPulldown, ex.legPress, ex.hammerCurl] },
+    { nume: 'Ziua 4 - Full Body', exercitii: [ex.squat, ex.benchPress, ex.latPulldown] },
   ];
   const pplPushPullGroups = [
     ...pplGroups,
-    { nume: 'Ziua 4 - Push', exercitii: [ex.machineFly, ex.inclinePress, ex.shoulderPress, ex.tricepsPushdown] },
-    { nume: 'Ziua 5 - Pull', exercitii: [ex.latPulldown, ex.tbarRows, ex.seatedRows, ex.preacherCurl, ex.hammerCurl] },
+    { nume: 'Ziua 4 - Push', exercitii: [ex.machineFly, ex.inclinePress, ex.shoulderPress] },
+    { nume: 'Ziua 5 - Pull', exercitii: [ex.latPulldown, ex.tbarRows, ex.seatedRows] },
   ];
   const pplX2Groups = [
     ...pplGroups,
-    { nume: 'Ziua 4 - Push', exercitii: [ex.inclinePress, ex.machineFly, ex.shoulderPress, ex.lateralRaise, ex.tricepsPushdown, ex.overheadTriceps] },
-    { nume: 'Ziua 5 - Pull', exercitii: [ex.latPulldown, ex.tbarRows, ex.seatedRows, ex.preacherCurl, ex.hammerCurl] },
-    { nume: 'Ziua 6 - Picioare', exercitii: [ex.legPress, ex.legExtension, ex.legCurl, ex.calfRaise] },
+    { nume: 'Ziua 4 - Push', exercitii: [ex.benchPress, ex.shoulderPress, ex.tricepsPushdown] },
+    { nume: 'Ziua 5 - Pull', exercitii: [ex.latPulldown, ex.seatedRows, ex.hammerCurl] },
+    { nume: 'Ziua 6 - Picioare', exercitii: [ex.squat, ex.legPress, ex.legExtension] },
   ];
   const pplArmUpperLowerGroups = [
     ...pplGroups,
-    { nume: 'Ziua 4 - Brate', exercitii: [ex.tricepsPushdown, ex.overheadTriceps, ex.preacherCurl, ex.hammerCurl] },
-    { nume: 'Ziua 5 - Upper', exercitii: [ex.inclinePress, ex.machineFly, ex.latPulldown, ex.seatedRows, ex.shoulderPress, ex.lateralRaise] },
-    { nume: 'Ziua 6 - Picioare', exercitii: [ex.legPress, ex.legExtension, ex.legCurl, ex.calfRaise] },
+    { nume: 'Ziua 4 - Brate', exercitii: [ex.tricepsPushdown, ex.overheadTriceps, ex.hammerCurl, ex.bicepCurl] },
+    { nume: 'Ziua 5 - Upper', exercitii: [ex.benchPress, ex.latPulldown, ex.shoulderPress] },
+    { nume: 'Ziua 6 - Picioare', exercitii: [ex.squat, ex.legPress, ex.legExtension] },
   ];
   const arnoldGroups = [
-    { nume: 'Ziua 1 - Piept cu spate', exercitii: [ex.inclinePress, ex.machineFly, ex.latPulldown, ex.tbarRows, ex.seatedRows] },
-    { nume: 'Ziua 2 - Brate cu umeri', exercitii: [ex.shoulderPress, ex.lateralRaise, ex.tricepsPushdown, ex.overheadTriceps, ex.preacherCurl, ex.hammerCurl] },
-    { nume: 'Ziua 3 - Picioare', exercitii: [ex.legPress, ex.legExtension, ex.legCurl, ex.calfRaise] },
+    { nume: 'Ziua 1 - Piept cu spate', exercitii: [ex.benchPress, ex.latPulldown, ex.seatedRows] },
+    { nume: 'Ziua 2 - Umeri cu brate', exercitii: [ex.shoulderPress, ex.hammerCurl, ex.tricepsPushdown] },
+    { nume: 'Ziua 3 - Picioare', exercitii: [ex.squat, ex.romanianDeadlift, ex.legPress] },
+  ];
+  /* Definire structură reală 5-day Bro Split */
+  const broSplitGroups = [
+    { nume: 'Ziua 1 - Piept', exercitii: [ex.benchPress, ex.inclinePress, ex.machineFly] },
+    { nume: 'Ziua 2 - Spate', exercitii: [ex.latPulldown, ex.seatedRows, ex.tbarRows] },
+    { nume: 'Ziua 3 - Umeri', exercitii: [ex.shoulderPress, ex.lateralRaise, ex.overheadTriceps] }, /* Folosim exercițiile definite existente */
+    { nume: 'Ziua 4 - Picioare', exercitii: [ex.squat, ex.legPress, ex.legExtension] },
+    { nume: 'Ziua 5 - Brațe (Biceps/Triceps)', exercitii: [ex.bicepCurl, ex.tricepsPushdown, ex.hammerCurl] },
   ];
 
+  /* Hartă splituri actualizată pentru a potrivi cu server.js */
   const splitData = {
-    'Full Body x2': { title: 'Full Body x2', grupe: fullBodyGroups },
-    'Full Body x3': { title: 'Full Body x3', grupe: fullBodyX3Groups },
-    'Upper/Lower + Full Body': { title: 'Upper/Lower + Full Body', grupe: [...upperLowerGroups, { nume: 'Ziua 3 - Full Body', exercitii: fullBodyGroups[0].exercitii }] },
-    'Upper/Lower x2': { title: 'Upper/Lower x2', grupe: upperLowerGroups },
-    'PPL + Full Body': { title: 'PPL + Full Body', grupe: pplFullBodyGroups },
+    'Full Body Expres': { title: 'Full Body Expres', grupe: [fullBodyGroups[0]] },
+    'Full Body 2x': { title: 'Full Body 2x', grupe: fullBodyGroups },
+    'Full Body 3x': { title: 'Full Body 3x', grupe: fullBodyX3Groups },
+    'Upper/Lower': { title: 'Upper/Lower', grupe: upperLowerGroups },
+    'PPL+Full': { title: 'PPL + Full Body', grupe: pplFullBodyGroups },
     'PPL': { title: 'PPL', grupe: pplGroups },
-    'PPL + Push/Pull': { title: 'PPL + Push/Pull', grupe: pplPushPullGroups },
     'PPL x2': { title: 'PPL x2', grupe: pplX2Groups },
-    'PPL + Arm Day + Upper/Lower': { title: 'PPL + Arm Day + Upper/Lower', grupe: pplArmUpperLowerGroups },
-    'Arnold Split + Legs': { title: 'Arnold Split + Legs', grupe: arnoldGroups },
-    'PPL/UL': { title: 'Upper/Lower + Full Body', grupe: [...upperLowerGroups, { nume: 'Ziua 3 - Full Body', exercitii: fullBodyGroups[0].exercitii }] },
-    'Full Body': { title: 'Full Body x2', grupe: fullBodyGroups },
+    'Arnold Split': { title: 'Arnold Split', grupe: arnoldGroups },
+    /* Înlocuit placeholder PPL cu structura reală Bro Split */
+    'Bro Split': { title: 'Bro Split', grupe: broSplitGroups },
+    'PPL/UL': { title: 'Upper/Lower + Full Body', grupe: [...upperLowerGroups, { nume: 'Ziua 3 - Full Body', exercitii: fullBodyGroups[0].exercitii }] }
   };
+
   const params = new URLSearchParams(window.location.search);
   const splitName = params.get('split') || 'PPL/UL';
   const data = splitData[splitName] || splitData['PPL/UL'];
+  
 
   document.getElementById('split-title').textContent = data.title + ':';
 
@@ -186,8 +197,20 @@
     document.getElementById('detail-view').classList.add('active');
     document.getElementById('detail-title').textContent = ex.name;
     document.getElementById('detail-cum').textContent = ex.cum;
-    document.getElementById('detail-greutate').textContent = ex.greutate;
-    document.getElementById('detail-serii').textContent = ex.serii;
+    
+    // Extragem valorile instant din memoria browserului
+    const recSerii = sessionStorage.getItem('rec_serii');
+    const recReps = sessionStorage.getItem('rec_reps');
+
+    // Dacă avem valori recomandate, le folosim, altfel punem ce e scris implicit
+    const afisareRepetari = recReps ? `${recReps} repetări` : ex.greutate;
+    const afisareSerii = recSerii ? `${recSerii} serii` : ex.serii;
+
+    // Actualizăm ecranul
+    document.getElementById('detail-greutate').textContent = afisareRepetari;
+    document.getElementById('detail-serii').textContent = afisareSerii;
+    
+    // ... (restul funcției rămâne la fel)
     const url = ex.link.startsWith('http') ? ex.link : 'https://' + ex.link;
     document.getElementById('detail-link').innerHTML = `<a href="${url}" target="_blank" style="color: #FFC107; text-decoration: underline; cursor: pointer;">${ex.link}</a>`;
 
@@ -239,4 +262,3 @@
 </main>
 </body>
 </html>
-

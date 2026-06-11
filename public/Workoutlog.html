@@ -9,7 +9,6 @@
 </head>
 <body>
 
-<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <img src="poze/logo.png" alt="GymTips" class="sidebar-logo">
@@ -37,20 +36,16 @@
   <div class="sidebar-resize" id="resizeHandle"></div>
 </aside>
 
-<!-- MAIN -->
 <main class="main-content" id="mainContent">
 
-  <!-- HERO -->
   <div class="workout-hero">
     <span class="hero-tag">Înregistrează progresul</span>
     <h1>Workout <em>Log</em></h1>
     <p>Alege grupa musculară, exercițiul și introdu seturile tale.</p>
   </div>
 
-  <!-- BODY -->
   <div class="workout-body">
 
-    <!-- VIEW 1: MUSCLE GROUPS -->
     <div id="view-muscles">
       <div class="section-title">Selectează grupa musculară</div>
       <div class="muscles-grid">
@@ -146,15 +141,13 @@
       </div>
     </div>
 
-    <!-- VIEW 2: EXERCISES -->
-    <div id="view-exercises">
+    <div id="view-exercises" style="display: none;">
       <button class="back-btn" onclick="showMuscles()">← Înapoi</button>
       <div class="section-title" id="exercises-title">Exerciții pentru piept</div>
       <div class="exercises-grid" id="exercises-grid"></div>
     </div>
 
-    <!-- VIEW 3: LOG FORM -->
-    <div id="view-log">
+    <div id="view-log" style="display: none;">
       <button class="back-btn" onclick="showExFromLog()">← Înapoi</button>
 
       <div class="log-header-card">
@@ -215,8 +208,7 @@
       </div>
     </div>
 
-    <!-- VIEW 4: PROGRESS -->
-    <div id="view-progress">
+    <div id="view-progress" style="display: none;">
       <button class="back-btn" onclick="showMuscles()">← Înapoi</button>
       <div class="section-title">Progresul tău</div>
       <div id="progress-content"></div>
@@ -225,318 +217,225 @@
   </div>
 </main>
 
-<!-- TOAST -->
 <div class="toast" id="toast">✓ &nbsp;Set salvat cu succes!</div>
 
 <script>
-/* ── DATA ── */
-const muscleData = {
-  piept: {
-    label: 'Piept',
-    emoji: '💪',
-    exercises: [
-      { name: 'Bench Press', desc: 'Exercițiu de bază pentru piept', emoji: '🏋️', gif: 'gifs/Barbell-Bench-Press.gif' },
-      { name: 'Machine Chest Fly', desc: 'Izolare pentru piept la aparat', emoji: 'MF', gif: 'gifs/Lying-Cable-Fly.gif' },
-      { name: 'Incline Chest Press', desc: 'Accent pe partea superioara a pieptului', emoji: 'IC', gif: 'gifs/Incline-Dumbbell-Press.gif' },
-      { name: 'Incline Dumbbell Press', desc: 'Porțiunea superioară a pieptului', emoji: '💪', gif: 'gifs/Incline-Dumbbell-Press.gif' },
-      { name: 'Cable Fly', desc: 'Izolare și definire', emoji: '〰️', gif: 'gifs/Lying-Cable-Fly.gif' },
-      { name: 'Push-Up', desc: 'Exercițiu cu greutatea corpului', emoji: '⬆️', gif: 'gifs/Push-Up.gif' },
-    ]
-  },
-  spate: {
-    label: 'Spate',
-    emoji: '🔙',
-    exercises: [
-      { name: 'Deadlift', desc: 'Exercițiu compus pentru spate total', emoji: '🏋️', gif: 'gifs/Barbell-Deadlift.gif' },
-      { name: 'Lat Pulldown', desc: 'Dorsal mare, amplitudine mare', emoji: '🔽', gif: 'gifs/Lat-Pulldown.gif' },
-      { name: 'T-Bar Rows', desc: 'Grosime pentru spate', emoji: 'TB', gif: '' },
-      { name: 'Seated Cable Row', desc: 'Densitate și grosime', emoji: '↔️', gif: 'gifs/Seated-Cable-Row.gif' },
-      { name: 'Pull-Up', desc: 'Greutatea corpului, spate complet', emoji: '⬆️', gif: 'gifs/Pull-up.gif' },
-    ]
-  },
-  picioare: {
-    label: 'Picioare',
-    emoji: '🦵',
-    exercises: [
-      { name: 'Squat', desc: 'Regele exercițiilor pentru picioare', emoji: '🦵', gif: 'gifs/squat.gif' },
-      { name: 'Leg Press', desc: 'Cvadricepși și ischiogambieri', emoji: '💺', gif: 'gifs/Leg-Press.gif' },
-      { name: 'Romanian Deadlift', desc: 'Ischiogambieri și fesieri', emoji: '🏋️', gif: 'gifs/Barbell-Romanian-Deadlift.gif' },
-      { name: 'Leg Extension', desc: 'Izolare cvadricepși', emoji: '〰️', gif: 'gifs/LEG-EXTENSION.gif' },
-      { name: 'Leg Curl', desc: 'Izolare femurali', emoji: 'LC', gif: '' },
-      { name: 'Calf Raise', desc: 'Gambe, control si amplitudine', emoji: 'CR', gif: '' },
-    ]
-  },
-  biceps: {
-    label: 'Biceps',
-    emoji: '💪',
-    exercises: [
-      { name: 'Preacher Curl', desc: 'Biceps izolat pe banca preacher', emoji: '💪', gif: '' },
-      { name: 'Bicep Curl', desc: 'Mișcare clasică pentru biceps', emoji: '💪', gif: 'gifs/Z-Bar-Curl.gif' },
-      { name: 'Hammer Curl', desc: 'Brahial și brahioradial', emoji: '🔨', gif: 'gifs/Hammer-Curl.gif' },
-    ]
-  },
-  triceps: {
-    label: 'Triceps',
-    emoji: '💥',
-    exercises: [
-      { name: 'Triceps Pushdown', desc: 'Izolare triceps la cablu', emoji: '💥', gif: 'gifs/triceps-pushdown.gif' },
-      { name: 'Overhead Triceps Ext.', desc: 'Cap lung de triceps', emoji: '⬆️', gif: 'gifs/Cable-Rope-Overhead-Triceps-Extension.gif' },
-    ]
-  },
-  umeri: {
-    label: 'Umeri',
-    emoji: '🏋️',
-    exercises: [
-      { name: 'Shoulder Press', desc: 'Exercițiu de bază pentru umeri', emoji: '🏋️', gif: 'gifs/Dumbbell-Shoulder-Press.gif' },
-      { name: 'Lateral Raise', desc: 'Izolare pentru deltoidul lateral', emoji: '↔️', gif: 'gifs/Dumbbell-Lateral-Raise.gif' },
-    ]
-  },
-  abdomen: {
-    label: 'Abdomen',
-    emoji: '🏋️',
-    exercises: [
-      { name: 'Crunch', desc: 'Abdomen superior', emoji: '〰️', gif: 'gifs/Cross-Crunch.gif' },
-      { name: 'Plank', desc: 'Core complet, static', emoji: '📏', gif: 'gifs/High-Plank.gif' },
-      { name: 'Leg Raise', desc: 'Abdomen inferior', emoji: '⬆️', gif: 'gifs/Lying-Leg-Raise.gif' },
-      { name: 'Cable Crunch', desc: 'Cu rezistență, la cablu', emoji: '🔽', gif: 'gifs/Standing-Cable-Crunch.gif' },
-    ]
+  /* ── PRELUARE SESIUNE UTILIZATOR ── */
+  const gymUserSession = sessionStorage.getItem('gymuser');
+  if (!gymUserSession) {
+    window.location.href = 'login.html';
   }
-};
+  const gymuser = JSON.parse(gymUserSession);
 
-let currentMuscle = 'piept';
-let currentExercise = null;
-
-/* ── SIDEBAR ── */
-let collapsed = false;
-const MIN_W = 52, DEFAULT_W = 260;
-
-function toggleSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  const main = document.getElementById("mainContent");
-  collapsed = !collapsed;
-  sidebar.style.width = (collapsed ? MIN_W : DEFAULT_W) + "px";
-  main.style.marginLeft = (collapsed ? MIN_W : DEFAULT_W) + "px";
-  sidebar.classList.toggle("collapsed", collapsed);
-}
-
-const handle = document.getElementById("resizeHandle");
-let isResizing = false;
-handle.addEventListener("mousedown", () => {
-  isResizing = true; handle.classList.add("dragging");
-  document.body.style.cursor = "ew-resize";
-  document.body.style.userSelect = "none";
-});
-document.addEventListener("mousemove", (e) => {
-  if (!isResizing) return;
-  const sidebar = document.getElementById("sidebar");
-  const main = document.getElementById("mainContent");
-  let w = Math.min(Math.max(e.clientX, MIN_W), 480);
-  sidebar.style.width = w + "px"; main.style.marginLeft = w + "px";
-  const col = w <= MIN_W + 20;
-  sidebar.classList.toggle("collapsed", col); collapsed = col;
-});
-document.addEventListener("mouseup", () => {
-  if (!isResizing) return;
-  isResizing = false; handle.classList.remove("dragging");
-  document.body.style.cursor = ""; document.body.style.userSelect = "";
-});
-
-/* ── NAVIGATION ── */
-function showView(id) {
-  ['view-muscles','view-exercises','view-log','view-progress'].forEach(v => {
-    document.getElementById(v).style.display = 'none';
-  });
-  document.getElementById(id).style.display = 'block';
-}
-
-function showMuscles() { showView('view-muscles'); }
-
-function showExercises(muscleKey) {
-  currentMuscle = muscleKey;
-  const data = muscleData[muscleKey];
-  document.getElementById('exercises-title').textContent = 'Exerciții pentru ' + data.label;
-
-  const grid = document.getElementById('exercises-grid');
-  grid.innerHTML = data.exercises.map(ex => `
-    <div class="exercise-card" onclick='openLog(${JSON.stringify(ex)}, "${muscleKey}")'>
-      <div class="ex-card-img">
-        ${ex.gif
-          ? `<img src="${ex.gif}" alt="${ex.name}">`
-          : `<div class="ex-card-placeholder">${ex.emoji}</div>`}
-      </div>
-      <div class="ex-card-body">
-        <div class="ex-card-name">${ex.name}</div>
-        <div class="ex-card-desc">${ex.desc}</div>
-        <button class="ex-card-btn">Adaugă set →</button>
-      </div>
-    </div>
-  `).join('');
-
-  showView('view-exercises');
-}
-
-function showExFromLog() {
-  showExercises(currentMuscle);
-}
-
-function openLog(ex, muscleKey) {
-  currentExercise = ex;
-  currentMuscle = muscleKey;
-  const mData = muscleData[muscleKey];
-
-  document.getElementById('log-ex-group-label').textContent = mData.label;
-  document.getElementById('log-ex-name-label').textContent = ex.name;
-  document.getElementById('log-ex-desc-label').textContent = ex.desc;
-  document.getElementById('log-ex-emoji').textContent = ex.emoji;
-
-  const gifImg = document.getElementById('log-ex-gif-img');
-  const emojiDiv = document.getElementById('log-ex-emoji');
-  if (ex.gif) {
-    gifImg.src = ex.gif;
-    gifImg.style.display = 'block';
-    emojiDiv.style.display = 'none';
-  } else {
-    gifImg.style.display = 'none';
-    emojiDiv.style.display = 'flex';
-  }
-
-  // Clear inputs
-  document.querySelectorAll('.reps-input, .kg-input').forEach(i => i.value = '');
-
-  showView('view-log');
-}
-
-function showProgress() {
-  const logs = JSON.parse(localStorage.getItem('gymtips_workoutlog') || '[]');
-  const content = document.getElementById('progress-content');
-
-  if (logs.length === 0) {
-    content.innerHTML = `
-      <div class="progress-empty">
-        <div class="big-icon">📋</div>
-        <h3>Niciun antrenament înregistrat</h3>
-        <p>Începe să îți loghezi exercițiile și progresul va apărea aici.</p>
-      </div>
-    `;
-  } else {
-    const reversed = [...logs].reverse();
-    content.innerHTML = `<div class="progress-log-list">` +
-      reversed.map(entry => `
-        <div class="progress-entry">
-          <div class="progress-entry-head">
-            <span class="progress-entry-name">${entry.exercise}</span>
-            <span class="progress-entry-date">${entry.date}</span>
-          </div>
-          <div class="progress-entry-body">
-            ${entry.sets.map((s, i) => `
-              <div class="progress-set-chip">
-                <div class="chip-label">Seria ${i+1}</div>
-                <div class="chip-val">${s.reps} rep × ${s.kg} kg</div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `).join('') +
-    `</div>`;
-  }
-
-  showView('view-progress');
-}
-
-/* ── CONFIRM LOG ── */
-function confirmLog() {
-  const repInputs = document.querySelectorAll('.reps-input');
-  const kgInputs = document.querySelectorAll('.kg-input');
-
-  const sets = [];
-  let hasData = false;
-  let hasError = false;
-
-  repInputs.forEach((repIn, i) => {
-    const reps = repIn.value.trim();
-    const kg = kgInputs[i].value.trim();
-
-    // Verificăm dacă utilizatorul a introdus ceva pe acest rând
-    if (reps || kg) {
-      hasData = true;
-      
-      // Dacă AMBELE câmpuri sunt completate, e un set valid
-      if (reps && kg) {
-        sets.push({ reps: reps, kg: kg });
-      } else {
-        // Dacă a completat doar unul, e o eroare
-        hasError = true;
-        
-        // Colorează cu roșu doar câmpul lăsat gol pe rândul respectiv
-        if (!reps) {
-          repIn.style.borderColor = '#cc0000';
-          setTimeout(() => repIn.style.borderColor = '', 1500);
-        }
-        if (!kg) {
-          kgInputs[i].style.borderColor = '#cc0000';
-          setTimeout(() => kgInputs[i].style.borderColor = '', 1500);
-        }
-      }
-    }
-  });
-
-  // 1. Oprește acțiunea dacă formularul e complet gol
-  if (!hasData) {
-    repInputs.forEach(i => { i.style.borderColor = '#cc0000'; setTimeout(() => i.style.borderColor = '', 1500); });
-    kgInputs.forEach(i => { i.style.borderColor = '#cc0000'; setTimeout(() => i.style.borderColor = '', 1500); });
-    return;
-  }
-
-  // 2. Oprește acțiunea dacă un rând e completat doar pe jumătate (lipsesc repetări sau kilograme)
-  if (hasError) {
-    return;
-  }
-
-  // Dacă a trecut validările, salvăm datele:
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
-    ' ' + now.toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' });
-
-  const entry = {
-    muscle: muscleData[currentMuscle].label,
-    exercise: currentExercise.name,
-    date: dateStr,
-    sets
+  /* ── DATE EXERCIȚII ── */
+  const muscleData = {
+    piept: { label: 'Piept', ex: [{name:'Bench Press', gif:'gifs/Barbell-Bench-Press.gif'},{name:'Incline Chest Press', gif:'gifs/Incline-Dumbbell-Press.gif'},{name:'Machine Chest Fly', gif:'gifs/Lying-Cable-Fly.gif'}] },
+    spate: { label: 'Spate', ex: [{name:'Lat Pulldown', gif:'gifs/Lat-Pulldown.gif'},{name:'Seated Cable Row', gif:'gifs/Seated-Cable-Row.gif'},{name:'T-Bar Rows', gif:'gifs/t-bar-row.gif'}, {name:'Deadlift', gif:'gifs/Barbell-Deadlift.gif'}] },
+    picioare: { label: 'Picioare', ex: [{name:'Squat', gif:'gifs/squat.gif'},{name:'Leg Press', gif:'gifs/Leg-Press.gif'},{name:'Leg Extension', gif:'gifs/LEG-EXTENSION.gif'},{name:'Romanian Deadlift', gif:'gifs/romanian-deadlift.gif'},{name:'Calf Raise', gif:'gifs/calf-raise.gif'}] },
+    umeri: { label: 'Umeri', ex: [{name:'Shoulder Press', gif:'gifs/Dumbbell-Shoulder-Press.gif'},{name:'Lateral Raise', gif:'gifs/Dumbbell-Lateral-Raise.gif'}] },
+    biceps: { label: 'Biceps', ex: [{name:'Bicep Curl', gif:'gifs/bicep-curl.gif'},{name:'Hammer Curl', gif:'gifs/Hammer-Curl.gif'}] },
+    triceps: { label: 'Triceps', ex: [{name:'Triceps Pushdown', gif:'gifs/triceps-pushdown.gif'},{name:'Overhead Triceps Extension', gif:'gifs/Cable-Rope-Overhead-Triceps-Extension.gif'}] },
+    abdomen: { label: 'Abdomen', ex: [{name:'Crunches', gif:''},{name:'Leg Raises', gif:''}] }
   };
 
-  const logs = JSON.parse(localStorage.getItem('gymtips_workoutlog') || '[]');
-  logs.push(entry);
-  localStorage.setItem('gymtips_workoutlog', JSON.stringify(logs));
+  let currentMuscleId = null;
+  let currentExercise = null;
 
-  // Afișăm toast-ul de succes
-  const toast = document.getElementById('toast');
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2800);
+  /* ── GESTIUNE VIEW-URI ── */
+  function hideAllViews() {
+    document.getElementById('view-muscles').style.display = 'none';
+    document.getElementById('view-exercises').style.display = 'none';
+    document.getElementById('view-log').style.display = 'none';
+    document.getElementById('view-progress').style.display = 'none';
+  }
 
-  // Curățăm câmpurile
-  repInputs.forEach(i => i.value = '');
-  kgInputs.forEach(i => i.value = '');
-}
-/* ── BLOCARE LITERE ȘI CARACTERE SPECIALE ── */
-document.querySelectorAll('.reps-input').forEach(input => {
-  input.addEventListener('keydown', function(e) {
-    if (['e', 'E', '+', '-', '.'].includes(e.key)) {
-      e.preventDefault();
+  function showMuscles() {
+    hideAllViews();
+    document.getElementById('view-muscles').style.display = 'block';
+  }
+
+  function showExercises(muscleId) {
+    currentMuscleId = muscleId;
+    const mData = muscleData[muscleId];
+    if (!mData) return;
+
+    hideAllViews();
+    document.getElementById('view-exercises').style.display = 'block';
+    document.getElementById('exercises-title').textContent = 'Exerciții pentru ' + mData.label.toLowerCase();
+
+    const grid = document.getElementById('exercises-grid');
+    grid.innerHTML = mData.ex.map((ex, idx) => `
+      <div class="muscle-card" onclick="openLog('${muscleId}', ${idx})" style="cursor: pointer; justify-content: center; padding: 20px 0;">
+        <div class="card-body">
+          <div class="card-name" style="margin-bottom: 15px; font-size: 1.3rem;">${ex.name}</div>
+          <span class="card-action">Înregistrează →</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function showExFromLog() {
+    if (currentMuscleId) {
+      showExercises(currentMuscleId);
+    } else {
+      showMuscles();
     }
-  });
-});
+  }
 
-document.querySelectorAll('.kg-input').forEach(input => {
-  input.addEventListener('keydown', function(e) {
-    if (['e', 'E', '+', '-'].includes(e.key)) {
-      e.preventDefault();
+  function openLog(muscleId, exIdx) {
+    currentMuscleId = muscleId;
+    currentExercise = muscleData[muscleId].ex[exIdx];
+
+    hideAllViews();
+    document.getElementById('view-log').style.display = 'block';
+
+    document.getElementById('log-ex-group-label').textContent = muscleData[muscleId].label;
+    document.getElementById('log-ex-name-label').textContent = currentExercise.name;
+
+    const gifImg = document.getElementById('log-ex-gif-img');
+    const placeholder = document.getElementById('log-ex-emoji');
+
+    if (currentExercise.gif) {
+      gifImg.src = currentExercise.gif;
+      gifImg.style.display = 'block';
+      placeholder.style.display = 'none';
+    } else {
+      gifImg.style.display = 'none';
+      placeholder.style.display = 'flex';
     }
-  });
-});
 
-// Init
-showView('view-muscles');
+    document.querySelectorAll('.reps-input').forEach(i => i.value = '');
+    document.querySelectorAll('.kg-input').forEach(i => i.value = '');
+  }
+
+  /* ── SALVARE ÎN BAZA DE DATE ── */
+  async function confirmLog() {
+    const repInputs = document.querySelectorAll('.reps-input');
+    const kgInputs = document.querySelectorAll('.kg-input');
+    const sets = [];
+    let hasError = false;
+
+    for (let i = 0; i < repInputs.length; i++) {
+      const reps = repInputs[i].value;
+      const kg = kgInputs[i].value;
+      if (reps && kg) sets.push({ set: i + 1, reps, kg });
+      else if (reps || kg) hasError = true;
+    }
+
+    if (sets.length === 0 || hasError) return;
+
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('ro-RO', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
+      ' ' + now.toLocaleTimeString('ro-RO', { hour: '2-digit', minute: '2-digit' });
+
+    try {
+      await fetch('/api/workoutlog', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: gymuser.id,
+          muscle: muscleData[currentMuscleId].label,
+          exercise: currentExercise.name,
+          date: dateStr,
+          sets: sets
+        })
+      });
+
+      const toast = document.getElementById('toast');
+      if (toast) {
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2800);
+      }
+
+      repInputs.forEach(i => i.value = '');
+      kgInputs.forEach(i => i.value = '');
+
+    } catch (err) {
+      console.error("Eroare la salvare:", err);
+    }
+  }
+
+  /* ── PRELUARE DIN BAZA DE DATE ── */
+  async function showProgress() {
+    hideAllViews();
+    document.getElementById('view-progress').style.display = 'block';
+    
+    const container = document.getElementById('progress-content');
+    container.innerHTML = '<div style="padding: 24px; text-align: center; color: #888;">Se încarcă istoricul...</div>';
+
+    try {
+      const res = await fetch(`/api/workoutlog?user_id=${gymuser.id}`);
+      const data = await res.json();
+      const logs = data.logs || [];
+
+      if (logs.length === 0) {
+        container.innerHTML = '<div style="padding: 24px; text-align: center; color: #888; font-style: italic;">Niciun antrenament înregistrat încă.</div>';
+        return;
+      }
+
+      container.innerHTML = logs.reverse().map(entry => {
+        const setsHtml = entry.sets.map(s => `
+          <div class="progress-set-chip" style="display: inline-block; margin-right: 10px; margin-bottom: 10px; background: #f5f5f3; padding: 8px 12px; border-left: 3px solid #cc0000;">
+            <div class="chip-label" style="font-family: 'Oswald', sans-serif; font-size: 0.7rem; color: #aaa; text-transform: uppercase;">Set ${s.set}</div>
+            <div class="chip-val" style="font-weight: bold; font-size: 0.9rem;">${s.reps} × ${s.kg} kg</div>
+          </div>
+        `).join('');
+
+        return `
+          <div class="progress-entry" style="background: #fff; border: 1px solid #ddd; margin-bottom: 16px; border-radius: 4px; overflow: hidden;">
+            <div class="progress-entry-head" style="background: #1a1a1a; color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center;">
+              <span class="progress-entry-name" style="font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">${entry.exercise}</span>
+              <span class="progress-entry-date" style="font-family: 'Lora', serif; font-size: 0.8rem; color: rgba(255,255,255,0.6); font-style: italic;">${entry.date}</span>
+            </div>
+            <div class="progress-entry-body" style="padding: 16px 20px;">${setsHtml}</div>
+          </div>
+        `;
+      }).join('');
+    } catch (err) {
+      console.error("Eroare la preluare DB:", err);
+      container.innerHTML = '<div style="padding: 24px; text-align: center; color: #cc0000;">Eroare la încărcare din baza de date.</div>';
+    }
+  }
+
+  /* ── SIDEBAR ── */
+  let collapsed = false;
+  const MIN_W = 52, DEFAULT_W = 260;
+  function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const main = document.getElementById("mainContent");
+    collapsed = !collapsed;
+    sidebar.style.width = (collapsed ? MIN_W : DEFAULT_W) + "px";
+    main.style.marginLeft = (collapsed ? MIN_W : DEFAULT_W) + "px";
+    sidebar.classList.toggle("collapsed", collapsed);
+  }
+
+  const handle = document.getElementById("resizeHandle");
+  let isResizing = false;
+  if (handle) {
+    handle.addEventListener("mousedown", () => { isResizing = true; handle.classList.add("dragging"); document.body.style.cursor = "ew-resize"; document.body.style.userSelect = "none"; });
+  }
+  document.addEventListener("mousemove", (e) => {
+    if (!isResizing) return;
+    const sidebar = document.getElementById("sidebar"); const main = document.getElementById("mainContent");
+    let w = Math.min(Math.max(e.clientX, MIN_W), 480);
+    sidebar.style.width = w + "px"; main.style.marginLeft = w + "px";
+    const col = w <= MIN_W + 20; sidebar.classList.toggle("collapsed", col); collapsed = col;
+  });
+  document.addEventListener("mouseup", () => { if (!isResizing) return; isResizing = false; if (handle) handle.classList.remove("dragging"); document.body.style.cursor = ""; document.body.style.userSelect = ""; });
+
+  /* ── BLOCARE CARACTERE NUMERICE ── */
+  document.querySelectorAll('.reps-input, .kg-input').forEach(input => {
+    input.addEventListener('keydown', e => {
+      if (['e','E','+','-','.'].includes(e.key)) e.preventDefault();
+    });
+  });
+
+  /* ── PORNIRE LA ÎNCĂRCAREA PAGINII ── */
+  window.addEventListener('DOMContentLoaded', () => {
+    hideAllViews();
+    document.getElementById('view-muscles').style.display = 'block';
+  });
 </script>
+
 </body>
 </html>
-
