@@ -151,7 +151,7 @@
     }
   });
 
-  // ── CITIRE DATE DIN SESSION STORAGE ──
+  
   const gymUserSession = sessionStorage.getItem('gymuser');
   let username = 'Utilizator';
   let email = 'exemplu@email.com';
@@ -168,7 +168,7 @@
   document.getElementById('displayEmail').textContent = email;
   document.getElementById('profileWelcome').textContent = 'Bun venit, ' + username + '!';
 
-  // ── LOGICĂ SMART COACH COMPLETĂ (CREȘTERE / SCĂDERE GREUTATE) ──
+ 
   if (gymUserSession) {
     const userData = JSON.parse(gymUserSession);
     const userId = userData.id;
@@ -180,7 +180,7 @@
         
         const scopLower = data.profile.scop.toLowerCase();
         
-        // Stabilim pragurile minime și maxime conform cerințelor tale
+        
         let repsMinime = 10;
         let repsMaxime = 12; 
 
@@ -196,7 +196,7 @@
         }
 
         
-        // Preluăm antrenamentele din baza de date pentru utilizatorul curent
+       
         fetch(`/api/workoutlog?user_id=${userId}`)
           .then(resLog => resLog.json())
           .then(dataLog => {
@@ -218,7 +218,7 @@
               for (const exercitiu in ultimulAntrenamentPerExercitiu) {
                 const fisierLog = ultimulAntrenamentPerExercitiu[exercitiu];
                 
-                // Ne asigurăm că seturile sunt recunoscute ca listă (array)
+                
                 const sets = typeof fisierLog.sets === 'string' ? JSON.parse(fisierLog.sets) : fisierLog.sets;
 
                 if (!sets || sets.length === 0) continue;
@@ -230,7 +230,7 @@
                 });
                 const mediaRepetariUltimulMeci = sumaRepetari / sets.length;
 
-                // 1. Verificare pentru CREȘTERE (dacă media depășește pragul maxim)
+               
                 if (mediaRepetariUltimulMeci > repsMaxime) {
                   areSugestii = true;
                   const li = document.createElement('li');
@@ -239,7 +239,7 @@
                   li.innerHTML = `💪 Poți să <strong>crești</strong> greutatea la exercițiul <strong>${exercitiu}</strong>! (Media recentă: ${mediaRepetariUltimulMeci.toFixed(1)} repetiții vs. maximul indicat de ${repsMaxime}).`;
                   listaSugestii.appendChild(li);
                 } 
-                // 2. Verificare pentru SCĂDERE (dacă media pică sub pragul minim)
+                
                 else if (mediaRepetariUltimulMeci < repsMinime) {
                   areSugestii = true;
                   const li = document.createElement('li');
@@ -260,9 +260,10 @@
       .catch(err => console.error("Eroare Smart Coach:", err));
   }
 
-  // ── GESTIONARE AVATAR ──
-  // Poza salvata per user ID — fiecare cont are propria poza
-  const pfpKey = 'gymtips_pfp_' + (gymUserSession ? JSON.parse(gymUserSession).id : 'guest');
+  const gymuserData = gymUserSession ? JSON.parse(gymUserSession) : null;
+  const userIdentifier = gymuserData && gymuserData.email ? gymuserData.email : 'guest';
+  const pfpKey = 'gymtips_pfp_' + userIdentifier;
+  
   const savedPfp = localStorage.getItem(pfpKey);
   if (savedPfp) {
     document.getElementById('avatarImg').src = savedPfp;
@@ -282,6 +283,8 @@
       document.getElementById('avatarImg').src = src;
       document.getElementById('avatarImg').style.display = 'block';
       document.getElementById('avatarPlaceholder').style.display = 'none';
+      
+      
       localStorage.setItem(pfpKey, src);
     };
     reader.readAsDataURL(file);

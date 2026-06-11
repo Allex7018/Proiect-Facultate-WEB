@@ -220,22 +220,22 @@
 <div class="toast" id="toast">✓ &nbsp;Set salvat cu succes!</div>
 
 <script>
-  /* ── PRELUARE SESIUNE UTILIZATOR ── */
+ 
   const gymUserSession = sessionStorage.getItem('gymuser');
   if (!gymUserSession) {
     window.location.href = 'login.html';
   }
   const gymuser = JSON.parse(gymUserSession);
 
-  /* ── DATE EXERCIȚII ── */
+  
   const muscleData = {
     piept: { label: 'Piept', ex: [{name:'Bench Press', gif:'gifs/Barbell-Bench-Press.gif'},{name:'Incline Chest Press', gif:'gifs/Incline-Dumbbell-Press.gif'},{name:'Machine Chest Fly', gif:'gifs/Lying-Cable-Fly.gif'}] },
-    spate: { label: 'Spate', ex: [{name:'Lat Pulldown', gif:'gifs/Lat-Pulldown.gif'},{name:'Seated Cable Row', gif:'gifs/Seated-Cable-Row.gif'},{name:'T-Bar Rows', gif:'gifs/t-bar-row.gif'}, {name:'Deadlift', gif:'gifs/Barbell-Deadlift.gif'}] },
-    picioare: { label: 'Picioare', ex: [{name:'Squat', gif:'gifs/squat.gif'},{name:'Leg Press', gif:'gifs/Leg-Press.gif'},{name:'Leg Extension', gif:'gifs/LEG-EXTENSION.gif'},{name:'Romanian Deadlift', gif:'gifs/romanian-deadlift.gif'},{name:'Calf Raise', gif:'gifs/calf-raise.gif'}] },
+    spate: { label: 'Spate', ex: [{name:'Lat Pulldown', gif:'gifs/Lat-Pulldown.gif'},{name:'Seated Cable Row', gif:'gifs/Seated-Cable-Row.gif'},{name:'T-Bar Rows', gif:'gifs/t-bar-rows.gif'}, {name:'Deadlift', gif:'gifs/Barbell-Deadlift.gif'}] },
+    picioare: { label: 'Picioare', ex: [{name:'Squat', gif:'gifs/squat.gif'},{name:'Leg Press', gif:'gifs/Leg-Press.gif'},{name:'Leg Extension', gif:'gifs/LEG-EXTENSION.gif'},{name:'Romanian Deadlift', gif:'gifs/Barbell-Romanian-Deadlift.gif'},{name:'Calf Raise', gif:'gifs/Dumbbell-Calf-Raise.gif'}] },
     umeri: { label: 'Umeri', ex: [{name:'Shoulder Press', gif:'gifs/Dumbbell-Shoulder-Press.gif'},{name:'Lateral Raise', gif:'gifs/Dumbbell-Lateral-Raise.gif'}] },
-    biceps: { label: 'Biceps', ex: [{name:'Bicep Curl', gif:'gifs/bicep-curl.gif'},{name:'Hammer Curl', gif:'gifs/Hammer-Curl.gif'}] },
+    biceps: { label: 'Biceps', ex: [{name:'Bicep Curl', gif:'gifs/Z-Bar-Curl.gif'},{name:'Hammer Curl', gif:'gifs/Hammer-Curl.gif'}] },
     triceps: { label: 'Triceps', ex: [{name:'Triceps Pushdown', gif:'gifs/triceps-pushdown.gif'},{name:'Overhead Triceps Extension', gif:'gifs/Cable-Rope-Overhead-Triceps-Extension.gif'}] },
-    abdomen: { label: 'Abdomen', ex: [{name:'Crunches', gif:''},{name:'Leg Raises', gif:''}] }
+    abdomen: { label: 'Abdomen', ex: [{name:'Crunches', gif:'gifs/Cross-Crunch.gif'},{name:'Leg Raises', gif:'gifs/Lying-Leg-Raise.gif'}] }
   };
 
   let currentMuscleId = null;
@@ -308,7 +308,6 @@
     document.querySelectorAll('.kg-input').forEach(i => i.value = '');
   }
 
-  /* ── SALVARE ÎN BAZA DE DATE ── */
   async function confirmLog() {
     const repInputs = document.querySelectorAll('.reps-input');
     const kgInputs = document.querySelectorAll('.kg-input');
@@ -355,7 +354,7 @@
     }
   }
 
-  /* ── PRELUARE DIN BAZA DE DATE ── */
+ 
   async function showProgress() {
     hideAllViews();
     document.getElementById('view-progress').style.display = 'block';
@@ -397,7 +396,7 @@
     }
   }
 
-  /* ── SIDEBAR ── */
+ 
   let collapsed = false;
   const MIN_W = 52, DEFAULT_W = 260;
   function toggleSidebar() {
@@ -423,14 +422,14 @@
   });
   document.addEventListener("mouseup", () => { if (!isResizing) return; isResizing = false; if (handle) handle.classList.remove("dragging"); document.body.style.cursor = ""; document.body.style.userSelect = ""; });
 
-  /* ── BLOCARE CARACTERE NUMERICE ── */
+
   document.querySelectorAll('.reps-input, .kg-input').forEach(input => {
     input.addEventListener('keydown', e => {
       if (['e','E','+','-','.'].includes(e.key)) e.preventDefault();
     });
   });
 
-  /* ── PORNIRE LA ÎNCĂRCAREA PAGINII ── */
+  
   window.addEventListener('DOMContentLoaded', () => {
     hideAllViews();
     document.getElementById('view-muscles').style.display = 'block';

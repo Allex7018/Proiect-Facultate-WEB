@@ -17,7 +17,6 @@ body {
   display: flex;
 }
 
-/* ── FUNDAL BW ── */
 body::before {
   content: '';
   position: fixed;
@@ -27,7 +26,6 @@ body::before {
   z-index: 0;
 }
 
-/* ── HEADER ── */
 header {
   position: relative;
   z-index: 10;
@@ -45,7 +43,6 @@ header h1 {
   text-shadow: 0 2px 16px rgba(0,0,0,0.5);
 }
 
-/* ── SPLIT VIEW ── */
 #split-view {
   position: relative;
   z-index: 2;
@@ -63,7 +60,6 @@ h1 {
   letter-spacing: 2px;
 }
 
-/* ── MUSCLE GRID ── */
 .muscle-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -115,7 +111,6 @@ h3 {
 }
 .see-btn:hover { background: var(--green-dark); }
 
-/* ── EXERCISE DETAIL ── */
 .exercise-detail {
   display: none;
   position: relative;
@@ -162,7 +157,6 @@ h3 {
   font-size: 1rem;
 }
 
-/* ── GIF BOX ── */
 .gif-box {
   margin-top: 28px;
   background: #fff;
@@ -194,7 +188,6 @@ h3 {
   background: #fff;
 }
 
-/* ── BACK BUTTON ── */
 .back-btn {
   display: inline-block;
   background: none;
@@ -215,7 +208,6 @@ h3 {
   border-color: #fff;
 }
 
-/* ── RESPONSIVE ── */
 @media (max-width: 600px) {
   #split-view, .exercise-detail { padding: 0 20px 48px; }
   header { padding: 24px 20px; }

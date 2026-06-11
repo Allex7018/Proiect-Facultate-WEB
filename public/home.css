@@ -17,7 +17,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ── HEADER ── */
 header {
   background: transparent;
   position: absolute;
@@ -54,7 +53,6 @@ header nav a:hover {
   border-color: #fff;
 }
 
-/* ── HERO ── */
 .hero {
   position: relative;
   height: 100vh;
@@ -151,7 +149,6 @@ header nav a:hover {
   50%       { transform: translateX(-50%) translateY(8px); }
 }
 
-/* ── STATEMENT ── */
 .row-statement-wrapper {
   width: 100%;
   padding: 80px 56px 72px;
@@ -170,7 +167,6 @@ header nav a:hover {
   margin: 0 auto;
 }
 
-/* ── CONTENT ── */
 .content {
   width: 100%;
   display: flex;
@@ -179,7 +175,6 @@ header nav a:hover {
   padding: 32px 0;
 }
 
-/* ── ROWS ── */
 .row {
   display: grid;
   grid-template-columns: 45% 55%;
@@ -228,7 +223,6 @@ header nav a:hover {
   color: var(--dark);
 }
 
-/* ── IMAGES ── */
 .row-img {
   position: relative;
   overflow: hidden;
@@ -263,7 +257,6 @@ header nav a:hover {
   z-index: 2;
 }
 
-/* ── CTA SECTION (buton jos) ── */
 .cta-section {
   background: var(--green-dark);
   padding: 100px 20px;
@@ -311,7 +304,6 @@ header nav a:hover {
   transform: translateY(-3px);
 }
 
-/* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   header { padding: 24px 24px; }
   header h1 { font-size: 1.8rem; }
@@ -325,9 +317,9 @@ header nav a:hover {
 }
 
 .logo { height: 150px; width: auto; display: block; }
-/* ── RESPONSIVITATE PENTRU TELEFON (MOBILE) ── */
+
 @media (max-width: 768px) {
-  /* 1. Ajustare Header (Logo și buton de Login) */
+
   header {
     padding: 15px 20px;
     display: flex;
@@ -336,21 +328,21 @@ header nav a:hover {
   }
 
   .logo {
-    height: 40px !important; /* Micșorăm logo-ul ca să nu ocupe jumătate de ecran */
+    height: 40px !important; 
     width: auto;
   }
 
-  /* 2. Ajustare conținut secțiune principală (Hero) */
+  
   .hero-content {
-    padding: 0 20px; /* Adăugăm un pic de spațiu lateral ca textul să nu atingă marginile */
+    padding: 0 20px;
     width: 100%;
     box-sizing: border-box;
   }
 
   .hero-headline {
-    font-size: 2.2rem !important; /* Reducem considerabil titlul "ANTRENEAZĂ-TE" */
+    font-size: 2.2rem !important; 
     line-height: 1.2;
-    white-space: normal; /* Permite textului să treacă pe rândul următor */
+    white-space: normal; 
     word-wrap: break-word;
   }
 
@@ -366,7 +358,6 @@ header nav a:hover {
 }
 
 
-/* MOBILE LANDING FIX START */
 @media (max-width: 768px) {
   body {
     width: 100%;
@@ -560,4 +551,3 @@ header nav a:hover {
     font-size: 2rem !important;
   }
 }
-/* MOBILE LANDING FIX END */

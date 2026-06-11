@@ -58,7 +58,7 @@
   color: rgba(255,255,255,0.85);
 }
 
-/* ── AVATAR ── */
+
 .avatar-section {
   display: flex;
   flex-direction: column;
@@ -112,7 +112,7 @@
 }
 .change-pfp-btn:hover { color: #2f5240; border-color: #2f5240; }
 
-/* ── INFO ── */
+
 .profile-info {
   padding: 8px 28px;
 }
@@ -159,7 +159,7 @@
   margin: 0 0;
 }
 
-/* ── LOGOUT ── */
+
 .logout-btn {
   display: block;
   width: 100%;

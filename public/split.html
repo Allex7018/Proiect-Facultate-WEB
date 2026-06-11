@@ -148,7 +148,7 @@
     { nume: 'Ziua 2 - Umeri cu brate', exercitii: [ex.shoulderPress, ex.hammerCurl, ex.tricepsPushdown] },
     { nume: 'Ziua 3 - Picioare', exercitii: [ex.squat, ex.romanianDeadlift, ex.legPress] },
   ];
-  /* Definire structură reală 5-day Bro Split */
+
   const broSplitGroups = [
     { nume: 'Ziua 1 - Piept', exercitii: [ex.benchPress, ex.inclinePress, ex.machineFly] },
     { nume: 'Ziua 2 - Spate', exercitii: [ex.latPulldown, ex.seatedRows, ex.tbarRows] },
@@ -157,7 +157,6 @@
     { nume: 'Ziua 5 - Brațe (Biceps/Triceps)', exercitii: [ex.bicepCurl, ex.tricepsPushdown, ex.hammerCurl] },
   ];
 
-  /* Hartă splituri actualizată pentru a potrivi cu server.js */
   const splitData = {
     'Full Body Expres': { title: 'Full Body Expres', grupe: [fullBodyGroups[0]] },
     'Full Body 2x': { title: 'Full Body 2x', grupe: fullBodyGroups },
@@ -198,19 +197,18 @@
     document.getElementById('detail-title').textContent = ex.name;
     document.getElementById('detail-cum').textContent = ex.cum;
     
-    // Extragem valorile instant din memoria browserului
+  
     const recSerii = sessionStorage.getItem('rec_serii');
     const recReps = sessionStorage.getItem('rec_reps');
 
-    // Dacă avem valori recomandate, le folosim, altfel punem ce e scris implicit
+
     const afisareRepetari = recReps ? `${recReps} repetări` : ex.greutate;
     const afisareSerii = recSerii ? `${recSerii} serii` : ex.serii;
 
-    // Actualizăm ecranul
+  
     document.getElementById('detail-greutate').textContent = afisareRepetari;
     document.getElementById('detail-serii').textContent = afisareSerii;
     
-    // ... (restul funcției rămâne la fel)
     const url = ex.link.startsWith('http') ? ex.link : 'https://' + ex.link;
     document.getElementById('detail-link').innerHTML = `<a href="${url}" target="_blank" style="color: #FFC107; text-decoration: underline; cursor: pointer;">${ex.link}</a>`;
 
@@ -235,7 +233,6 @@
     document.getElementById('detail-view').classList.remove('active');
   }
 
-  /* ── SIDEBAR ── */
   let collapsed = false;
   const MIN_W = 52, DEFAULT_W = 260;
   function toggleSidebar() {

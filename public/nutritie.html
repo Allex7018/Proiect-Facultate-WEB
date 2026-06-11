@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<!-- SIDEBAR (same as dashboard) -->
+
 <aside class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <img src="poze/logo.png" alt="GymTips" class="sidebar-logo">
@@ -41,20 +41,20 @@
 
 <main class="main-content" id="mainContent">
 
-  <!-- HERO -->
+ 
   <div class="nutrition-hero">
     <span class="nutrition-hero-tag">Mănâncă inteligent</span>
     <h1>Ghid de <em>nutriție</em></h1>
     <p>Alimente simple, rezultate reale. Fără complicații.</p>
   </div>
 
-  <!-- BODY -->
+  
   <div class="nutrition-body">
 
-    <!-- CATEGORIES -->
+    
     <div class="categories-grid" id="categories-grid">
 
-      <!-- PROTEINE -->
+      
       <div class="category-card" data-cat="proteine">
         <div class="category-header">
           <span class="category-icon">🥩</span>
@@ -107,7 +107,7 @@
         </ul>
       </div>
 
-      <!-- CARBOHIDRATI -->
+      
       <div class="category-card" data-cat="carbohidrati">
         <div class="category-header">
           <span class="category-icon">🌾</span>
@@ -160,7 +160,7 @@
         </ul>
       </div>
 
-      <!-- GRASIMI -->
+     
       <div class="category-card" data-cat="grasimi">
         <div class="category-header">
           <span class="category-icon">🥑</span>
@@ -213,7 +213,7 @@
         </ul>
       </div>
 
-      <!-- FIBRE -->
+      
       <div class="category-card" data-cat="fibre">
         <div class="category-header">
           <span class="category-icon">🥦</span>
@@ -266,9 +266,8 @@
         </ul>
       </div>
 
-    </div><!-- /categories-grid -->
+    </div>
 
-    <!-- RANDOM BUTTON -->
     <div class="random-section">
       <button class="random-btn" id="randomBtn" onclick="pickRandom()">
         <span class="dice">🎲</span>
@@ -276,14 +275,14 @@
       </button>
     </div>
 
-    <!-- RESULT STRIP -->
+    
     <div class="result-strip" id="resultStrip"></div>
 
-  </div><!-- /nutrition-body -->
+  </div>
 </main>
 
 <script>
-  /* ── SIDEBAR (same logic as dashboard) ── */
+  
   let collapsed = false;
   const MIN_W = 52, DEFAULT_W = 260;
 
@@ -323,9 +322,9 @@
     document.body.style.userSelect = "";
   });
 
-  /* ── RANDOM PICK ── */
+  
   function pickRandom() {
-    // Remove previous highlights
+    
     document.querySelectorAll('.food-item').forEach(el => el.classList.remove('suggested'));
 
     const btn  = document.getElementById('randomBtn');
@@ -333,13 +332,13 @@
     dice.classList.add('rolling');
     setTimeout(() => dice.classList.remove('rolling'), 500);
 
-    // Pick one random food per category
+    
     const results = [];
     document.querySelectorAll('.categories-grid .category-card').forEach(card => {
       const items = card.querySelectorAll('.food-item');
       const pick  = items[Math.floor(Math.random() * items.length)];
       pick.classList.add('suggested');
-      // Scroll into view softly
+      
       pick.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       results.push({
         cat:   card.dataset.cat,
@@ -348,7 +347,7 @@
       });
     });
 
-    // Build result strip
+    
     const catLabels = { proteine: 'Proteină', carbohidrati: 'Carbohidrat', grasimi: 'Grăsime sănătoasă', fibre: 'Fibră' };
     const strip = document.getElementById('resultStrip');
     strip.innerHTML = results.map((r, i) => `

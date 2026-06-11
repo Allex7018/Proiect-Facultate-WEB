@@ -32,7 +32,6 @@
 <main class="main-content" id="mainContent">
 <div class="quiz-wrapper">
 
-  <!-- STEP 1 -->
   <div class="step active" id="step1">
     <div class="step-card">
       <div class="step-num">01</div>
@@ -64,7 +63,7 @@
     </div>
   </div>
 
-  <!-- STEP 2 -->
+ 
   <div class="step" id="step2">
     <div class="step-card">
       <div class="step-num">02</div>
@@ -86,13 +85,11 @@
     </div>
   </div>
 
-  <!-- STEP 3 -->
   <div class="step" id="step3">
     <div class="step-card step-card--wide">
       <div class="step-num">03</div>
       <h2>Recomandările tale personalizate:</h2>
 
-      <!-- Info BMI + nivel -->
       <div id="info-banner" style="
         background: rgba(0,0,0,0.25);
         border-left: 3px solid var(--cream);
@@ -104,7 +101,6 @@
         font-style: italic;
       "></div>
 
-      <!-- Banner scop -->
       <div id="scop-banner" style="
         background: rgba(0,0,0,0.3);
         border-left: 3px solid #fff;
@@ -126,7 +122,6 @@
 </main>
 
 <script>
-  /* ── SIDEBAR ── */
   let collapsed = false;
   const MIN_W = 52, DEFAULT_W = 260;
   function toggleSidebar() {
@@ -151,7 +146,6 @@
 
   const gymuser = JSON.parse(sessionStorage.getItem('gymuser') || 'null');
 
-  /* ── VALIDARE STEP 1 ── */
   function nextStep1() {
     const varstaEl   = document.getElementById('input-varsta');
     const inaltimeEl = document.getElementById('input-inaltime');
@@ -176,7 +170,6 @@
     goTo('step2');
   }
 
-  /* ── CALCULEAZĂ SPLIT VIA API ── */
   async function calculeazaSiMerge() {
     const varsta   = parseInt(document.getElementById('input-varsta').value);
     const inaltime = parseInt(document.getElementById('input-inaltime').value);
@@ -192,7 +185,6 @@
       });
       const data = await res.json();
 
-      // Salvează profilul dacă e logat
       if (gymuser) {
         await fetch('/api/profile', {
           method: 'POST',
@@ -209,19 +201,16 @@
   }
 
   function afiseazaStep3(data, scop) {
-    // Banner BMI
     const nivel = data.esteIncepator ? 'Nivel estimat: Începător' : 'Nivel estimat: Intermediar / Avansat';
     document.getElementById('info-banner').innerHTML =
       `BMI: <strong>${data.bmi}</strong> &nbsp;·&nbsp; ${nivel}`;
 
-    // Banner scop
     const p = data.params;
     sessionStorage.setItem('rec_serii', p.serii);
     sessionStorage.setItem('rec_reps', p.rep);
     document.getElementById('scop-banner').innerHTML =
       `🎯 ${scop}: ${p.serii} serii × ${p.rep} rep &nbsp;—&nbsp; <span style="color:#fff;text-transform:none;font-family:Lora,serif;font-style:italic;letter-spacing:0;">${p.nota}</span>`;
 
-    // Carduri splituri
     const container = document.getElementById('cards-container');
     container.innerHTML = data.splits.map(s => `
       <div class="card">
@@ -240,12 +229,10 @@
     document.getElementById(stepId).classList.add('active');
   }
 
-  /* ── Blocare litere în câmpuri numerice ── */
   document.querySelectorAll('#input-varsta, #input-inaltime, #input-greutate').forEach(input => {
     input.addEventListener('keydown', e => { if (['e','E','+','-','.'].includes(e.key)) e.preventDefault(); });
   });
 
-  /* ── Dacă are profil salvat, sări direct la step 3 ── */
   window.addEventListener('DOMContentLoaded', async () => {
     if (!gymuser) return;
     try {

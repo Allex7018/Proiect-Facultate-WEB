@@ -20,7 +20,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ── SIDEBAR ── */
+
 .sidebar {
   width: var(--sidebar-w);
   min-height: 100vh;
@@ -50,7 +50,6 @@ body {
   padding: 14px 0;
 }
 
-/* ── HAMBURGER BUTTON ── */
 .hamburger-btn {
   display: flex;
   flex-direction: column;
@@ -135,14 +134,13 @@ body {
 .nav-icon { font-size: 1.15rem; flex-shrink: 0; width: 24px; text-align: center; }
 .nav-label { white-space: nowrap; opacity: 1; transition: opacity 0.2s ease; }
 
-/* ── MAIN ── */
+
 .main-content {
   margin-left: var(--sidebar-w);
   flex: 1; transition: margin-left 0.3s ease; min-height: 100vh;
 }
 .main-content.expanded { margin-left: var(--sidebar-mini); }
 
-/* ── PAGE HERO ── */
 .workout-hero {
   background: #111;
   padding: 56px 64px 40px;
@@ -181,19 +179,19 @@ body {
   color: rgba(255,255,255,0.6); font-style: italic;
 }
 
-/* ── BODY ── */
+
 .workout-body {
   padding: 40px 48px 80px;
   min-height: calc(100vh - 200px);
 }
 
-/* ── VIEWS ── */
+
 #view-muscles { display: block; }
 #view-exercises { display: none; }
 #view-log { display: none; }
 #view-progress { display: none; }
 
-/* ── SECTION TITLE ── */
+
 .section-title {
   font-family: 'Oswald', sans-serif;
   font-size: 0.72rem; font-weight: 600;
@@ -205,7 +203,6 @@ body {
   content: ''; flex: 1; height: 1px; background: rgba(0,0,0,0.1);
 }
 
-/* ── MUSCLE CARDS GRID ── */
 .muscles-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -269,7 +266,6 @@ body {
 }
 .muscle-card:hover .card-action { background: var(--red); }
 
-/* ── PROGRESS CARD ── */
 .progress-card {
   background: #fff;
   cursor: pointer;
@@ -287,7 +283,6 @@ body {
 .progress-card:hover .card-action { background: #111; }
 .progress-card .card-subtitle { color: var(--green-dark); }
 
-/* ── BACK BUTTON ── */
 .back-btn {
   display: inline-flex; align-items: center; gap: 8px;
   background: none; border: 2px solid rgba(0,0,0,0.2);
@@ -298,7 +293,6 @@ body {
 }
 .back-btn:hover { background: #111; color: #fff; border-color: #111; }
 
-/* ── EXERCISE LIST ── */
 .exercises-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -354,7 +348,6 @@ body {
 }
 .ex-card-btn:hover { background: var(--red); }
 
-/* ── LOG FORM ── */
 .log-header-card {
   background: #111;
   padding: 28px 32px;
@@ -453,7 +446,7 @@ body {
   letter-spacing: 1px; color: #bbb; pointer-events: none;
 }
 
-/* ── CONFIRM BUTTON ── */
+
 .confirm-btn-wrap {
   text-align: center;
   padding: 8px 0 16px;
@@ -478,7 +471,7 @@ body {
 .confirm-btn:hover { border-color: var(--red); transform: translateY(-3px); }
 .confirm-btn span { position: relative; z-index: 1; }
 
-/* ── SUCCESS TOAST ── */
+
 .toast {
   display: none;
   position: fixed; bottom: 32px; right: 32px;
@@ -498,7 +491,7 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── PROGRESS VIEW ── */
+
 .progress-empty {
   text-align: center; padding: 80px 20px;
 }
@@ -555,7 +548,7 @@ body {
   font-size: 0.95rem; font-weight: 700; color: #111;
 }
 
-/* ── RESPONSIVE ── */
+
 @media (max-width: 768px) {
   .workout-body { padding: 24px 20px 60px; }
   .workout-hero { padding: 36px 28px 28px; }

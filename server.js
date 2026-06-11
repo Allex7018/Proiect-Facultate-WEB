@@ -7,9 +7,8 @@ const initSqlJs = require('sql.js');
 const app     = express();
 const DB_PATH = path.join(__dirname, 'database.db');
 
-let db; // instanța bazei de date
+let db; 
 
-/* ── Inițializare SQL.js ── */
 async function initDB() {
   const SQL = await initSqlJs();
 
@@ -20,7 +19,6 @@ async function initDB() {
     db = new SQL.Database();
   }
 
-  // 1. Tabel pentru UTILIZATORI
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
       id         INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,7 +29,6 @@ async function initDB() {
     )
   `);
 
-  // 2. Tabel pentru PROFILURI (Datele din Chestionar)
   db.run(`
     CREATE TABLE IF NOT EXISTS profiles (
       user_id    INTEGER PRIMARY KEY,
@@ -43,7 +40,7 @@ async function initDB() {
       FOREIGN KEY(user_id) REFERENCES users(id)
     )
   `);
-  // 3. Tabel pentru WORKOUT LOGS
+
   db.run(`
     CREATE TABLE IF NOT EXISTS workout_logs (
       id         INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -60,19 +57,14 @@ async function initDB() {
   console.log('✅ Baza de date și tabelele au fost inițializate.');
 }
 
-/* ── Salvare pe disc ── */
 function saveDB() {
   const data = db.export();
   fs.writeFileSync(DB_PATH, Buffer.from(data));
 }
 
-/* ── Middleware ── */
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-/* ══════════════════════════════════════
-   AUTENTIFICARE: Înregistrare & Login
-══════════════════════════════════════ */
 app.post('/api/register', async (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password) return res.status(400).json({ error: 'Completează toate câmpurile!' });
@@ -112,21 +104,14 @@ app.post('/api/login', async (req, res) => {
   return res.json({ id: user.id, name: user.name, email: user.email });
 });
 
-/* ══════════════════════════════════════
-   QUIZ: Calculează recomandarea de antrenament
-   (Serii după ZILE + Repetări după SCOP)
-══════════════════════════════════════ */
 app.post('/api/split', (req, res) => {
   const { varsta, inaltime, greutate, scop, zile } = req.body;
 
-  // Calculul indicelui de masă corporală (BMI)
   const inaltimeM = inaltime / 100;
   const bmi = (greutate / (inaltimeM * inaltimeM)).toFixed(1);
 
-  // Estimare nivel pe baza numărului de zile selectate
   const esteIncepator = zile <= 3;
 
-  // 1. LOGICĂ SERII (bazată strict pe numărul de ZILE solicitat de tine)
   let serii = '2'; 
   if (zile === 1 || zile === 2) {
     serii = '1';
@@ -138,7 +123,6 @@ app.post('/api/split', (req, res) => {
     serii = '3-4';
   }
 
-  // 2. LOGICĂ REPETĂRI & NOTĂ (bazată strict pe SCOPUL introdus)
   let rep = '10-12'; // valoare de siguranță (default)
   let nota = 'Program optimizat pentru obiectivele tale.';
   const scopLower = scop.toLowerCase();
@@ -157,10 +141,8 @@ app.post('/api/split', (req, res) => {
     nota = 'Intensitate crescută. Ideal pentru dezvoltarea sistemului nervos central și a forței brute.';
   }
 
-  // Împachetăm rezultatele obținute din cele două reguli
   const params = { serii, rep, nota };
 
-  // Generarea opțiunilor de split-uri de antrenament potrivite zilelor selectate
   const optiuniSplits = {
     1: [{ name: 'Full Body Expres', descriere: 'O singură sesiune intensă pentru a stimula tot corpul.' }],
     2: [{ name: 'Full Body 2x', descriere: 'Ideal pentru frecvență ridicată și timp limitat de antrenament.' }],
@@ -187,10 +169,8 @@ app.post('/api/split', (req, res) => {
 
   return res.json({ bmi, esteIncepator, params, splits });
 });
-/* ══════════════════════════════════════
-   PROFIL: Salvare și Încărcare date profil
-══════════════════════════════════════ */
-// Salvează sau actualizează profilul
+
+
 app.post('/api/profile', (req, res) => {
   const { user_id, varsta, inaltime, greutate, scop, zile } = req.body;
   if (!user_id) return res.status(400).json({ error: 'Utilizatorul nu este autentificat.' });
@@ -215,7 +195,7 @@ app.post('/api/profile', (req, res) => {
   }
 });
 
-// Preia datele profilului pentru auto-completare
+
 app.get('/api/profile', (req, res) => {
   const { user_id } = req.query;
   if (!user_id) return res.status(400).json({ error: 'Lipsește ID-ul utilizatorului.' });
@@ -236,9 +216,7 @@ app.get('/api/profile', (req, res) => {
     return res.status(500).json({ error: 'Eroare la încărcarea profilului.' });
   }
 });
-/* ══════════════════════════════════════
-   WORKOUT LOG: Salvare și Preluare
-══════════════════════════════════════ */
+
 app.post('/api/workoutlog', (req, res) => {
   const { user_id, muscle, exercise, date, sets } = req.body;
   if (!user_id || !muscle || !exercise || !date || !sets) {
@@ -246,7 +224,7 @@ app.post('/api/workoutlog', (req, res) => {
   }
   
   try {
-    // Salvăm 'sets' ca text JSON (ex: "[{reps:10, kg:50}]") pentru a intra corect în SQLite
+    
     db.run(`
       INSERT INTO workout_logs (user_id, muscle, exercise, date, sets)
       VALUES (?, ?, ?, ?, ?)
@@ -283,7 +261,6 @@ app.get('/api/workoutlog', (req, res) => {
     return res.status(500).json({ error: 'Eroare la preluare DB.' });
   }
 });
-/* ── Pornire server ── */
 const PORT = 3000;
 initDB().then(() => {
   app.listen(PORT, () => console.log(`✅ GymTips rulează pe http://localhost:${PORT}`));

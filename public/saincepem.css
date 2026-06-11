@@ -17,7 +17,7 @@ body {
   display: flex;
 }
 
-/* ── FUNDAL BW ── */
+
 .page-bg {
   position: fixed;
   inset: 0;
@@ -26,9 +26,6 @@ body {
   z-index: 0;
 }
 
-/* header removed - using sidebar now */
-
-/* ── QUIZ WRAPPER — centrat vertical pe ecran ── */
 .quiz-wrapper {
   position: relative;
   z-index: 2;
@@ -40,11 +37,11 @@ body {
   width: 100%;
 }
 
-/* ── STEPS ── */
+
 .step { display: none; width: 100%; max-width: 540px; }
 .step.active { display: block; }
 
-/* ── CARD ── */
+
 .step-card {
   background: #cc0000;
   padding: 36px 44px 40px;
@@ -73,7 +70,6 @@ h2 {
   line-height: 1.2;
 }
 
-/* ── FIELDS ── */
 .field {
   margin-bottom: 16px;
 }
@@ -109,7 +105,7 @@ select {
   gap: 16px;
 }
 
-/* ── BUTTONS ── */
+
 .btn-row {
   display: flex;
   gap: 12px;
@@ -140,7 +136,6 @@ select {
 }
 .btn-back:hover { background: var(--green-dark); color: #fff; }
 
-/* ── CARDS (step 3) ── */
 .cards {
   display: flex;
   gap: 16px;
@@ -202,14 +197,14 @@ select {
 }
 .card .see:hover { background: var(--green-dark); }
 
-/* ── RESPONSIVE ── */
+
 @media (max-width: 560px) {
   .step-card { padding: 28px 20px; }
   .row-inputs { grid-template-columns: 1fr; }
 }
 
 .logo { height: 75px; width: auto; display: block; }
-/* ── MANUAL INPUTS ── */
+
 input[type="number"],
 input[type="text"] {
   width: 100%;

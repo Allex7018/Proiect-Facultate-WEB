@@ -23,7 +23,7 @@
 
     <div class="form-body">
 
-      <!-- LOGIN -->
+     
       <div class="form-panel active" id="panel-login">
         <div class="msg" id="login-msg"></div>
         <div class="field">
@@ -44,7 +44,7 @@
         <p class="switch-text">Nu ai cont? <a onclick="switchTab('register')">Înregistrează-te</a></p>
       </div>
 
-      <!-- REGISTER -->
+     
       <div class="form-panel" id="panel-register">
         <div class="msg" id="register-msg"></div>
         <div class="field">
@@ -85,7 +85,7 @@
 </div>
 
 <script>
-  /* ── EMAIL VALID: domenii comune acceptate ── */
+ 
   const DOMENII_ACCEPTATE = [
     'gmail.com','yahoo.com','yahoo.ro','hotmail.com','outlook.com',
     'outlook.ro','icloud.com','me.com','protonmail.com','proton.me',
@@ -95,7 +95,7 @@
   ];
 
   function isValidEmail(email) {
-    // Format de baza
+    
     if (!/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/.test(email)) return false;
     // Domeniu acceptat
     const domeniu = email.split('@')[1].toLowerCase();
@@ -130,7 +130,7 @@
     counter.style.color = len >= 20 ? '#a32d2d' : '#888';
   });
 
-  /* ── LOGIN ── */
+ 
   async function handleLogin() {
     const email = document.getElementById('login-email').value.trim();
     const pass  = document.getElementById('login-pass').value;
@@ -154,7 +154,7 @@
     }
   }
 
-  /* ── REGISTER ── */
+  
   async function handleRegister() {
     const name  = document.getElementById('reg-name').value.trim();
     const email = document.getElementById('reg-email').value.trim();
