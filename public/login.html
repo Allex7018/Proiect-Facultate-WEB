@@ -85,9 +85,21 @@
 </div>
 
 <script>
-  /* ── EMAIL VALID: fara caractere speciale, format corect ── */
+  /* ── EMAIL VALID: domenii comune acceptate ── */
+  const DOMENII_ACCEPTATE = [
+    'gmail.com','yahoo.com','yahoo.ro','hotmail.com','outlook.com',
+    'outlook.ro','icloud.com','me.com','protonmail.com','proton.me',
+    'ulbsibiu.ro','ubbcluj.ro','unibuc.ro','ase.ro','upb.ro',
+    'live.com','msn.com','zoho.com','gmx.com','mail.com',
+    'aol.com','yandex.com','inbox.com'
+  ];
+
   function isValidEmail(email) {
-    return /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/.test(email);
+    // Format de baza
+    if (!/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/.test(email)) return false;
+    // Domeniu acceptat
+    const domeniu = email.split('@')[1].toLowerCase();
+    return DOMENII_ACCEPTATE.includes(domeniu);
   }
 
   function togglePass(inputId, btn) {
@@ -124,7 +136,7 @@
     const pass  = document.getElementById('login-pass').value;
 
     if (!email || !pass) { showMsg('login-msg', 'error', 'Completează toate câmpurile!'); return; }
-    if (!isValidEmail(email)) { showMsg('login-msg', 'error', 'Email invalid!'); return; }
+    if (!isValidEmail(email)) { showMsg('login-msg', 'error', 'Introdu un email valid (ex: nume@gmail.com)!'); return; }
 
     try {
       const res  = await fetch('/api/login', {
@@ -151,7 +163,7 @@
 
     if (!name || !email || !pass || !pass2) { showMsg('register-msg', 'error', 'Completează toate câmpurile!'); return; }
     if (name.length > 20) { showMsg('register-msg', 'error', 'Numele nu poate depăși 20 de caractere!'); return; }
-    if (!isValidEmail(email)) { showMsg('register-msg', 'error', 'Email invalid!'); return; }
+    if (!isValidEmail(email)) { showMsg('register-msg', 'error', 'Introdu un email valid (ex: nume@gmail.com)!'); return; }
     if (pass.length < 6) { showMsg('register-msg', 'error', 'Parola trebuie să aibă minim 6 caractere!'); return; }
     if (pass !== pass2) { showMsg('register-msg', 'error', 'Parolele nu coincid!'); return; }
 

@@ -250,11 +250,16 @@
   }
 
   // ── GESTIONARE AVATAR ──
-  const savedPfp = localStorage.getItem('gymtips_pfp');
+  // Poza salvata per user ID — fiecare cont are propria poza
+  const pfpKey = 'gymtips_pfp_' + (gymUserSession ? JSON.parse(gymUserSession).id : 'guest');
+  const savedPfp = localStorage.getItem(pfpKey);
   if (savedPfp) {
     document.getElementById('avatarImg').src = savedPfp;
     document.getElementById('avatarImg').style.display = 'block';
     document.getElementById('avatarPlaceholder').style.display = 'none';
+  } else {
+    document.getElementById('avatarImg').style.display = 'none';
+    document.getElementById('avatarPlaceholder').style.display = 'flex';
   }
 
   function changePfp(event) {
@@ -266,7 +271,7 @@
       document.getElementById('avatarImg').src = src;
       document.getElementById('avatarImg').style.display = 'block';
       document.getElementById('avatarPlaceholder').style.display = 'none';
-      localStorage.setItem('gymtips_pfp', src);
+      localStorage.setItem(pfpKey, src);
     };
     reader.readAsDataURL(file);
   }
