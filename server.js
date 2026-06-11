@@ -251,7 +251,7 @@ app.get('/api/workoutlog', (req, res) => {
     const cols = result[0].columns;
     const logs = result[0].values.map(row => {
       const obj = Object.fromEntries(cols.map((c, i) => [c, row[i]]));
-      obj.sets = JSON.parse(obj.sets); // Transformăm înapoi textul în array pentru Frontend
+      obj.sets = JSON.parse(obj.sets); 
       return obj;
     });
     
